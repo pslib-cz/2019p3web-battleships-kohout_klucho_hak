@@ -24,3 +24,4 @@ namespace BattleShips
                 });
     }
 }
+//TODO Scaffold identity for sqlite
