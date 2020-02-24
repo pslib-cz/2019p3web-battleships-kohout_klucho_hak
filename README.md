@@ -1,5 +1,5 @@
 # “Korespondenční” lodě
-# 2019p3web-battleships-kohout_klucho_hak
+### 2019p3web-battleships-kohout_klucho_hak
 2019p3web-battleships-kohout_klucho_hak created by GitHub Classroom
 
 ## Postup práce
