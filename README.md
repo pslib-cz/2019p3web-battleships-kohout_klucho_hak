@@ -7,16 +7,16 @@
 
 ## Rozdělení práce
 ### Kohout
-* Services
+* Herní logika
 * Databáze
 * Identity
 
 ### Klucho
 * Html a design stránek
-* Page Models
+* Deployment lodí
 
 ### Hák
-* Services
+* Herní managment
 * Databáze
 
 ## DATABÁZE
