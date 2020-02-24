@@ -6,16 +6,16 @@
 * Postup práce je popsán v commitech.
 
 ## Rozdělení práce
-# Kohout
+### Kohout
 * Services
 * Databáze
 * Identity
 
-# Klucho
+### Klucho
 * Html a design stránek
 * Page Models
 
-# Hák
+### Hák
 * Services
 * Databáze
 
