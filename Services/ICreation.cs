@@ -8,7 +8,14 @@ namespace BattleShips.Services
     /// <summary>
     /// Logic, data creation and manipulation for creation of a new game.
     /// </summary>
-    interface ICreation
+    public interface ICreation
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="maxPlayers"></param>
+        /// <param name="boardSize"></param>
+        public void CreateNewGame(string userId, int maxPlayers, int boardSize);
     }
 }

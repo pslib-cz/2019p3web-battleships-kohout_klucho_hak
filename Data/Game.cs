@@ -25,10 +25,13 @@ namespace BattleShips.Data
         [ForeignKey("CurrentPlayerId")]
         public IdentityUser CurrentPlayerIdentity { get; set; }
 
-
-
-
-        //TODO Enum Stav hry
+        public enum GameState
+        {
+            Setup = 0,
+            Battle = 1,
+            End = 2
+        }
+       
 
     }
 }

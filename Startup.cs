@@ -12,6 +12,7 @@ using BattleShips.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BattleShips.Services;
 
 namespace BattleShips
 {
@@ -32,7 +33,12 @@ namespace BattleShips
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddTransient<ICreation, CreateGame>();
+            services.AddTransient<IGameSetup, InGame>();
+            services.AddTransient<IGameBattle, InGame>();
+            services.AddTransient<IGameEnd, InGame>();
             services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

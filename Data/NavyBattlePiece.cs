@@ -30,7 +30,14 @@ namespace BattleShips.Data
 
         public bool Hidden { get; set; }
 
-        //TODO Enum StavPole
+        public enum PieceState
+        {
+            Water = 0,
+            Ship = 1,
+            HittedWater = 2,
+            HittedShip = 3,
+            Margin = 4
+        }
 
 
     }
