@@ -1,0 +1,8 @@
+﻿.shipPiece {
+    width: 10px;
+    height: 10px;
+    position: relative;
+    border: 1px solid gray;
+    background-color: #fff;
+}
+
