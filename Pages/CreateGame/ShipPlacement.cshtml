@@ -6,3 +6,38 @@
 
 <h1>ShipPlacement</h1>
 
+<div class="board">
+    <table class="table">
+        <tbody>
+
+            @* spatna tvorba pole 3x3*@
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+
+
+            @foreach (var item in Model.NavyBattlePiecesRow)
+            {
+                <tr>
+                    @foreach (var item2 in Model.NavyBattlePiecesCol)
+                    {
+                        <td>X</td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
