@@ -12,34 +12,19 @@
     <table class="table">
         <tbody>
 
-            @* spatna tvorba pole 3x3*@
-            <tr>
-                <td class="board-piece-water">1</td>
-                <td class="board-piece-ship">2</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-            </tr>
+ 
 
-
-            @foreach (var item in Model.NavyBattlePiecesRow)
+            @for (var i = 0; i < 10; i++)
             {
                 <tr>
-                    @foreach (var item2 in Model.NavyBattlePiecesCol)
+                    @for (var j = 0; j < 10; j++)
                     {
-                        <td>X</td>
+                        <td class="board-piece-water">@i  @j</td>
                     }
-
                 </tr>
             }
+
+           
         </tbody>
     </table>
 </div>
