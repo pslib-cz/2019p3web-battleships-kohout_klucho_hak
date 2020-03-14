@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BattleShips
 {
-    public class CreatingGameModel : PageModel
+    public class GameSetupModel : PageModel
     {
         public void OnGet()
         {

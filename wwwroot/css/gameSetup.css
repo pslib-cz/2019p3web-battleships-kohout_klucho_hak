@@ -1,0 +1,9 @@
+﻿.shipPiece {
+    border: 1px solid black !important;
+}
+
+
+.radiobtn{
+    height: 20px;
+    width: 20px;
+}

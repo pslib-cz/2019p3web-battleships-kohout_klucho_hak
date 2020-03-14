@@ -1,0 +1,572 @@
+﻿@page
+@model BattleShips.GameSetupModel
+@{
+    ViewData["Title"] = "GameSetup";
+}
+
+
+<h1>GameSetup</h1>
+
+<h2>Board Size</h2>
+<div class="form-group">
+    <label for="exampleSelect">Board Size</label>
+    <select class="form-control" id="exampleSelect">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+    </select>
+</div>
+
+<h2>Types of Ships</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Name of Ship</th>
+            <th>Picture of Ship</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="ponorka" value="option1">
+            </th>
+            <th>
+                Ponorka
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="torpedoborec" value="option2">
+            </th>
+            <th>
+                Torpédoborec
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="kriznik" value="option3">
+            </th>
+            <th>
+                Křižník
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="bitevniLod" value="option4">
+            </th>
+            <th>
+                Bitevní loď
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="letadlovaLod" value="option5">
+            </th>
+            <th>
+                Letadlová loď
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="pristavaciZakladna" value="option6">
+            </th>
+            <th>
+                Přistávací základna
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="hydroplan" value="option7">
+            </th>
+            <th>
+                Hydroplán
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="kriznik2" value="option8">
+            </th>
+            <th>
+                Křižník II
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="tezkyKriznik" value="option9">
+            </th>
+            <th>
+                Těžký křižník
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="katamaran" value="option10">
+            </th>
+            <th>
+                Katamaran
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="lehkaBitevniLod" value="option11">
+            </th>
+            <th>
+                Lehká bitevní loď
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+
+        <tr>
+            <th>
+                <input class="radiobtn" type="checkbox" id="letadlovaLod2" value="option12">
+            </th>
+            <th>
+                Letadlová loď II
+            </th>
+            <th>
+                <table class="table-borderless">
+                    <tbody>
+                        <tr>
+                            <th class="p-2"></th>
+                            <th class="p-2"></th>
+                            <th class="p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                        <tr>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                            <th class="shipPiece p-2"></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
+
+
+<div>
+    <p>
+        <a asp-page="./ShipPlacement" class="btn btn-primary">Start Ship Placement</a>
+    </p>
+</div>
+
+
+
+
+
+@*<div class="form-check">
+        <input class="form-check-input" type="checkbox" id="ponorka" value="option1">
+        <label class="form-check-label" for="ponorka">Ponorka</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="torpedoborec" value="option2">
+        <label class="form-check-label" for="torpedoborec">Torpédoborec</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="kriznik" value="option3">
+        <label class="form-check-label" for="kriznik">Křižník</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="bitevniLod" value="option4">
+        <label class="form-check-label" for="bitevniLod">Bitevní loď</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="letadlovaLod" value="option5">
+        <label class="form-check-label" for="letadlovaLod">Letadlová loď</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="pristavaciZakladna" value="option6">
+        <label class="form-check-label" for="pristavaciZakladna">Přistávací základna</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="hydroplan" value="option7">
+        <label class="form-check-label" for="hydroplan">Hydroplán</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="kriznik2" value="option8">
+        <label class="form-check-label" for="kriznik2">Křižník II</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="tezkyKriznik" value="option9">
+        <label class="form-check-label" for="tezkyKriznik">Těžký křižník</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="katamaran" value="option10">
+        <label class="form-check-label" for="katamaran">Katamaran</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="lehkaBitevniLod" value="option11">
+        <label class="form-check-label" for="lehkaBitevniLod">Lehká bitevní loď</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="letadlovaLod2" value="option12">
+        <label class="form-check-label" for="letadlovaLod2">Letadlová loď II</label>
+
+        <table>
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+                <tr>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                    <th class="shipPiece"></th>
+                </tr>
+            </tbody>
+        </table>
+    </div>*@
