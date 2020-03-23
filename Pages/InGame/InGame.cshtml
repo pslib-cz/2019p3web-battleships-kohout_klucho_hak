@@ -5,5 +5,57 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>InGame</h1>
+<h1>InGame (Development)</h1>
+<br />
+<br />
+
+
+<div class="board">
+    <table class="table">
+        <tbody>
+
+
+
+            @for (var i = 0; i < 10; i++)
+            {
+                <tr>
+                    @for (var j = 0; j < 10; j++)
+                    {
+                        <td class="board-piece-water">@i  @j</td>
+                    }
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>
+
+@*<div class="board">
+    @for (int i = 0; i < Model.UserGames.Count; i++)
+    {
+        <table class="table">
+            <tbody>
+                @foreach (NavyBattlePiece piece in Model.NavyBattlePieces)
+                {
+
+                }
+
+
+                @for (var s = 0; s < Model.Game.GameSize; s++)
+                {
+                    <tr>
+                        @for (var j = 0; j < Model.Game.GameSize; j++)
+                        {
+
+                            <td class="board-piece-water">@s  @j</td>
+                        }
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }
+</div>*@
 

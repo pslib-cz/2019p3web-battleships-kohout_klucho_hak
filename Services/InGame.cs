@@ -1,4 +1,5 @@
 ﻿using BattleShips.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,13 @@ namespace BattleShips.Services
     /// </summary>
     public class InGame : IGameSetup, IGameBattle, IGameEnd
     {
-        public void Fire(int posX, int posY, string userId)
+        private readonly ApplicationDbContext _db;
+        public InGame(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
+        public Boolean Fire(int posX, int posY, int userGameId)
         {
             throw new NotImplementedException();
         }
@@ -26,7 +33,8 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public IList<NavyBattlePiece> GetBoards()
+
+        public IList<NavyBattlePiece> GetBoards(int userGameId)
         {
             throw new NotImplementedException();
         }
@@ -34,6 +42,7 @@ namespace BattleShips.Services
         public Game GetGame(Guid id)
         {
             throw new NotImplementedException();
+            //return _db.Games.Where(m => m.Id == id).AsNoTracking().SingleOrDefault();
         }
 
         public UserGame GetUserGame(string userId, Guid gameId)
@@ -44,6 +53,7 @@ namespace BattleShips.Services
         public IList<UserGame> GetUserGames(Guid gameId)
         {
             throw new NotImplementedException();
+            //return _db.UserGames.Where(m => m.GameId == gameId ).AsNoTracking().ToList();
         }
 
         public void ShipPlacement(int userGameid)

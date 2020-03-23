@@ -17,7 +17,7 @@ namespace BattleShips.Data
         [ForeignKey("ShipId")]
         public Ship Ship { get; set; }
 
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
 
         [ForeignKey("GameId")]
         public Game Game { get; set; }

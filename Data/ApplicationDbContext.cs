@@ -19,12 +19,12 @@ namespace BattleShips.Data
         //}
 
     
-        public DbSet<Game> Game { get; set; }
-        public DbSet<NavyBattlePiece> NavyBattlePiece { get; set; }
-        public DbSet<Ship> Ship { get; set; }
-        public DbSet<ShipGame> ShipGame { get; set; }
-        public DbSet<ShipPiece> ShipPiece { get; set; }
-        public DbSet<ShipUser> ShipUser { get; set; }
-        public DbSet<UserGame> UserGame { get; set; }
+        public DbSet<Game> Games { get; set; }
+        public DbSet<NavyBattlePiece> NavyBattlePieces { get; set; }
+        public DbSet<Ship> Ships { get; set; }
+        public DbSet<ShipGame> ShipGames { get; set; }
+        public DbSet<ShipPiece> ShipPieces { get; set; }
+        public DbSet<ShipUser> ShipUsers { get; set; }
+        public DbSet<UserGame> UserGames { get; set; }
     }
 }

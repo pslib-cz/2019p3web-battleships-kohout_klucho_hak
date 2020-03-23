@@ -18,7 +18,7 @@ namespace BattleShips.Services
         /// <param name="posX"></param>
         /// <param name="posY"></param>
         /// <param name="userId"></param>
-        public void Fire(int posX, int posY, string userId);
+        public Boolean Fire(int posX, int posY, int userGameId);
 
         /// <summary>
         /// Method for surrender.
@@ -26,14 +26,18 @@ namespace BattleShips.Services
         /// <param name="userId"></param>
         public void Surrender(string userId);
 
-
+        /// <summary>
+        /// Gets list of UserGames in game.
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <returns></returns>
         IList<UserGame> GetUserGames(Guid gameId);
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns>Loads boards from database.</returns>
-        IList<NavyBattlePiece> GetBoards();
+        IList<NavyBattlePiece> GetBoards(int userGameId);
 
 
 

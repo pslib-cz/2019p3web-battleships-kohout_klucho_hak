@@ -14,11 +14,11 @@ namespace BattleShips.Data
         [Key]
         public int Id { get; set; }
         
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("UserId")]
         public IdentityUser IdentityUser { get; set; }
 
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
         [ForeignKey("GameId")]
         public Game Game { get; set; }
 

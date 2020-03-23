@@ -13,8 +13,10 @@ namespace BattleShips
     {
         public Game Game { get; set; }
 
+
+        public IList<UserGame> UserGames { get; set; }
         /// <summary>
-        /// List of current pieces.
+        /// List of current pieces of all boards.
         /// </summary>
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
 
@@ -29,8 +31,14 @@ namespace BattleShips
 
         public void OnGet(Guid id)
         {
-            Game = _gameBattle.GetGame(id);
+            //Game = _gameBattle.GetGame(id);
+            //UserGames = _gameBattle.GetUserGames(Game.Id);
 
+            //Gets list of NavyBattlePieces from UserGames list.
+            //for (int i = 0; i < UserGames.Count; i++)
+            //{
+            //    NavyBattlePieces.Add(_gameBattle.GetBoards(UserGames[i].Id));
+            //}
 
         }
     }
