@@ -26,6 +26,9 @@ namespace BattleShips.Services
         /// <param name="userId"></param>
         public void Surrender(string userId);
 
+
+        IList<UserGame> GetUserGames(Guid gameId);
+
         /// <summary>
         /// 
         /// </summary>

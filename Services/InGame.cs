@@ -41,6 +41,11 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
+        public IList<UserGame> GetUserGames(Guid gameId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void ShipPlacement(int userGameid)
         {
             throw new NotImplementedException();
