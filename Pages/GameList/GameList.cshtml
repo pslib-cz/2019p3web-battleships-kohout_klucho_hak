@@ -5,6 +5,16 @@
 }
 
 
+@if (Model.MessageSuccess?.Length > 0)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">@TempData["MessageSuccess"]<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+}
+@if (Model.MessageError?.Length > 0)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">@TempData["MessageError"]<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+}
+
+
 <h2>My Games</h2>
 <div class="row">
     <div class="col">
