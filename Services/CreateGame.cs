@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BattleShips.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +11,27 @@ namespace BattleShips.Services
     /// </summary>
     public class CreateGame : ICreation
     {
-        public void CreateNewGame(string userId, int maxPlayers, int boardSize)
+
+        readonly ApplicationDbContext _db;
+
+        public CreateGame(ApplicationDbContext db)
         {
-            throw new NotImplementedException();
+            _db = db;
+        }
+
+        public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
+        {
+            try
+            {
+                var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize };
+                _db.Game.Add(game);
+                _db.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

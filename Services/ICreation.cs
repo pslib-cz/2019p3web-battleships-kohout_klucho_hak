@@ -16,6 +16,6 @@ namespace BattleShips.Services
         /// <param name="userId"></param>
         /// <param name="maxPlayers"></param>
         /// <param name="boardSize"></param>
-        public void CreateNewGame(string userId, int maxPlayers, int boardSize);
+        public bool CreateNewGame(string userId, int maxPlayers, int boardSize);
     }
 }
