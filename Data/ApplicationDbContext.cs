@@ -18,7 +18,7 @@ namespace BattleShips.Data
         //    base.OnModelCreating(modelBuilder);
         //}
 
-        public DbSet<User> User { get; set; }
+    
         public DbSet<Game> Game { get; set; }
         public DbSet<NavyBattlePiece> NavyBattlePiece { get; set; }
         public DbSet<Ship> Ship { get; set; }

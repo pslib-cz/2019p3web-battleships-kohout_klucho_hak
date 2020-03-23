@@ -16,7 +16,7 @@ namespace BattleShips.Data
         public int MaxPlayers { get; set; }
 
         public int GameSize { get; set; }
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; }
         
         [ForeignKey("OwnerId")]
         public IdentityUser IdentityUser { get; set; }

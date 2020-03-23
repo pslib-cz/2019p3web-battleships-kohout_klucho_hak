@@ -16,12 +16,12 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public IList<ShipPiece> Fleet(int userGameId, int gameId)
+        public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
         {
             throw new NotImplementedException();
         }
 
-        public void GameEnd(int winnerId, int gameId)
+        public void GameEnd(int winnerId, Guid gameId)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,12 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public Game GetGame(int id)
+        public Game GetGame(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public UserGame GetUserGame(string userId, int gameId)
+        public UserGame GetUserGame(string userId, Guid gameId)
         {
             throw new NotImplementedException();
         }

@@ -12,8 +12,8 @@ namespace BattleShips.Services
     public interface IGameSetup
     {
 
-        public Game GetGame(int id);
-        public UserGame GetUserGame(string userId, int gameId);
+        public Game GetGame(Guid id);
+        public UserGame GetUserGame(string userId, Guid gameId);
 
         /// <summary>
         /// Loads pre set ships for a game.
@@ -21,7 +21,7 @@ namespace BattleShips.Services
         /// <param name="userGameId"></param>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        IList<ShipPiece> Fleet(int userGameId, int gameId);
+        IList<ShipPiece> Fleet(int userGameId, Guid gameId);
 
        /// <summary>
        /// Sets players fleet.

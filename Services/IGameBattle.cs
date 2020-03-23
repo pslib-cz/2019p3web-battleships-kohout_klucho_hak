@@ -11,7 +11,7 @@ namespace BattleShips.Services
     /// </summary>
     public interface IGameBattle
     {
-        public Game GetGame(int id);
+        public Game GetGame(Guid id);
         /// <summary>
         /// Method for firing, based on position changes properties of NavyBattlePiece, checks if current user is firing.
         /// </summary>
