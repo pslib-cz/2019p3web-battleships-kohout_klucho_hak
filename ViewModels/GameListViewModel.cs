@@ -16,7 +16,7 @@ namespace BattleShips.ViewModels
         [Display(Name = "GameCreatedAt")]
         public string GameCreatedAt { get; set; }
 
-
+        //enum
         [Display(Name = "GameState")]
         public string GameState { get; set; }
 
@@ -28,7 +28,7 @@ namespace BattleShips.ViewModels
         [Display(Name = "Player2")]
         public string Player2 { get; set; }
 
-        [Display(Name = "Remove")]
-        public string Remove { get; set; }
+
+    
     }
 }

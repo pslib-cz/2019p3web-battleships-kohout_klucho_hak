@@ -18,7 +18,7 @@ namespace BattleShips.Services
         /// <param name="posX"></param>
         /// <param name="posY"></param>
         /// <param name="userId"></param>
-        public Boolean Fire(int posX, int posY, int userGameId);
+        public Boolean Fire(int battlePieceId);
 
         /// <summary>
         /// Method for surrender.

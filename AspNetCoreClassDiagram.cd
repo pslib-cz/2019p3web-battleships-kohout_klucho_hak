@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BattleShips.Data.Game" Collapsed="true">
+    <Position X="3.25" Y="0.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="BattleShips.Data.Game.GameState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Data\Game.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAJCAAAIBAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Data\Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleShips.Data.NavyBattlePiece" Collapsed="true">
+    <Position X="5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAgAAAAAAAwAAAAACAAAAgAAAAAAAkAAA=</HashCode>
+      <FileName>Data\NavyBattlePiece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleShips.Data.Ship" Collapsed="true">
+    <Position X="6.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\Ship.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleShips.Data.ShipGame" Collapsed="true">
+    <Position X="3.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAAAAAAAAEAAAAAAAiAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ShipGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleShips.Data.ShipPiece" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAAAAAAAAAAwAAAAACAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ShipPiece.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleShips.Data.ShipUser" Collapsed="true">
+    <Position X="6.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAAAAAAgAAAAAAAAAAAAACAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Data\ShipUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleShips.Data.UserGame" Collapsed="true">
+    <Position X="3.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAABAAAAAAAAAEAAAgAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\UserGame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

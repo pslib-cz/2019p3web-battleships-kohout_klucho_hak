@@ -22,12 +22,7 @@ namespace BattleShips.Data
         [ForeignKey("GameId")]
         public Game Game { get; set; }
 
-        public enum PlayerState
-        {
-            PlacingShips = 0,
-            Firing = 1,
-            Waiting = 2
-        }
+        public PlayerState PlayerState { get; set; }
 
 
     }

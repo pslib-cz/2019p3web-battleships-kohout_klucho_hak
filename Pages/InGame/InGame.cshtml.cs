@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using BattleShips.Data;
 using BattleShips.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BattleShips
 {
+    [Authorize]
     public class InGameModel : PageModel
     {
         public Game Game { get; set; }

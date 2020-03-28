@@ -12,6 +12,10 @@ namespace BattleShips.Services
     /// </summary>
     public class InGame : IGameSetup, IGameBattle, IGameEnd
     {
+        //todo seed database
+        //todo admin setup /user setup
+        //
+        //session (která hra je aktivní u hráče) Ihttpcontextaccesor singleton
         private readonly ApplicationDbContext _db;
         public InGame(ApplicationDbContext db)
         {
@@ -19,6 +23,11 @@ namespace BattleShips.Services
         }
 
         public Boolean Fire(int posX, int posY, int userGameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Fire(int battlePieceId)
         {
             throw new NotImplementedException();
         }

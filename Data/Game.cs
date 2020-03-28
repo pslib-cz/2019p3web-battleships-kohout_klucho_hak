@@ -25,13 +25,8 @@ namespace BattleShips.Data
         [ForeignKey("CurrentPlayerId")]
         public IdentityUser CurrentPlayerIdentity { get; set; }
 
-        public enum GameState
-        {
-            Setup = 0,
-            Battle = 1,
-            End = 2
-        }
-       
+        public GameState GameState { get; set; }
+
 
     }
 }
