@@ -13,18 +13,10 @@ namespace BattleShips.Services
     {
         public Game GetGame(Guid id);
         /// <summary>
-        /// Method for firing, based on position changes properties of NavyBattlePiece, checks if current user is firing.
+        /// Method for firing based on choosen piece id.
         /// </summary>
-        /// <param name="posX"></param>
-        /// <param name="posY"></param>
-        /// <param name="userId"></param>
-        public Boolean Fire(int battlePieceId);
-
-        /// <summary>
-        /// Method for surrender.
-        /// </summary>
-        /// <param name="userId"></param>
-        public void Surrender(string userId);
+        /// <param name="battlePieceId">Id of choosen piece.</param>
+        public void Fire(int battlePieceId);
 
         /// <summary>
         /// Gets list of UserGames in game.
@@ -34,11 +26,11 @@ namespace BattleShips.Services
         IList<UserGame> GetUserGames(Guid gameId);
 
         /// <summary>
-        /// 
+        /// Gets list of navybattlepieces based on usergameid.
         /// </summary>
-        /// <returns>Loads boards from database.</returns>
-        IList<NavyBattlePiece> GetBoards(int userGameId);
-
+        /// <param name="userGameId"></param>
+        /// <returns></returns>
+        IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId);
 
 
 

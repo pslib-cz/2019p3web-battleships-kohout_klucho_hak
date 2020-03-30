@@ -10,6 +10,7 @@ namespace BattleShips.Data
 {
     public class Game
     {
+        //TODO vytvořit game usera 
         [Key]
         public Guid Id { get; set; }
 

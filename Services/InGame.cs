@@ -1,4 +1,6 @@
 ﻿using BattleShips.Data;
+using BattleShips.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,24 +12,36 @@ namespace BattleShips.Services
     /// <summary>
     /// Holds logic, data manipulation and creation for all stages of the already created game.
     /// </summary>
-    public class InGame : IGameSetup, IGameBattle, IGameEnd
+    public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver
     {
         //todo seed database
         //todo admin setup /user setup
-        //
-        //session (která hra je aktivní u hráče) Ihttpcontextaccesor singleton
+        //Todo jeden service
+        
         private readonly ApplicationDbContext _db;
-        public InGame(ApplicationDbContext db)
+        private readonly ISession _session;
+        private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;
+        public Guid CurrentGameId { get; private set; }
+        public InGame(ApplicationDbContext db, IHttpContextAccessor hca)
         {
             _db = db;
+            _session = hca.HttpContext.Session;
+            _hca = hca ;
+            CurrentGameId = LoadGame("Game");
         }
-
-        public Boolean Fire(int posX, int posY, int userGameId)
+        
+        public void SaveGame(string key, Guid guid)
         {
-            throw new NotImplementedException();
+            _session.Set(key, guid);
         }
 
-        public bool Fire(int battlePieceId)
+        public Guid LoadGame(string key)
+        {
+            Guid result = _session.Get<Guid>(key);
+            if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
+            return result;
+        }
+        public void Fire(int battlePieceId)//Change state of the piece.
         {
             throw new NotImplementedException();
         }
@@ -47,11 +61,12 @@ namespace BattleShips.Services
         {
             throw new NotImplementedException();
         }
-
-        public Game GetGame(Guid id)
+        
+        public Game GetGame(Guid _currentGameId)
         {
+            _currentGameId = CurrentGameId;
             throw new NotImplementedException();
-            //return _db.Games.Where(m => m.Id == id).AsNoTracking().SingleOrDefault();
+            //return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
         }
 
         public UserGame GetUserGame(string userId, Guid gameId)
@@ -70,9 +85,11 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public void Surrender(string userId)
+
+        public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
             throw new NotImplementedException();
+            //return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId ).AsNoTracking().ToList();
         }
     }
 }

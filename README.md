@@ -9,7 +9,7 @@
 ### Kohout
 * Herní logika
 * Databáze
-* Identity
+
 
 ### Klucho
 * Html a design stránek
@@ -18,6 +18,7 @@
 ### Hák
 * Herní managment
 * Databáze
+* Identity
 
 ## DATABÁZE
 

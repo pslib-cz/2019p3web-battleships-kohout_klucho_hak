@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BattleShips.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace BattleShips
 {
@@ -33,6 +34,11 @@ namespace BattleShips
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddTransient<ICreation, CreateGame>();
             services.AddTransient<IGameSetup, InGame>();
             services.AddTransient<IGameBattle, InGame>();
@@ -63,6 +69,7 @@ namespace BattleShips
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

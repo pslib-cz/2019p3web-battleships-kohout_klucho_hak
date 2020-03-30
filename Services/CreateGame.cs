@@ -23,7 +23,9 @@ namespace BattleShips.Services
         {
             try
             {
-                var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize };
+                Guid newGameId = Guid.NewGuid();
+                //SaveGame("Game", newGameId)
+                var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize, Id = newGameId };
                 _db.Games.Add(game);
                 _db.SaveChanges();
             }
