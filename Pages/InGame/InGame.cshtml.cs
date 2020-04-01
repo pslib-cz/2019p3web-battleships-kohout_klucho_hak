@@ -17,6 +17,7 @@ namespace BattleShips
         public Game Game { get; set; }
         //TODO tady bdue gameboard data, spojím zde s partial view gameboard
 
+
         public IList<UserGame> UserGames { get; set; }
 
         
@@ -34,13 +35,18 @@ namespace BattleShips
         {
             Game = _gameBattle.GetGame(id);
             UserGames = _gameBattle.GetUserGames(Game.Id);
+            
+           
 
-            //Gets list of NavyBattlePieces from UserGames list.
-            //for (int i = 0; i < UserGames.Count; i++)
-            //{
-            //    NavyBattlePieces.Add(_gameBattle.GetBoards(UserGames[i].Id));
-            //}
-
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pieceId"> Id of picked navybattlepiece</param>
+        public void OnPostFire(int pieceId)
+        {
+            PieceState pieceState = _gameBattle.GetPieceState(pieceId);
+            _gameBattle.Fire(pieceId, pieceState); 
         }
     }
 }

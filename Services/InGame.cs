@@ -41,12 +41,39 @@ namespace BattleShips.Services
             if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             return result;
         }
-        public void Fire(int battlePieceId)//Change state of the piece.
+        public void Fire(int battlePieceId, PieceState currentState)//Change state of the piece.
         {
+            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).AsNoTracking().SingleOrDefault();
+            PieceState newState;
+            switch (currentState)
+            {
+             
+                case PieceState.Water:
+                    newState = PieceState.HittedWater;
+                    break;
+                case PieceState.Ship:
+                    Console.WriteLine("Case 2");
+                    newState = PieceState.HittedShip;
+                    break;
+                case PieceState.Margin:
+                    newState = PieceState.HittedWater;
+                    break;
+               
+                default:
+                    newState = currentState;
+                    break;
+            }
+            piece.PieceState = newState;
+            //TODO Save changes to database right way
+            _db.SaveChanges();
             throw new NotImplementedException();
         }
+        public PieceState GetPieceState(int battlePieceId)
+        {
 
-        public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
+            throw new NotImplementedException();
+        }
+    public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
         {
             throw new NotImplementedException();
         }

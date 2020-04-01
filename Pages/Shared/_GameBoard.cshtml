@@ -1,7 +1,29 @@
 ﻿@model ViewModels.GameBoardData
 @using Services
 
-@{ 
+@{
     //Načtu dvourozměrné pole
+    IEnumerable<IEnumerable<NavyBattlePiece>> board = Model.MakeGameBoard(Model.NavyBattlePieces);
 }
 
+<div class="board">
+    <table class="table">
+        <tbody>
+            @foreach (IEnumerable<NavyBattlePiece> row in board)
+            {
+                <tr>
+                    @foreach (NavyBattlePiece navyBattlePiece in row)
+                    {
+                        <td >
+                            <a href="" asp-page-handler="fire" method="post" name="pieceId" value="@navyBattlePiece.Id"></a>
+                        </td>
+                    }
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<div>
+
+</div>
