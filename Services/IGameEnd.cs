@@ -16,5 +16,7 @@ namespace BattleShips.Services
         /// <param name="winnerId"></param>
         /// <param name="gameId"></param>
         public void GameEnd(int winnerId, Guid gameId);
+
+        public void RemoveGame(Guid gameId);
     }
 }

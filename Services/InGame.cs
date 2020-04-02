@@ -51,6 +51,8 @@ namespace BattleShips.Services
 
 
 
+
+
         public void SaveGame(string key, Guid guid)
         {
             _session.Set(key, guid);
@@ -94,7 +96,7 @@ namespace BattleShips.Services
 
             throw new NotImplementedException();
         }
-    public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
+        public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
         {
             throw new NotImplementedException();
         }
@@ -115,6 +117,13 @@ namespace BattleShips.Services
             _currentGameId = CurrentGameId;
             throw new NotImplementedException();
             //return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
+        }
+
+        public void RemoveGame(Guid gameId)
+        {
+            var game = _db.Games.SingleOrDefault(g => g.Id == gameId);
+            _db.Games.Remove(game);
+            _db.SaveChanges();
         }
 
         public UserGame GetUserGame(string userId, Guid gameId)

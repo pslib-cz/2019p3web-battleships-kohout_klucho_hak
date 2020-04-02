@@ -10,13 +10,10 @@ namespace BattleShips.Services
     /// </summary>
     public interface ICreation
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="maxPlayers"></param>
-        /// <param name="boardSize"></param>
+      
         public bool CreateNewGame(string userId, int maxPlayers, int boardSize);
+
+  
 
 
     }

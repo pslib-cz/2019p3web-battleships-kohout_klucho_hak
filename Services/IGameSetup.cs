@@ -13,22 +13,13 @@ namespace BattleShips.Services
     {
 
         public Game GetGame(Guid id);
+
         public UserGame GetUserGame(string userId, Guid gameId);
 
-        /// <summary>
-        /// Loads pre set ships for a game.
-        /// </summary>
-        /// <param name="userGameId"></param>
-        /// <param name="gameId"></param>
-        /// <returns></returns>
-        IList<ShipPiece> Fleet(int userGameId, Guid gameId);
+        IList<ShipPiece> Fleet(Guid gameId);
 
-       /// <summary>
-       /// Sets players fleet.
-       /// </summary>
         public void ShipPlacement(int userGameid);
 
-        
 
     }
 }
