@@ -18,6 +18,20 @@ namespace BattleShips.Services
         //todo admin setup /user setup
         //Todo jeden service
 
+
+        private readonly ApplicationDbContext _db;
+        private readonly ISession _session;
+        private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;
+        public Guid CurrentGameId { get; private set; }
+        public InGame(ApplicationDbContext db, IHttpContextAccessor hca)
+        {
+            _db = db;
+            _session = hca.HttpContext.Session;
+            _hca = hca ;
+            CurrentGameId = LoadGame("Game");
+        }
+
+
         public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
         {
             try
@@ -35,18 +49,8 @@ namespace BattleShips.Services
             return true;
         }
 
-        private readonly ApplicationDbContext _db;
-        private readonly ISession _session;
-        private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;
-        public Guid CurrentGameId { get; private set; }
-        public InGame(ApplicationDbContext db, IHttpContextAccessor hca)
-        {
-            _db = db;
-            _session = hca.HttpContext.Session;
-            _hca = hca ;
-            CurrentGameId = LoadGame("Game");
-        }
-        
+
+
         public void SaveGame(string key, Guid guid)
         {
             _session.Set(key, guid);

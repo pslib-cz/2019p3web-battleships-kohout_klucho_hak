@@ -39,7 +39,7 @@ namespace BattleShips
             services.AddSession();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddTransient<ICreation, CreateGame>();
+            services.AddTransient<ICreation, InGame>();
             services.AddTransient<IGameSetup, InGame>();
             services.AddTransient<IGameBattle, InGame>();
             services.AddTransient<IGameEnd, InGame>();
