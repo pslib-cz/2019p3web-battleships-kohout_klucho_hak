@@ -96,7 +96,7 @@ namespace BattleShips.Services
 
             throw new NotImplementedException();
         }
-        public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
+        public IList<ShipPiece> Fleet(Guid gameId)
         {
             throw new NotImplementedException();
         }
