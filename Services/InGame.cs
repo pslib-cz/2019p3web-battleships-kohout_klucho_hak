@@ -12,12 +12,29 @@ namespace BattleShips.Services
     /// <summary>
     /// Holds logic, data manipulation and creation for all stages of the already created game.
     /// </summary>
-    public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver
+    public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver, ICreation
     {
         //todo seed database
         //todo admin setup /user setup
         //Todo jeden service
-        
+
+        public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
+        {
+            try
+            {
+                Guid newGameId = Guid.NewGuid();
+                //SaveGame("Game", newGameId)
+                var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize, Id = newGameId };
+                _db.Games.Add(game);
+                _db.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         private readonly ApplicationDbContext _db;
         private readonly ISession _session;
         private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;

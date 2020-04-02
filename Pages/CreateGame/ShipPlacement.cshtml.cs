@@ -13,6 +13,10 @@ namespace BattleShips
     {
         readonly ICreation _creation;
 
+        public int BoardSize;
+
+
+
         public ShipPlacementModel(ICreation creation)
         {
             _creation = creation;
