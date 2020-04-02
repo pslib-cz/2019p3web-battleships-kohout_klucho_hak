@@ -12,26 +12,36 @@ namespace BattleShips.ViewModels
     /// </summary>
     public class GameBoardData
     {
+        //TODO zjitstit jak správně implementovat tento viewmodel a partial view _GameBoard v InGame!!
         //TODO vytvořit list listu aby to šlo vykreslit
+        //TODO pagehandlery, page kam budou a hrefy mířit
         //velikost pole
         IGameBattle _gameBattle;
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
+        //public IEnumerable<IEnumerable<NavyBattlePiece>> BattleBoard { get; set; }
+        public Game Game { get; set; }
+   
         /// <summary>
         /// Načtu navybattlepieces
         /// </summary>
-        public GameBoardData(IGameBattle gameBattle, UserGame userGame)
+        public GameBoardData(IGameBattle gameBattle, UserGame userGame, Guid gameId)
         {
             _gameBattle = gameBattle;
             NavyBattlePieces = _gameBattle.GetNavyBattlePieces(userGame.Id);
+            Game = _gameBattle.GetGame(gameId);
+            //BattleBoard = MakeGameBoard(NavyBattlePieces);
         }
 
    
 
         //Foreach Orderby podle souřadnice y, groupby přes y souřadnici
-        //public IEnumerable<IEnumerable<NavyBattlePiece>> MakeGameBoard()
-        //{
+        public IEnumerable<IEnumerable<NavyBattlePiece>> MakeGameBoard(IList<NavyBattlePiece> navyBattlePieces)
+        {
+            IEnumerable<IEnumerable<NavyBattlePiece>> result = Enumerable.Empty<IEnumerable<NavyBattlePiece>>(); ;
            
-       
-        //}
+            return result;
+
+
+        }
     }
 }

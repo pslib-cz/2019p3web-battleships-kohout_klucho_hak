@@ -12,12 +12,13 @@ namespace BattleShips.Services
     /// <summary>
     /// Holds logic, data manipulation and creation for all stages of the already created game.
     /// </summary>
-    public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver
+    public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver, ICreation
     {
         //todo seed database
         //todo admin setup /user setup
         //Todo jeden service
-        
+
+
         private readonly ApplicationDbContext _db;
         private readonly ISession _session;
         private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;
@@ -29,7 +30,27 @@ namespace BattleShips.Services
             _hca = hca ;
             CurrentGameId = LoadGame("Game");
         }
-        
+
+
+        public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
+        {
+            try
+            {
+                Guid newGameId = Guid.NewGuid();
+                //SaveGame("Game", newGameId)
+                var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize, Id = newGameId };
+                _db.Games.Add(game);
+                _db.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+
         public void SaveGame(string key, Guid guid)
         {
             _session.Set(key, guid);
@@ -41,12 +62,39 @@ namespace BattleShips.Services
             if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             return result;
         }
-        public void Fire(int battlePieceId)//Change state of the piece.
+        public void Fire(int battlePieceId, PieceState currentState)//Change state of the piece.
         {
+            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).AsNoTracking().SingleOrDefault();
+            PieceState newState;
+            switch (currentState)
+            {
+             
+                case PieceState.Water:
+                    newState = PieceState.HittedWater;
+                    break;
+                case PieceState.Ship:
+                    Console.WriteLine("Case 2");
+                    newState = PieceState.HittedShip;
+                    break;
+                case PieceState.Margin:
+                    newState = PieceState.HittedWater;
+                    break;
+               
+                default:
+                    newState = currentState;
+                    break;
+            }
+            piece.PieceState = newState;
+            //TODO Save changes to database right way
+            _db.SaveChanges();
             throw new NotImplementedException();
         }
+        public PieceState GetPieceState(int battlePieceId)
+        {
 
-        public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
+            throw new NotImplementedException();
+        }
+    public IList<ShipPiece> Fleet(int userGameId, Guid gameId)
         {
             throw new NotImplementedException();
         }
