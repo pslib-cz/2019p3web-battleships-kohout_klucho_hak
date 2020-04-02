@@ -11,29 +11,18 @@ namespace BattleShips
 {
     public class ShipPlacementModel : PageModel
     {
-        readonly ICreation _creation;
 
         public int BoardSize;
 
-
-
-        public ShipPlacementModel(ICreation creation)
+        public ShipPlacementModel()
         {
-            _creation = creation;
-
-            NavyBattlePiecesCol = new List<NavyBattlePieceViewModel>();
-            NavyBattlePiecesRow = new List<NavyBattlePieceViewModel>();
-
 
         }
-
-        public List<NavyBattlePieceViewModel> NavyBattlePiecesCol { get; set; }
-        public List<NavyBattlePieceViewModel> NavyBattlePiecesRow { get; set; }
 
 
         public void OnGet()
         {
-
+          
         }
     }
 }
