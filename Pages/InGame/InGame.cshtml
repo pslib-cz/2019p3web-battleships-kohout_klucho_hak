@@ -1,5 +1,6 @@
 ﻿@page
 @model BattleShips.InGameModel
+@using BattleShips.ViewModels
 @{
     ViewData["Title"] = "InGame";
     Layout = "~/Pages/Shared/_Layout.cshtml";
@@ -14,10 +15,10 @@
 
 
 
-@*@foreach(UserGame player in Model.GameBoards)
+@foreach(GameBoardData gameBoard in Model.GameBoards)
 {
-    <partial name="_GameBoard" />
-}*@
+    <partial name="_GameBoard" model="gameBoard"/>
+}
 
 
 

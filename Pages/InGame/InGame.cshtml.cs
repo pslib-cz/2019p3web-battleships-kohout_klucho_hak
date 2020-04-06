@@ -15,14 +15,14 @@ namespace BattleShips
     public class InGameModel : PageModel
     {
         public Game Game { get; set; }
-        //TODO tady bdue gameboard data, spojím zde s partial view gameboard (list typu gameboard data)
-        //
+     
         public IList<GameBoardData> GameBoards { get; set; }
         public IList<UserGame> UserGames { get; set; }
 
         
 
         IGameBattle _gameBattle;
+
         
 
         public InGameModel(IGameBattle gameBattle)
@@ -33,8 +33,8 @@ namespace BattleShips
 
         public void OnGet(Guid id)
         {
-            Game = _gameBattle.GetGame(id);
-            UserGames = _gameBattle.GetUserGames(Game.Id);
+            //Game = _gameBattle.GetGame(id);
+            //UserGames = _gameBattle.GetUserGames(Game.Id);
             
            
 
@@ -45,7 +45,6 @@ namespace BattleShips
         /// <param name="pieceId"> Id of picked navybattlepiece</param>
         public void OnPostFire(int pieceId)
         {
-            
             _gameBattle.Fire(pieceId); 
         }
     }

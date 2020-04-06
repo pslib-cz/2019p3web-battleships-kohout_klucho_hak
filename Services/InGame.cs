@@ -14,9 +14,13 @@ namespace BattleShips.Services
     /// </summary>
     public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver, ICreation
     {
-        //todo seed database
-        //todo admin setup /user setup
-        //Todo jeden service
+        //TODO Robert smazat migrace vytvořené pro SQL server a udělat nové
+        //TODO Robert vytvořít Seed.cshtml, kde se naseedují základní data, ships, ship pieces, nějací uživatelé, game, usergames, navybattlepieces (minimální data pro otestování hry, založení hry)
+        //TODO Robert podle tutorialu dodělá identity, vytvořit admin a normální user
+        //TODO Robert GameList, Index
+        //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
+        //TODO Vojta Dodělat ShipPlacement
+
 
 
         private readonly ApplicationDbContext _db;
@@ -66,38 +70,57 @@ namespace BattleShips.Services
         }
         public void Fire(int battlePieceId)//Change state of the piece.
         {
-            //TODO kontrola střelby, má uživatel vybranou hru, může na tento piece vystřelit/patří do aktivní hry, atd
-            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault();
-          
-          PieceState newState;
-            switch (piece.PieceState)
-            {
-             
-                case PieceState.Water:
-                    newState = PieceState.HittedWater;
-                    break;
-                case PieceState.Ship:
-                    Console.WriteLine("Case 2");
-                    newState = PieceState.HittedShip;
-                    break;
-                case PieceState.Margin:
-                    newState = PieceState.HittedWater;
-                    break;
-               
-                default:
-                    newState = piece.PieceState;
-                    break;
-            }
-            piece.PieceState = newState;
-           
-            _db.SaveChanges();
-           
-        }
-        public PieceState GetPieceState(int battlePieceId)
-        {
+            
+            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault(); //Piece at which user is trying to fire.
+            Guid activeGameId = LoadGame("Game"); //Active game Guid.
+            Game game = GetGame(activeGameId); //Active game.
+            UserGame userGame = _db.UserGames.Where(m => m.IdentityUser.Id == game.CurrentPlayerId).AsNoTracking().SingleOrDefault();//Gets UserGame that is firing.
+            Game firedGame = _db.Games.Where(m => m.Id == userGame.GameId).AsNoTracking().SingleOrDefault(); ; //Game where user fired.
+            Boolean canFire = false;
 
-            throw new NotImplementedException();
+            //Checks if user is trying to fire in active game.
+            if(activeGameId == firedGame.Id)
+            {
+                //Checks if the game piece isnt already hit.
+                if(piece.PieceState != PieceState.HittedShip || piece.PieceState == PieceState.HittedWater)
+                {
+                    //Checks if user is not trying to fire at his own piece.
+                    if(piece.UserGameId != userGame.Id)
+                    {
+                        canFire = true;
+                    }
+
+                }
+            }
+
+            if (canFire)
+            {
+                PieceState newState;
+                switch (piece.PieceState)
+                {
+
+                    case PieceState.Water:
+                        newState = PieceState.HittedWater;
+                        break;
+                    case PieceState.Ship:
+                        Console.WriteLine("Case 2");
+                        newState = PieceState.HittedShip;
+                        break;
+                    case PieceState.Margin:
+                        newState = PieceState.HittedWater;
+                        break;
+
+                    default:
+                        newState = piece.PieceState;
+                        break;
+                }
+                piece.PieceState = newState;
+
+                _db.SaveChanges();
+            }
+          
         }
+
         public IList<ShipPiece> Fleet(Guid gameId)
         {
             throw new NotImplementedException();
@@ -117,8 +140,8 @@ namespace BattleShips.Services
         public Game GetGame(Guid _currentGameId)
         {
             _currentGameId = CurrentGameId;
-            throw new NotImplementedException();
-            //return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
+    
+            return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
         }
 
         public void RemoveGame(Guid gameId)
@@ -135,8 +158,8 @@ namespace BattleShips.Services
 
         public IList<UserGame> GetUserGames(Guid gameId)
         {
-            throw new NotImplementedException();
-            //return _db.UserGames.Where(m => m.GameId == gameId ).AsNoTracking().ToList();
+      
+            return _db.UserGames.Where(m => m.GameId == gameId ).AsNoTracking().ToList();
         }
 
         public void ShipPlacement(int userGameid)
@@ -147,8 +170,8 @@ namespace BattleShips.Services
 
         public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
-            throw new NotImplementedException();
-            //return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId ).AsNoTracking().ToList();
+     
+            return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId ).AsNoTracking().ToList();
         }
     }
 }

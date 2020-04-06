@@ -12,7 +12,7 @@ namespace BattleShips.ViewModels
     /// </summary>
     public class GameBoardData
     {
-        //TODO zjitstit jak správně implementovat tento viewmodel a partial view _GameBoard v InGame!!
+    
         //TODO vytvořit list listu aby to šlo vykreslit
         //TODO pagehandlery, page kam budou a hrefy mířit
         //velikost pole
@@ -29,7 +29,7 @@ namespace BattleShips.ViewModels
             _gameBattle = gameBattle;
             NavyBattlePieces = _gameBattle.GetNavyBattlePieces(userGame.Id);
             Game = _gameBattle.GetGame(gameId);
-            //BattleBoard = MakeGameBoard(NavyBattlePieces);
+            
         }
 
    
