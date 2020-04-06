@@ -16,7 +16,7 @@ namespace BattleShips.Services
         /// Method for firing based on choosen piece id.
         /// </summary>
         /// <param name="battlePieceId">Id of choosen piece.</param>
-        public void Fire(int battlePieceId, PieceState currentState);
+        public void Fire(int battlePieceId);
         public PieceState GetPieceState(int battlePieceId);
 
         /// <summary>

@@ -64,11 +64,13 @@ namespace BattleShips.Services
             if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             return result;
         }
-        public void Fire(int battlePieceId, PieceState currentState)//Change state of the piece.
+        public void Fire(int battlePieceId)//Change state of the piece.
         {
-            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).AsNoTracking().SingleOrDefault();
-            PieceState newState;
-            switch (currentState)
+            //TODO kontrola střelby, má uživatel vybranou hru, může na tento piece vystřelit/patří do aktivní hry, atd
+            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault();
+          
+          PieceState newState;
+            switch (piece.PieceState)
             {
              
                 case PieceState.Water:
@@ -83,13 +85,13 @@ namespace BattleShips.Services
                     break;
                
                 default:
-                    newState = currentState;
+                    newState = piece.PieceState;
                     break;
             }
             piece.PieceState = newState;
-            //TODO Save changes to database right way
+           
             _db.SaveChanges();
-            throw new NotImplementedException();
+           
         }
         public PieceState GetPieceState(int battlePieceId)
         {
