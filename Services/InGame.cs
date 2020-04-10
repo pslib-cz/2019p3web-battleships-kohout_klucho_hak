@@ -1,6 +1,7 @@
 ﻿using BattleShips.Data;
 using BattleShips.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace BattleShips.Services
         //TODO Robert GameList, Index
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
+        //TODO zjistit jestli se má přidat player, popřípadě upravit
 
 
 
@@ -36,6 +38,7 @@ namespace BattleShips.Services
         }
 
 
+        #region ICreation (Klucho)
         public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
         {
             try
@@ -52,25 +55,34 @@ namespace BattleShips.Services
             }
             return true;
         }
+        #endregion
 
 
-
-
-
-        public void SaveGame(string key, Guid guid)
-        {
-            _session.Set(key, guid);
-        }
-
+        #region IBattleShipGameLoaderSaver (Sessions) (Kohout)
         public Guid LoadGame(string key)
         {
             Guid result = _session.Get<Guid>(key);
             if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             return result;
         }
-        public void Fire(int battlePieceId)//Change state of the piece.
+
+        public void SaveGame(string key, Guid guid)
         {
-            
+            _session.Set(key, guid);
+        }
+        #endregion
+
+
+        #region IGameBattle (Kohout)
+        public Game GetGame(Guid _currentGameId)
+        {
+            _currentGameId = CurrentGameId;
+
+            return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
+        }
+
+        public void Fire(int battlePieceId)//Change state of the piece.
+        { 
             NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault(); //Piece at which user is trying to fire.
             Guid activeGameId = LoadGame("Game"); //Active game Guid.
             Game game = GetGame(activeGameId); //Active game.
@@ -92,7 +104,7 @@ namespace BattleShips.Services
 
                 }
             }
-
+            
             if (canFire)
             {
                 PieceState newState;
@@ -118,8 +130,21 @@ namespace BattleShips.Services
 
                 _db.SaveChanges();
             }
-          
         }
+
+        public IList<UserGame> GetUserGames(Guid gameId)
+        {
+            return _db.UserGames.Where(m => m.GameId == gameId).AsNoTracking().ToList();
+        }
+
+        public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
+        {
+            return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
+        }
+
+ 
+        #endregion
+
 
         public IList<ShipPiece> Fleet(Guid gameId)
         {
@@ -137,12 +162,7 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
         
-        public Game GetGame(Guid _currentGameId)
-        {
-            _currentGameId = CurrentGameId;
-    
-            return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
-        }
+       
 
         public void RemoveGame(Guid gameId)
         {
@@ -156,11 +176,6 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public IList<UserGame> GetUserGames(Guid gameId)
-        {
-      
-            return _db.UserGames.Where(m => m.GameId == gameId ).AsNoTracking().ToList();
-        }
 
         public void ShipPlacement(int userGameid)
         {
@@ -168,10 +183,6 @@ namespace BattleShips.Services
         }
 
 
-        public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
-        {
-     
-            return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId ).AsNoTracking().ToList();
-        }
+       
     }
 }

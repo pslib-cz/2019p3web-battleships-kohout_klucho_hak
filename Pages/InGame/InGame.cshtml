@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "InGame";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    int i = 0;
 }
 
 <h1>InGame (Development)</h1>
@@ -18,6 +19,7 @@
 @foreach(GameBoardData gameBoard in Model.GameBoards)
 {
     <partial name="_GameBoard" model="gameBoard"/>
+    
 }
 
 

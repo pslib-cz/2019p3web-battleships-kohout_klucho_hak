@@ -1,4 +1,5 @@
 ﻿using BattleShips.Data;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,6 @@ namespace BattleShips.Services
         /// <param name="userGameId"></param>
         /// <returns></returns>
         IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId);
-
-
 
     }
 }
