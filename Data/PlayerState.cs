@@ -9,6 +9,8 @@ namespace BattleShips.Data
     {
         PlacingShips = 0,
         Firing = 1,
-        Waiting = 2
+        Waiting = 2,
+        Loser = 3, 
+        Winner = 4
     }
 }

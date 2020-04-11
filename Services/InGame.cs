@@ -1,7 +1,6 @@
 ﻿using BattleShips.Data;
 using BattleShips.Helpers;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace BattleShips.Services
     /// <summary>
     /// Holds logic, data manipulation and creation for all stages of the already created game.
     /// </summary>
-    public class InGame : IGameSetup, IGameBattle, IGameEnd, IBattleShipGameLoaderSaver, ICreation
+    public class InGame : IGameSetup, IGameBattle, ISiteFunctionality, IBattleShipGameLoaderSaver, ICreation
     {
         //TODO Robert smazat migrace vytvořené pro SQL server a udělat nové
         //TODO Robert vytvořít Seed.cshtml, kde se naseedují základní data, ships, ship pieces, nějací uživatelé, game, usergames, navybattlepieces (minimální data pro otestování hry, založení hry)
@@ -21,7 +20,7 @@ namespace BattleShips.Services
         //TODO Robert GameList, Index
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
-        //TODO zjistit jestli se má přidat player, popřípadě upravit
+        
 
 
 
@@ -33,9 +32,110 @@ namespace BattleShips.Services
         {
             _db = db;
             _session = hca.HttpContext.Session;
-            _hca = hca ;
+            _hca = hca;
             CurrentGameId = LoadGame("Game");
         }
+
+
+
+        #region IBattleShipGameLoaderSaver (Sessions) (Kohout)
+        public Guid LoadGame(string key)
+        {
+            Guid result = _session.Get<Guid>(key);
+            if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
+            return result;
+        }
+
+        public void SaveGame(string key, Guid guid)
+        {
+            _session.Set(key, guid);
+        }
+        #endregion
+
+
+
+        #region IGameBattle (Kohout)
+        public Game GetGame(Guid _currentGameId)
+        {
+            _currentGameId = CurrentGameId;
+
+            return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
+        }
+
+        public void Fire(int battlePieceId)
+        {
+            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault(); //Piece at which user is trying to fire.
+
+            //Checks if the game piece isnt already hit.
+            if (piece.PieceState != PieceState.HittedShip || piece.PieceState == PieceState.HittedWater)
+            {
+
+                Game game = GetGame(LoadGame("Game")); //Active game.
+                UserGame userGame = _db.UserGames.Where(m => m.UserId == game.CurrentPlayerId).AsNoTracking().SingleOrDefault();//Gets UserGame that is firing.
+
+                //Checks if it is users turn
+                if (userGame.PlayerState == PlayerState.Firing)
+                {
+
+                    //Checks if user is not trying to fire at his own piece.
+                    if (piece.UserGameId != userGame.Id)
+                    {
+
+                        Game firedGame = _db.Games.Where(m => m.Id == userGame.GameId).AsNoTracking().SingleOrDefault(); ; //Game where user fired.
+
+                        //Checks if user is trying to fire in active game.
+                        if (game.Id == firedGame.Id)
+                        {
+                            PieceState newState;
+                            switch (piece.PieceState)
+                            {
+
+                                case PieceState.Water:
+                                    newState = PieceState.HittedWater;
+                                    break;
+                                case PieceState.Ship:
+                                    newState = PieceState.HittedShip;
+                                    break;
+                                case PieceState.Margin:
+                                    newState = PieceState.HittedWater;
+                                    break;
+
+                                default:
+                                    newState = piece.PieceState;
+                                    break;
+                            }
+                            piece.PieceState = newState;
+
+                            _db.SaveChanges();
+                        }
+
+                        if (game.GameState == GameState.End)
+                        {
+                            GameEnd(userGame, game);  
+                        }
+                    }
+                }
+            }
+            //TODO zkontrolovat jestli se dohrála hra a pokud ano tak zavolat metodu GameEnd
+            
+        }
+
+        public IList<UserGame> GetUserGames(Guid gameId)
+        {
+            return _db.UserGames.Where(m => m.GameId == gameId).AsNoTracking().ToList();
+        }
+
+        public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
+        {
+            return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
+        }
+        //TODO GameEnd metoda dodělat a implementovat
+        public void GameEnd(UserGame winnerUserGame, Game game)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
 
 
         #region ICreation (Klucho)
@@ -58,112 +158,25 @@ namespace BattleShips.Services
         #endregion
 
 
-        #region IBattleShipGameLoaderSaver (Sessions) (Kohout)
-        public Guid LoadGame(string key)
-        {
-            Guid result = _session.Get<Guid>(key);
-            if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
-            return result;
-        }
 
-        public void SaveGame(string key, Guid guid)
-        {
-            _session.Set(key, guid);
-        }
-        #endregion
-
-
-        #region IGameBattle (Kohout)
-        public Game GetGame(Guid _currentGameId)
-        {
-            _currentGameId = CurrentGameId;
-
-            return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
-        }
-
-        public void Fire(int battlePieceId)//Change state of the piece.
-        { 
-            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault(); //Piece at which user is trying to fire.
-            Guid activeGameId = LoadGame("Game"); //Active game Guid.
-            Game game = GetGame(activeGameId); //Active game.
-            UserGame userGame = _db.UserGames.Where(m => m.IdentityUser.Id == game.CurrentPlayerId).AsNoTracking().SingleOrDefault();//Gets UserGame that is firing.
-            Game firedGame = _db.Games.Where(m => m.Id == userGame.GameId).AsNoTracking().SingleOrDefault(); ; //Game where user fired.
-            Boolean canFire = false;
-
-            //Checks if user is trying to fire in active game.
-            if(activeGameId == firedGame.Id)
-            {
-                //Checks if the game piece isnt already hit.
-                if(piece.PieceState != PieceState.HittedShip || piece.PieceState == PieceState.HittedWater)
-                {
-                    //Checks if user is not trying to fire at his own piece.
-                    if(piece.UserGameId != userGame.Id)
-                    {
-                        canFire = true;
-                    }
-
-                }
-            }
-            
-            if (canFire)
-            {
-                PieceState newState;
-                switch (piece.PieceState)
-                {
-
-                    case PieceState.Water:
-                        newState = PieceState.HittedWater;
-                        break;
-                    case PieceState.Ship:
-                        Console.WriteLine("Case 2");
-                        newState = PieceState.HittedShip;
-                        break;
-                    case PieceState.Margin:
-                        newState = PieceState.HittedWater;
-                        break;
-
-                    default:
-                        newState = piece.PieceState;
-                        break;
-                }
-                piece.PieceState = newState;
-
-                _db.SaveChanges();
-            }
-        }
-
-        public IList<UserGame> GetUserGames(Guid gameId)
-        {
-            return _db.UserGames.Where(m => m.GameId == gameId).AsNoTracking().ToList();
-        }
-
-        public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
-        {
-            return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
-        }
-
- 
-        #endregion
-
-
+        #region IGameSetup (Klucho)
         public IList<ShipPiece> Fleet(Guid gameId)
         {
             throw new NotImplementedException();
         }
-
-        public void GameEnd(int winnerId, Guid gameId)
+        public void ShipPlacement(int userGameid)
         {
             throw new NotImplementedException();
         }
-
-
-        public IList<NavyBattlePiece> GetBoards(int userGameId)
+        public UserGame GetUserGame(string userId, Guid gameId)
         {
             throw new NotImplementedException();
         }
-        
-       
+        #endregion
 
+
+
+        #region ISiteFunctionality (Hák)
         public void RemoveGame(Guid gameId)
         {
             var game = _db.Games.SingleOrDefault(g => g.Id == gameId);
@@ -171,18 +184,8 @@ namespace BattleShips.Services
             _db.SaveChanges();
         }
 
-        public UserGame GetUserGame(string userId, Guid gameId)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
 
 
-        public void ShipPlacement(int userGameid)
-        {
-            throw new NotImplementedException();
-        }
-
-
-       
     }
 }

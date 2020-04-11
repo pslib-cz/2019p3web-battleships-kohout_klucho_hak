@@ -20,11 +20,11 @@ namespace BattleShips.Data
         public string OwnerId { get; set; }
         
         [ForeignKey("OwnerId")]
-        public IdentityUser IdentityUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public string CurrentPlayerId { get; set; }
         [ForeignKey("CurrentPlayerId")]
-        public IdentityUser CurrentPlayerIdentity { get; set; }
+        public ApplicationUser CurrentPlayer { get; set; }
 
         public GameState GameState { get; set; }
 

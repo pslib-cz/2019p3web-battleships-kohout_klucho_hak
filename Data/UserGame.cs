@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +15,7 @@ namespace BattleShips.Data
         
         public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public IdentityUser IdentityUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public Guid GameId { get; set; }
         [ForeignKey("GameId")]

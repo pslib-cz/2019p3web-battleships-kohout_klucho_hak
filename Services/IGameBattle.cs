@@ -18,6 +18,12 @@ namespace BattleShips.Services
         /// </summary>
         /// <param name="battlePieceId">Id of choosen piece.</param>
         public void Fire(int battlePieceId);
+
+        /// <summary>
+        /// Ends game when somebody wins.
+        /// </summary>
+        /// <param name="winnerUserGameId"></param>
+        public void GameEnd(UserGame winnerUserGame, Game game);
     
 
         /// <summary>

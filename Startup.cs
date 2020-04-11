@@ -49,7 +49,7 @@ namespace BattleShips
             services.AddTransient<ICreation, InGame>();
             services.AddTransient<IGameSetup, InGame>();
             services.AddTransient<IGameBattle, InGame>();
-            services.AddTransient<IGameEnd, InGame>();
+            services.AddTransient<ISiteFunctionality, InGame>();
             services.AddRazorPages();
 
         }

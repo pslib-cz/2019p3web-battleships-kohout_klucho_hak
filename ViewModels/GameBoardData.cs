@@ -39,12 +39,16 @@ namespace BattleShips.ViewModels
         }
 
         //TODO test if MakeGameBoard works :)
-        //NavyBattlePieces = 100 navybattle piece => seřadit tak aby IEnumarable<NavyBattlePiece> obsahvalo jeden řádek a  IEnumerable<IEnumerable<NavyBattlePiece>> obsahovalo všechny tyto řádky.
+        /// <summary>
+        /// Creates IEnumerable<IEnumerable<NavyBattlePiece>>, from IList<NavyBattlePiece> NavyBattlePieces so that it can be presented easily as a board in view.
+        /// </summary>
+        /// <param name="navyBattlePieces"> IList of NavyBattlePieces belonging to one specific board.</param>
+        /// <returns>IEnumerable<IEnumerable<NavyBattlePiece>></returns>
         public IEnumerable<IEnumerable<NavyBattlePiece>> MakeGameBoard(IList<NavyBattlePiece> navyBattlePieces)
         {
             IEnumerable<IEnumerable<NavyBattlePiece>> result = Enumerable.Empty<IEnumerable<NavyBattlePiece>>(); 
 
-            var sortedNavyBattlePieces = // for example: If the gamesize is 10 => First 10 items of sortedNavyBattlePieces should be : NavyBattlePieces with y = 0(GroupBy), orderd by x => 0, 1, 2, 3 , 4, 5, 6, 7, 8, 9 (OrderBy and SelectMany)
+            var sortedNavyBattlePieces = // for example: If the gamesize is 10 => First 10 items (first row) of sortedNavyBattlePieces should be : NavyBattlePieces with y = 0(GroupBy), orderd by x => 0, 1, 2, 3 , 4, 5, 6, 7, 8, 9 (OrderBy and SelectMany)
                 navyBattlePieces.OrderBy(x => x.PosX) // seřadit podle x
                                 .GroupBy(y => y.PosY) //Group by PosY
                                 .SelectMany(g => g); //flatten the groups

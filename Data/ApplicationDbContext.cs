@@ -26,5 +26,6 @@ namespace BattleShips.Data
         public DbSet<ShipPiece> ShipPieces { get; set; }
         public DbSet<ShipUser> ShipUsers { get; set; }
         public DbSet<UserGame> UserGames { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     }
 }
