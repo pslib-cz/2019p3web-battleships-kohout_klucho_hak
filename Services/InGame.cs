@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace BattleShips.Services
@@ -183,6 +184,29 @@ namespace BattleShips.Services
             _db.Games.Remove(game);
             _db.SaveChanges();
         }
+
+        public void RemoveUser(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Game> GetGames(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<ApplicationUser> UsersByScore()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ApplicationUser GetLoggedInUser()
+        {
+            string userId = _hca.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
+            //throw new NotImplementedException();
+        }
+
 
         #endregion
 

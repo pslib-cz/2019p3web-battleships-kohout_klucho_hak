@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BattleShips.Data;
+using BattleShips.Services;
 using BattleShips.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,8 +17,13 @@ namespace BattleShips
         [TempData]
         public string MessageError { get; set; }
 
-        public GameListModel()
+        public IList<Game> Games { get; set; }
+
+        ISiteFunctionality _siteFunctionality;
+
+        public GameListModel(ISiteFunctionality siteFunctionality)
         {
+            _siteFunctionality = siteFunctionality;
             GameLists = new List<GameListViewModel>();
         }
 
@@ -24,7 +31,8 @@ namespace BattleShips
 
         public void OnGet()
         {
-
+            //ApplicationUser loggedInUser = _siteFunctionality.GetLoggedInUser();
+            //Games = _siteFunctionality.GetGames(loggedInUser.Id);
         }
 
         public IActionResult OnGetRemove(int id)

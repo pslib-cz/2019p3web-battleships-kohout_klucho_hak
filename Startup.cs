@@ -29,18 +29,13 @@ namespace BattleShips
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //TODO Robert zmìnit konfiguraci databáze z SQLServer na SQLLite
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddDbContext<BattleShips.Data.ApplicationDbContext>(
-                o =>
-                {
-                    o.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-                });
 
             services.AddDistributedMemoryCache();
             services.AddSession();
