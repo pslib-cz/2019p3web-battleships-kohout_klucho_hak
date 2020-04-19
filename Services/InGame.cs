@@ -13,7 +13,7 @@ namespace BattleShips.Services
     /// <summary>
     /// Holds logic, data manipulation and creation for all stages of the already created game.
     /// </summary>
-    public class InGame : IGameSetup, IGameBattle, ISiteFunctionality, IBattleShipGameLoaderSaver, ICreation
+    public class InGame : IGameSetup, IGameBattle, ISiteFunctionality, IBattleShipGameLoaderSaver, IShipPlacement
     {
         //TODO Robert smazat migrace vytvořené pro SQL server a udělat nové
         //TODO Robert vytvořít Seed.cshtml, kde se naseedují základní data, ships, ship pieces, nějací uživatelé, game, usergames, navybattlepieces (minimální data pro otestování hry, založení hry)
@@ -139,7 +139,7 @@ namespace BattleShips.Services
 
 
 
-        #region ICreation (Klucho)
+        #region IGameSetup (Klucho)
         public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
         {
             try
@@ -156,20 +156,42 @@ namespace BattleShips.Services
             }
             return true;
         }
+
+        public IList<ShipGame> CreateFleet(Guid gameId, int shipId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IGameSetup.ShipPlacement(int userGameid)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
 
 
-        #region IGameSetup (Klucho)
-        public IList<ShipPiece> Fleet(Guid gameId)
+        #region IShipPlacement (Klucho)
+        public void CreateUserGame(Guid gameId, string userId)
         {
             throw new NotImplementedException();
         }
-        public void ShipPlacement(int userGameid)
+
+        public void CreateGameBoard(int userGameId, IList<NavyBattlePiece> shipPieces)
         {
             throw new NotImplementedException();
         }
-        public UserGame GetUserGame(string userId, Guid gameId)
+
+        public IList<NavyBattlePiece> ShipPlacement(int userGameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Ship> GetShips(IList<ShipGame> shipGame)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<ShipGame> GetShipGames(Game game)
         {
             throw new NotImplementedException();
         }
@@ -207,7 +229,7 @@ namespace BattleShips.Services
             //throw new NotImplementedException();
         }
 
-
+       
         #endregion
 
 

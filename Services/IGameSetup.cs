@@ -7,16 +7,14 @@ using System.Threading.Tasks;
 namespace BattleShips.Services
 {
     /// <summary>
-    /// Logic, data creation and manipulation for Start stage of the game. (1. stage of the game. Users join the game, game begins when all player are ready, players place their ships)
+    /// Logic, data creation and manipulation for create new game.
     /// </summary>
     public interface IGameSetup
     {
 
-        public Game GetGame(Guid id);
+        public bool CreateNewGame(string userId, int maxPlayers, int boardSize);
 
-        public UserGame GetUserGame(string userId, Guid gameId);
-
-        IList<ShipPiece> Fleet(Guid gameId);
+        IList<ShipGame> CreateFleet(Guid gameId, int shipId);
 
         public void ShipPlacement(int userGameid);
 
