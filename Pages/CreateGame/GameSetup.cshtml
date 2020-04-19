@@ -6,6 +6,9 @@
 
 <h3>Board Size</h3>
 <div class="form-group">
+    @*KLUCHO*@
+    @*asp-for="@Model.boardSize"  ??*@
+    @*v modelu může být uložena velikost pole ??*@
     <select class="form-control" id="exampleSelect">
         <option>1</option>
         <option>2</option>
@@ -24,12 +27,13 @@
         <option>13</option>
         <option>14</option>
         <option>15</option>
-        <option>16</option>
-
     </select>
 </div>
 
 <h3>Types of Ships</h3>
+
+@*KLUCHO*@
+@*vykreslení lodí přes foreach model.ships ??*@
 
 <table class="table">
     <thead>
