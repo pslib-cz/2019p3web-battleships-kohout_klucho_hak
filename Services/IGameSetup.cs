@@ -11,12 +11,31 @@ namespace BattleShips.Services
     /// </summary>
     public interface IGameSetup
     {
+        /// <summary>
+        /// vytváří hru
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="maxPlayers"></param>
+        /// <param name="boardSize"></param>
+        /// <returns></returns>
+        bool CreateNewGame(string userId, int maxPlayers, int boardSize);
 
-        public bool CreateNewGame(string userId, int maxPlayers, int boardSize);
+        /// <summary>
+        /// vytvoří list dostupných lodí pro rozmístění (mezitabulka zakliknutých lodí)
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="shipId"></param>
+        /// <returns></returns>
+        void CreateShipGames(Guid gameId, int shipId);
 
-        IList<ShipGame> CreateFleet(Guid gameId, int shipId);
+        /// <summary>
+        /// dostupné lodě ze kterých si uživatel bude vybírat
+        /// </summary>
+        /// <returns></returns>
+        IList<Ship> GetShips();
 
-        public void ShipPlacement(int userGameid);
+    
+       
 
 
     }

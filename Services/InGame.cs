@@ -157,15 +157,16 @@ namespace BattleShips.Services
             return true;
         }
 
-        public IList<ShipGame> CreateFleet(Guid gameId, int shipId)
+        public void CreateShipGames(Guid gameId, int shipId)
         {
             throw new NotImplementedException();
         }
 
-        void IGameSetup.ShipPlacement(int userGameid)
+        public IList<Ship> GetShips()
         {
             throw new NotImplementedException();
         }
+
         #endregion
 
 
@@ -176,15 +177,19 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public void CreateGameBoard(int userGameId, IList<NavyBattlePiece> shipPieces)
+     
+
+        public void ShipPlacement(int userGameId)
         {
             throw new NotImplementedException();
         }
 
-        public IList<NavyBattlePiece> ShipPlacement(int userGameId)
+        public void CreateBlankGameBoard(Game game)
         {
             throw new NotImplementedException();
         }
+
+
 
         public IList<Ship> GetShips(IList<ShipGame> shipGame)
         {
@@ -230,6 +235,8 @@ namespace BattleShips.Services
         }
 
        
+
+
         #endregion
 
 

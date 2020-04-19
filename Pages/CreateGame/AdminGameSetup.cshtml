@@ -42,7 +42,7 @@
         @foreach (var item in Model.SetupShips)
         {
         <tr>
-            <th><input class="radiobtn" type="checkbox" id="" value="option1"></th>
+            <th><input class="radiobtn" type="checkbox" id="" value=""></th>
             <th>@item.Name</th>
             <th>tvar</th>
         </tr>
@@ -52,10 +52,9 @@
 
 
 
-
 <div>
     <p>
-        <a asp-page="./GameSetup" class="btn btn-primary">Start Ship Placement</a>
+        <a asp-page="./ShipPlacement" class="btn btn-primary">Start Ship Placement</a>
     </p>
 </div>
 
