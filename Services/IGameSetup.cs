@@ -7,18 +7,35 @@ using System.Threading.Tasks;
 namespace BattleShips.Services
 {
     /// <summary>
-    /// Logic, data creation and manipulation for Start stage of the game. (1. stage of the game. Users join the game, game begins when all player are ready, players place their ships)
+    /// Logic, data creation and manipulation for create new game.
     /// </summary>
     public interface IGameSetup
     {
+        /// <summary>
+        /// vytváří hru
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="maxPlayers"></param>
+        /// <param name="boardSize"></param>
+        /// <returns></returns>
+        bool CreateNewGame(string userId, int maxPlayers, int boardSize);
 
-        public Game GetGame(Guid id);
+        /// <summary>
+        /// vytvoří list dostupných lodí pro rozmístění (mezitabulka zakliknutých lodí)
+        /// </summary>
+        /// <param name="gameId"></param>
+        /// <param name="shipId"></param>
+        /// <returns></returns>
+        void CreateShipGames(Guid gameId, int shipId);
 
-        public UserGame GetUserGame(string userId, Guid gameId);
+        /// <summary>
+        /// dostupné lodě ze kterých si uživatel bude vybírat
+        /// </summary>
+        /// <returns></returns>
+        IList<Ship> GetShips();
 
-        IList<ShipPiece> Fleet(Guid gameId);
-
-        public void ShipPlacement(int userGameid);
+    
+       
 
 
     }

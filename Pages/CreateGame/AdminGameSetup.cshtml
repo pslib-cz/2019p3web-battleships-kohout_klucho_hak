@@ -1,0 +1,60 @@
+﻿@page
+@model BattleShips.Pages.CreateGame.AdminGameSetupModel
+@{
+    ViewData["Title"] = "AdminGameSetup";
+}
+
+
+<h3>Board Size</h3>
+<div class="form-group">
+    <select class="form-control" id="exampleSelect">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+    </select>
+</div>
+
+<h3>Types of Ships</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Select</th>
+            <th>Name of Ship</th>
+            <th>Picture of Ship</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.SetupShips)
+        {
+        <tr>
+            <th><input class="radiobtn" type="checkbox" id="" value=""></th>
+            <th>@item.Name</th>
+            <th>tvar</th>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<div>
+    <p>
+        <a asp-page="./ShipPlacement" class="btn btn-primary">Start Ship Placement</a>
+    </p>
+</div>
+

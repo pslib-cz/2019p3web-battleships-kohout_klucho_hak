@@ -12,8 +12,8 @@ namespace BattleShips
     public class ShipPlacementModel : PageModel
     {
 
-        public int BoardSize;
-
+        public int boardSize { get; }
+        
         public ShipPlacementModel()
         {
 
