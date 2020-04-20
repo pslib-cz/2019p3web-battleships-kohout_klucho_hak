@@ -21,7 +21,7 @@ namespace BattleShips.Services
         //TODO Robert GameList, Index
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
-        
+
 
 
 
@@ -112,13 +112,13 @@ namespace BattleShips.Services
 
                         if (game.GameState == GameState.End)
                         {
-                            GameEnd(userGame, game);  
+                            GameEnd(userGame, game);
                         }
                     }
                 }
             }
             //TODO zkontrolovat jestli se dohrála hra a pokud ano tak zavolat metodu GameEnd
-            
+
         }
 
         public IList<UserGame> GetUserGames(Guid gameId)
