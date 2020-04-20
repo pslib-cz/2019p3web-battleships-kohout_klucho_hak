@@ -63,78 +63,205 @@ namespace BattleShips.Services
             return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
         }
 
-        public void Fire(int battlePieceId)
+        public IList<UserGame> GetUserGamesWithUser(Guid gameId)
         {
-            NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault(); //Piece at which user is trying to fire.
-
-            //Checks if the game piece isnt already hit.
-            if (piece.PieceState != PieceState.HittedShip || piece.PieceState == PieceState.HittedWater)
-            {
-
-                Game game = GetGame(LoadGame("Game")); //Active game.
-                UserGame userGame = _db.UserGames.Where(m => m.UserId == game.CurrentPlayerId).AsNoTracking().SingleOrDefault();//Gets UserGame that is firing.
-
-                //Checks if it is users turn
-                if (userGame.PlayerState == PlayerState.Firing)
-                {
-
-                    //Checks if user is not trying to fire at his own piece.
-                    if (piece.UserGameId != userGame.Id)
-                    {
-
-                        Game firedGame = _db.Games.Where(m => m.Id == userGame.GameId).AsNoTracking().SingleOrDefault(); ; //Game where user fired.
-
-                        //Checks if user is trying to fire in active game.
-                        if (game.Id == firedGame.Id)
-                        {
-                            PieceState newState;
-                            switch (piece.PieceState)
-                            {
-
-                                case PieceState.Water:
-                                    newState = PieceState.HittedWater;
-                                    break;
-                                case PieceState.Ship:
-                                    newState = PieceState.HittedShip;
-                                    break;
-                                case PieceState.Margin:
-                                    newState = PieceState.HittedWater;
-                                    break;
-
-                                default:
-                                    newState = piece.PieceState;
-                                    break;
-                            }
-                            piece.PieceState = newState;
-
-                            _db.SaveChanges();
-                        }
-
-                        if (game.GameState == GameState.End)
-                        {
-                            GameEnd(userGame, game);
-                        }
-                    }
-                }
-            }
-            //TODO zkontrolovat jestli se dohrála hra a pokud ano tak zavolat metodu GameEnd
-
-        }
-
-        public IList<UserGame> GetUserGames(Guid gameId)
-        {
-            return _db.UserGames.Where(m => m.GameId == gameId).AsNoTracking().ToList();
+            return _db.UserGames
+                .Where(m => m.GameId == gameId)
+                .Include(m => m.ApplicationUser)
+                .AsNoTracking().ToList();
         }
 
         public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
             return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
         }
-        //TODO GameEnd metoda dodělat a implementovat
-        public void GameEnd(UserGame winnerUserGame, Game game)
+
+
+        #region Firing
+        public void Fire(List<int> navyBattlePieceIds, Game firedInGame, IList<UserGame> userGames)
         {
-            throw new NotImplementedException();
+            //List of pieces that user fired at
+            IList<NavyBattlePiece> firedAtPieces = GetFiredAtBattlePiece(navyBattlePieceIds);
+
+            //Gets UserGame that is firing.
+            UserGame firingUserGame = _db.UserGames.Where(m => m.UserId == firedInGame.CurrentPlayerId).AsNoTracking().SingleOrDefault();
+
+            //Checks if pieces that user fired at are correct
+            if (TryFiring(firedInGame, firedAtPieces, firingUserGame))
+            {
+                //Fires at each piece
+                foreach (var piece in firedAtPieces)
+                {
+                    PieceState newState;
+                    switch (piece.PieceState)
+                    {
+
+                        case PieceState.Water:
+                            newState = PieceState.HittedWater;
+                            break;
+                        case PieceState.Ship:
+                            newState = PieceState.HittedShip;
+                            break;
+                        case PieceState.Margin:
+                            newState = PieceState.HittedWater;
+                            break;
+
+                        default:
+                            newState = piece.PieceState;
+                            break;
+                    }
+                    piece.PieceState = newState;
+
+                  
+                    _db.SaveChanges();
+                }
+                //If the game ended
+                if (TryGameEnd(firedInGame))
+                {
+                    GameEnd(firingUserGame, firedInGame);
+                }
+                //Else continue in game and change active player and player states
+                else
+                {
+                    ContinueGame(firingUserGame, userGames, firedInGame);
+                }
+            }
         }
+
+
+        /// <summary>
+        /// Changes active player and player states
+        /// </summary>
+        /// <param name="firingUserGame"></param>
+        /// <param name="userGames"></param>
+        /// <param name="firedInGame"></param>
+        private void ContinueGame(UserGame firingUserGame, IList<UserGame> userGames, Game firedInGame)
+        {
+            //new user game firing
+            List<UserGame> listUserGames = new List<UserGame>(userGames);//Convert IList to list
+            UserGame nextPlayer = new UserGame();
+
+            int index = listUserGames.FindIndex(u => u.Id == firingUserGame.Id);//Gets index of user game that is currently plaing
+            
+            //Populate next player if index not outOFRange
+            if (index + 2 < userGames.Count())
+            {
+                nextPlayer = userGames[index + 1];
+            }
+            //Next round
+            else
+            {
+                nextPlayer = userGames[0];
+            }
+
+            nextPlayer.PlayerState = PlayerState.Firing;
+            firingUserGame.PlayerState = PlayerState.Waiting;
+            firedInGame.GameRound++;
+            firedInGame.CurrentPlayerId = nextPlayer.ApplicationUser.Id;
+            _db.SaveChanges();
+        }
+
+
+        /// <summary>
+        /// Gets all the pieces that user is trying to fire at
+        /// </summary>
+        /// <param name="navyBattlePieceIds"></param>
+        /// <returns></returns>
+        private IList<NavyBattlePiece> GetFiredAtBattlePiece(List<int> navyBattlePieceIds)
+        {
+            IList<NavyBattlePiece> output = new List<NavyBattlePiece>();
+            foreach (var battlePieceId in navyBattlePieceIds)
+            {
+                NavyBattlePiece piece = _db.NavyBattlePieces.Where(m => m.Id == battlePieceId).SingleOrDefault(); //Piece at which user is trying to fire.
+                output.Add(piece);
+            }
+            return output;
+        }
+
+
+        /// <summary>
+        /// Checks if user has choosen correct pieces to fire at.
+        /// </summary>
+        /// <param name="firedInGame"></param>
+        /// <param name="firedAtPieces"></param>
+        /// <param name="firingUserGame"></param>
+        /// <returns></returns>
+        private bool TryFiring(Game firedInGame, IList<NavyBattlePiece> firedAtPieces, UserGame firingUserGame)
+        {
+            //Checks if it is users turn
+            if (firingUserGame.PlayerState == PlayerState.Firing)
+            {
+                //Checks if user is trying to fire in active game.
+                if (firedInGame.Id == LoadGame("Game"))
+                {
+                    int numberOfSuccesfulChecks = 0;
+                    foreach (var piece in firedAtPieces)
+                    {
+                        //Checks if the game piece isnt already hit.
+                        if (piece.PieceState != PieceState.HittedShip || piece.PieceState == PieceState.HittedWater)
+                        {
+
+                            //Checks if user is not trying to fire at his own piece.
+                            if (piece.UserGameId != firingUserGame.Id)
+                            {
+                                numberOfSuccesfulChecks++;
+                            }
+                        }
+                    }
+                    if (numberOfSuccesfulChecks == firedAtPieces.Count())
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+
+        }
+
+        
+        /// <summary>
+        /// Checks if game ended.
+        /// </summary>
+        /// <param name="game"></param>
+        private bool TryGameEnd(Game game)
+        {
+            //TODO TryGameEnd metoda dodělat
+            //Check if the game ended
+            if (false)
+            {
+                return true;
+            }
+            else return false;
+
+            //throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Ends Game
+        /// </summary>
+        /// <param name="winnerUserGame"></param>
+        /// <param name="game"></param>
+        private void GameEnd(UserGame winnerUserGame, Game game)
+        {
+            //Sets winners and loosers
+            IList<UserGame> userGames = GetUserGamesWithUser(game.Id);
+            foreach (var user in userGames)
+            {
+                if (user != winnerUserGame)
+                {
+                    user.PlayerState = PlayerState.Loser;
+                    user.ApplicationUser.TotalPlayedGames++;
+                }
+                else user.PlayerState = PlayerState.Winner;
+                user.ApplicationUser.Wins++;
+            }
+
+            game.GameState = GameState.Ended;
+            _db.SaveChanges();
+        }
+        #endregion
+
         #endregion
 
 
@@ -177,7 +304,7 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-     
+
 
         public void ShipPlacement(int userGameId)
         {
@@ -234,7 +361,7 @@ namespace BattleShips.Services
             //throw new NotImplementedException();
         }
 
-       
+
 
 
         #endregion

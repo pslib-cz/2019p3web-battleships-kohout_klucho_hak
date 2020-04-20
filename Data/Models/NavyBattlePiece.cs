@@ -11,11 +11,13 @@ namespace BattleShips.Data
     {
         [Key]
         public int Id { get; set; }
-
+        [Required]
+        [Range(0, 20)]
         public int PosX { get; set; }
-
+        [Required]
+        [Range(0, 20)]
         public int PosY { get; set; }
-
+        [Required]
         public int UserGameId { get; set; }
 
         [ForeignKey("userGameId")]
@@ -29,7 +31,7 @@ namespace BattleShips.Data
         public Ship Ship { get; set; }
 
         public bool Hidden { get; set; }
-
+        [Required]
         public PieceState PieceState { get; set; }
 
 

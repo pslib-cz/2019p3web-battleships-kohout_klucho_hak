@@ -1,7 +1,9 @@
 ﻿@model ViewModels.GameBoardData
 @using Services
 
+
 @{
+   
     //Načtu dvourozměrné pole
     IEnumerable<IEnumerable<NavyBattlePiece>> board = Model.MakeGameBoard(Model.NavyBattlePieces);
 }
@@ -23,7 +25,7 @@
 
         </tbody>
     </table>
-    <a>user email</a>
+    <p>@Model.UserGame.ApplicationUser.PlayerName</p>
 </div>
 <div>
 

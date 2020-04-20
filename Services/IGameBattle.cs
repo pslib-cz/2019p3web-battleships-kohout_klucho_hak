@@ -12,26 +12,24 @@ namespace BattleShips.Services
     /// </summary>
     public interface IGameBattle
     {
-        public Game GetGame(Guid id);
+        Game GetGame(Guid id);
         /// <summary>
-        /// Method for firing based on choosen piece id.
+        /// Method for firing based on choosen pieces ids.
         /// </summary>
-        /// <param name="battlePieceId">Id of choosen piece.</param>
-        public void Fire(int battlePieceId);
+        /// <param name="navyBattlePieceIds"></param>
+        /// <param name="firedInGame"></param>
+        /// <param name="userGames"></param>
+        void Fire(List<int> navyBattlePieceIds, Game firedInGame, IList<UserGame> userGames);
 
-        /// <summary>
-        /// Ends game when somebody wins.
-        /// </summary>
-        /// <param name="winnerUserGameId"></param>
-        public void GameEnd(UserGame winnerUserGame, Game game);
-    
+
+
 
         /// <summary>
         /// Gets list of UserGames in game.
         /// </summary>
         /// <param name="gameId"></param>
         /// <returns></returns>
-        IList<UserGame> GetUserGames(Guid gameId);
+        IList<UserGame> GetUserGamesWithUser(Guid gameId);
 
         /// <summary>
         /// Gets list of navybattlepieces based on usergameid.

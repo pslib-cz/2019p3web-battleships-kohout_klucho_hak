@@ -18,9 +18,10 @@ namespace BattleShips.ViewModels
         //velikost pole
         IGameBattle _gameBattle;
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
-        //public IEnumerable<IEnumerable<NavyBattlePiece>> BattleBoard { get; set; }
-        public Game Game { get; set; }
     
+        public Game Game { get; set; }
+        
+        public UserGame UserGame { get; set; }
         /// <summary>
         /// Constructor for inicialization of interface
         /// </summary>
@@ -36,6 +37,7 @@ namespace BattleShips.ViewModels
         { 
             NavyBattlePieces = _gameBattle.GetNavyBattlePieces(userGame.Id);
             Game = _gameBattle.GetGame(gameId);
+            UserGame = userGame;
         }
 
         //TODO test if MakeGameBoard works :)

@@ -18,8 +18,9 @@ namespace BattleShips
      
         public IList<GameBoardData> GameBoards { get; set; }
         public IList<UserGame> UserGames { get; set; }
+        public List<int> NavyBattlePiecesId { get; set; }
 
-        
+
 
         IGameBattle _gameBattle;
 
@@ -35,8 +36,8 @@ namespace BattleShips
 
         public void OnGet(Guid id)
         {
-            //Game = _gameBattle.GetGame(id);
-            //UserGames = _gameBattle.GetUserGames(Game.Id);
+            Game = _gameBattle.GetGame(id);
+            UserGames = _gameBattle.GetUserGamesWithUser(Game.Id);
 
             //inicialization of All gameboards for every player in the given game.
             for (int board = 0; board < UserGames.Count(); board++)
@@ -50,9 +51,10 @@ namespace BattleShips
         /// Tries to fire on given 
         /// </summary>
         /// <param name="pieceId"> Id of picked navybattlepiece</param>
-        public void OnPostFire(int pieceId)
+        public IActionResult OnPostFire(int pieceId)
         {
-            _gameBattle.Fire(pieceId); 
+            _gameBattle.Fire(NavyBattlePiecesId, Game, UserGames);
+            return RedirectToPage("./InGame");    
         }
     }
 }

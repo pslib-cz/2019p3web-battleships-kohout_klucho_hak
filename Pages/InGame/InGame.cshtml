@@ -11,85 +11,9 @@
 <br />
 
 
-
-
-
-
 @foreach(GameBoardData gameBoard in Model.GameBoards)
 {
     <partial name="_GameBoard" model="gameBoard"/>
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@*<div class="board">
-    <table class="table">
-        <tbody>
-
-
-
-            @for (var i = 0; i < 10; i++)
-            {
-                <tr>
-                    @for (var j = 0; j < 10; j++)
-                    {
-                        <td class="board-piece-water">@i  @j</td>
-                    }
-                </tr>
-            }
-
-
-        </tbody>
-    </table>
-</div>
-
-<div class="board">
-    @for (int i = 0; i < Model.UserGames.Count; i++)
-    {
-        <table class="table">
-            <tbody>
-                @foreach (NavyBattlePiece piece in Model.NavyBattlePieces)
-                {
-
-                }
-
-
-                @for (var s = 0; s < Model.Game.GameSize; s++)
-                {
-                    <tr>
-                        @for (var j = 0; j < Model.Game.GameSize; j++)
-                        {
-
-                            <td class="board-piece-water">@s  @j</td>
-                        }
-                    </tr>
-                }
-
-
-            </tbody>
-        </table>
-    }
-</div>*@
 

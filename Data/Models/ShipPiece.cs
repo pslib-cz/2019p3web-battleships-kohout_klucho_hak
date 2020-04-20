@@ -16,8 +16,11 @@ namespace BattleShips.Data
 
         [ForeignKey("ShipId")]
         public Ship Ship { get; set; }
-
+        [Required]
+        [Range(0, 20)]
         public int PosX { get; set; }
+        [Required]
+        [Range(0, 20)]
         public int PosY { get; set; }
 
         public bool IsMargin { get; set; }
