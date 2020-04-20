@@ -293,9 +293,9 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public IList<Ship> GetShips()
+        public List<Ship> GetShips()
         {
-            throw new NotImplementedException();
+            return _db.Ships.ToList();
         }
 
         #endregion
@@ -322,7 +322,7 @@ namespace BattleShips.Services
 
 
 
-        public IList<Ship> GetShips(IList<ShipGame> shipGame)
+        public IList<Ship> GetGameShips(IList<ShipGame> shipGame)
         {
             throw new NotImplementedException();
         }

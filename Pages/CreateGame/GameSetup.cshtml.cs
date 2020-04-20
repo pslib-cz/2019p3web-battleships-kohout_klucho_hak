@@ -18,7 +18,7 @@ namespace BattleShips
 
         public ShipViewModel Ship { get; set; }
         public int boardSize { get; set; }
-        public IList<Ship> SetupShips { get; set; }
+        public List<Ship> SetupShips { get; set; }
 
 
         public GameSetupModel(ApplicationDbContext db, IGameSetup igamesetup)
@@ -31,7 +31,9 @@ namespace BattleShips
 
         public void OnGet()
         {
-
+            SetupShips = new List<Ship>();
+            SetupShips = _igamesetup.GetShips();
         }
+
     }
 }

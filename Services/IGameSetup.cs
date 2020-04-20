@@ -32,7 +32,7 @@ namespace BattleShips.Services
         /// dostupné lodě ze kterých si uživatel bude vybírat
         /// </summary>
         /// <returns></returns>
-        IList<Ship> GetShips();
+        List<Ship> GetShips();
 
     
        

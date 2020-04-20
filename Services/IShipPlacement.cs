@@ -45,7 +45,7 @@ namespace BattleShips.Services
         /// </summary>
         /// <param name="shipGame"></param>
         /// <returns></returns>
-        IList<Ship> GetShips(IList<ShipGame> shipGame);
+        IList<Ship> GetGameShips(IList<ShipGame> shipGame);
 
 
         /// <summary>

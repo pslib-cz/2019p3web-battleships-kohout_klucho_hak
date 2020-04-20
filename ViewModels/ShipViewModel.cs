@@ -11,9 +11,14 @@ namespace BattleShips.ViewModels
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Select Ship")]
+        public string Select { get; set; }
 
         [Display(Name = "Name of the ship")]
         public string Name { get; set; }
+
+        [Display(Name = "Picture of the Ship")]
+        public string Picture { get; set; }
 
     }
 }
