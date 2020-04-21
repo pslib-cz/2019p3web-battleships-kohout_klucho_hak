@@ -20,18 +20,11 @@ namespace BattleShips
         public IList<UserGame> UserGames { get; set; }
         public List<int> NavyBattlePiecesId { get; set; }
 
-
-
         IGameBattle _gameBattle;
-
-        
 
         public InGameModel(IGameBattle gameBattle)
         {
             _gameBattle = gameBattle;
-            
-       
-            
         }
 
         public void OnGet(Guid id)
@@ -44,15 +37,15 @@ namespace BattleShips
             {
                 GameBoards[board] = new GameBoardData(UserGames[board], Game.Id);
             }
-
-
         }
+
         /// <summary>
-        /// Tries to fire on given 
+        /// Tries to fire on given pieces
         /// </summary>
         /// <param name="pieceId"> Id of picked navybattlepiece</param>
-        public IActionResult OnPostFire(int pieceId)
+        public IActionResult OnPostFire()
         {
+            //TODO populate NavyBattlePieceId 
             _gameBattle.Fire(NavyBattlePiecesId, Game, UserGames);
             return RedirectToPage("./InGame");    
         }

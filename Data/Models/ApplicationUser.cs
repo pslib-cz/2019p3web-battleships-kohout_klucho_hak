@@ -19,9 +19,7 @@ namespace BattleShips.Data
 
         public int TotalPlayedGames { get; set; } = 0;
 
-        public ICollection<Game> Games { get; set; }
-
-        public ICollection<UserGame> USerGames { get; set; }
+       
 
     }
 }

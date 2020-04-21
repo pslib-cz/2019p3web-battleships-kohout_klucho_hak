@@ -20,7 +20,7 @@ namespace BattleShips.Data
         [Required]
         public int UserGameId { get; set; }
 
-        [ForeignKey("userGameId")]
+        [ForeignKey("UserGameId")]
         public UserGame UserGame { get; set; }
 
 
