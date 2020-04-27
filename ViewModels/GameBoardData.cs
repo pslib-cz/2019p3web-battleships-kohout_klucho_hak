@@ -36,7 +36,7 @@ namespace BattleShips.ViewModels
         public IEnumerable<IEnumerable<NavyBattlePiece>> MakeGameBoard(IList<NavyBattlePiece> navyBattlePieces)
         {
             IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
-
+        
             int index = 0;
             for (int row = 0; row < Game.GameSize; row++)
             {

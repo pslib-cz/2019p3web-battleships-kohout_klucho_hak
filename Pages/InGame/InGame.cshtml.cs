@@ -30,21 +30,20 @@ namespace BattleShips
            // _gameLoaderSaver = gameLoaderSaver;
         }
 
-        public void OnGet(Guid id)
+        public void OnGet(Guid id, int pieceId)
         {
             Game = _gameBattle.GetGame(id);
             UserGames = _gameBattle.GetUserGamesWithUser(Game.Id);
             //_gameLoaderSaver.SaveGame("Game", Game.Id);
+
+
             //inicialization of All gameboards for every player in the given game.
             for (int board = 0; board < UserGames.Count(); board++)
             {
-                IList<NavyBattlePiece> navyBattlePieces =_gameBattle.GetNavyBattlePieces(UserGames[board].Id);
-                //GameBoards[board] = new GameBoardData() { UserGame = UserGames[board], Game = Game, NavyBattlePieces =  };
+                IList<NavyBattlePiece> navyBattlePieces =_gameBattle.GetNavyBattlePieces(UserGames[board].Id);        
                 GameBoardData newBoard = new GameBoardData(UserGames[board], Game, navyBattlePieces);
                 GameBoards.Add(newBoard);
             }
-
-
         }
 
         // TODO - Get list of selected navyBattlePieces

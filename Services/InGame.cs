@@ -71,6 +71,7 @@ namespace BattleShips.Services
                 .AsNoTracking().ToList();
         }
 
+        //TODO - Srovnat pro vypsání jako 2D IEnumerable
         public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
             return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
@@ -78,6 +79,7 @@ namespace BattleShips.Services
 
 
         #region Firing
+        //TODO - Přepsat metodu fire, přebíra jeden battlePieceID
         public void Fire(List<int> navyBattlePieceIds, Game firedInGame, IList<UserGame> userGames)
         {
             //List of pieces that user fired at
@@ -115,7 +117,7 @@ namespace BattleShips.Services
                   
                     _db.SaveChanges();
                 }
-                //If the game ended
+                //If the game ended, when everybody lost but one, and sets states of players
                 if (TryGameEnd(firedInGame))
                 {
                     GameEnd(firingUserGame, firedInGame);
@@ -276,7 +278,8 @@ namespace BattleShips.Services
             try
             {
                 Guid newGameId = Guid.NewGuid();
-                //SaveGame("Game", newGameId)
+                CurrentGameId = newGameId;
+                SaveGame("Game", newGameId);
                 var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize, Id = newGameId };
                 _db.Games.Add(game);
                 _db.SaveChanges();
