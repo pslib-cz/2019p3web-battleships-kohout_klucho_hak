@@ -21,10 +21,10 @@ namespace BattleShips.ViewModels
         /// <summary>
         /// Overloaded constructor for inicialization of data.(IList<NavyBattlePieces>)
         /// </summary>
-        public GameBoardData(UserGame userGame, Game game, IList<NavyBattlePiece> navyBattlePieces)
+        public GameBoardData(UserGame userGame, IList<NavyBattlePiece> navyBattlePieces)
         {
             UserGame = userGame;
-            Game = game;
+            Game = userGame.Game;
             NavyBattlePieces = navyBattlePieces;
         }
 

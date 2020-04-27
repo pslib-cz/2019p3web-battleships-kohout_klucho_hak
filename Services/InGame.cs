@@ -277,7 +277,8 @@ namespace BattleShips.Services
             try
             {
                 Guid newGameId = Guid.NewGuid();
-                //SaveGame("Game", newGameId)
+                CurrentGameId = newGameId;
+                SaveGame("Game", newGameId);
                 var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize, Id = newGameId };
                 _db.Games.Add(game);
                 _db.SaveChanges();
@@ -299,6 +300,7 @@ namespace BattleShips.Services
             return _db.Ships.ToList();
         }
 
+        //z ShipPiece udělat NavyBattlePiece
         public IEnumerable GetShipPieces(int ShipId)
         {
             throw new NotImplementedException();
