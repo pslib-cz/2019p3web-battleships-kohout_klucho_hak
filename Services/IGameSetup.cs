@@ -1,5 +1,6 @@
 ﻿using BattleShips.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,8 +35,10 @@ namespace BattleShips.Services
         /// <returns></returns>
         List<Ship> GetShips();
 
-    
-       
+        IEnumerable GetShipPieces(int ShipId);
+
+        IEnumerable<IEnumerable<ShipPiece>> DisplayShips(ShipPiece shipPiece);
+
 
 
     }
