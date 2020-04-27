@@ -58,7 +58,7 @@ namespace BattleShips.Services
         #region IGameBattle (Kohout)
         public Game GetGame(Guid _currentGameId)
         {
-            _currentGameId = CurrentGameId;
+            //_currentGameId = CurrentGameId;
 
             return _db.Games.Where(m => m.Id == _currentGameId).AsNoTracking().SingleOrDefault();
         }
