@@ -16,16 +16,15 @@ namespace BattleShips.ViewModels
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
         public Game Game { get; set; }
         public UserGame UserGame { get; set; }
+        public string PageHandler { get; set; } 
 
-        /// <param name="gameBattle"></param>
-        /// <summary>
-        /// Overloaded constructor for inicialization of data.(IList<NavyBattlePieces>)
-        /// </summary>
-        public GameBoardData(UserGame userGame, IList<NavyBattlePiece> navyBattlePieces)
+       
+        public GameBoardData(UserGame userGame, IList<NavyBattlePiece> navyBattlePieces, string pageHandler = "InGame")
         {
             UserGame = userGame;
             Game = userGame.Game;
             NavyBattlePieces = navyBattlePieces;
+            PageHandler = pageHandler;
         }
 
         /// <summary>
@@ -36,7 +35,9 @@ namespace BattleShips.ViewModels
         public IEnumerable<IEnumerable<NavyBattlePiece>> MakeGameBoard(IList<NavyBattlePiece> navyBattlePieces)
         {
             IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
-        
+
+            //TODO - Srovnat pro vypsání jako 2D IEnumerable
+
             int index = 0;
             for (int row = 0; row < Game.GameSize; row++)
             {

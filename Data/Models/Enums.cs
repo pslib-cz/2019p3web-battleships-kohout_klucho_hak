@@ -24,7 +24,7 @@ namespace BattleShips.Data
     public enum PlayerState
     {
         PlacingShips,
-        Firing,
+        Playing,
         Loser,
         Winner
     }

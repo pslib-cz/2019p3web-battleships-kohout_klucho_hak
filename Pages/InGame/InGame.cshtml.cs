@@ -11,55 +11,44 @@ using BattleShips.ViewModels;
 
 namespace BattleShips
 {
-    //[Authorize]
+    [Authorize]
     public class InGameModel : PageModel
     {
         public Game Game { get; set; }
-
+        [TempData]
+        public string FireResult { get; set; }
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
         public IList<UserGame> UserGames { get; set; }
         public List<int> NavyBattlePiecesId { get; set; }
 
         private IGameBattle _gameBattle;
-        //private IBattleShipGameLoaderSaver _gameLoaderSaver;
 
 
-        public InGameModel(IGameBattle gameBattle /*IBattleShipGameLoaderSaver gameLoaderSaver*/)
+        public InGameModel(IGameBattle gameBattle )
         {
             _gameBattle = gameBattle;
-           // _gameLoaderSaver = gameLoaderSaver;
+
         }
 
-        public void OnGet(Guid id, int pieceId)
+        public void OnGet(int? id)
         {
-            Game = _gameBattle.GetGame(id);
-            UserGames = _gameBattle.GetUserGamesWithUser(Game.Id);
-            //_gameLoaderSaver.SaveGame("Game", Game.Id);
+            Game = _gameBattle.GetGame();
+            UserGames = _gameBattle.GetUserGamesWithUser();
+            if (id != null)
+            {
+                FireResult = _gameBattle.Fire(id);
+            }  
 
-
+            
             //inicialization of All gameboards for every player in the given game.
             for (int board = 0; board < UserGames.Count(); board++)
             {
-                IList<NavyBattlePiece> navyBattlePieces =_gameBattle.GetNavyBattlePieces(UserGames[board].Id);        
+                IList<NavyBattlePiece> navyBattlePieces = _gameBattle.GetNavyBattlePieces(UserGames[board].Id);
                 GameBoardData newBoard = new GameBoardData(UserGames[board], navyBattlePieces);
                 GameBoards.Add(newBoard);
             }
+        
         }
 
-        // TODO - Get list of selected navyBattlePieces
-        /// <summary>
-        /// Tries to fire on choosen pieces.
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult OnPostFire()
-        {
-            //Guid gameId = _gameLoaderSaver.LoadGame("Game");
-            //Game = _gameBattle.GetGame(gameId);
-            //UserGames = _gameBattle.GetUserGamesWithUser(Game.Id);
-            //TODO populate NavyBattlePieceId list
-
-            _gameBattle.Fire(NavyBattlePiecesId, Game, UserGames);
-            return RedirectToPage("./InGame" /*new {id = gameId }*/);    
-        }
     }
 }
