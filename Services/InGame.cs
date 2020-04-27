@@ -157,7 +157,7 @@ namespace BattleShips.Services
             }
 
             nextPlayer.PlayerState = PlayerState.Firing;
-            firingUserGame.PlayerState = PlayerState.Waiting;
+            //firingUserGame.PlayerState = PlayerState.Waiting;
             firedInGame.GameRound++;
             firedInGame.CurrentPlayerId = nextPlayer.ApplicationUser.Id;
             _db.SaveChanges();
