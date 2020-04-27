@@ -3,6 +3,7 @@ using BattleShips.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -301,6 +302,16 @@ namespace BattleShips.Services
             return _db.Ships.ToList();
         }
 
+        public IEnumerable GetShipPieces(int ShipId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<IEnumerable<ShipPiece>> DisplayShips(ShipPiece shipPiece)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
 
@@ -367,7 +378,6 @@ namespace BattleShips.Services
             return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
             //throw new NotImplementedException();
         }
-
 
 
 
