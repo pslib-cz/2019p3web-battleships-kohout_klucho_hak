@@ -41,7 +41,7 @@ namespace BattleShips
             for (int board = 0; board < UserGames.Count(); board++)
             {
                 IList<NavyBattlePiece> navyBattlePieces =_gameBattle.GetNavyBattlePieces(UserGames[board].Id);        
-                GameBoardData newBoard = new GameBoardData(UserGames[board], Game, navyBattlePieces);
+                GameBoardData newBoard = new GameBoardData(UserGames[board], navyBattlePieces);
                 GameBoards.Add(newBoard);
             }
         }
