@@ -25,7 +25,6 @@ namespace BattleShips.Data
     {
         PlacingShips,
         Firing,
-        Waiting,
         Loser,
         Winner
     }
