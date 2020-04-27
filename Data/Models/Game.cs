@@ -10,7 +10,7 @@ namespace BattleShips.Data
 {
     public class Game
     {
- 
+
         [Key]
         public Guid Id { get; set; }
 
@@ -23,7 +23,7 @@ namespace BattleShips.Data
         public int GameRound { get; set; }
         [Required]
         public string OwnerId { get; set; }
-        
+
         [ForeignKey("OwnerId")]
         public ApplicationUser ApplicationUser { get; set; }
 
@@ -34,6 +34,6 @@ namespace BattleShips.Data
         [Required]
         public GameState GameState { get; set; }
 
-
+        //public ICollection<UserGame> UserGames { get; set; }
     }
 }

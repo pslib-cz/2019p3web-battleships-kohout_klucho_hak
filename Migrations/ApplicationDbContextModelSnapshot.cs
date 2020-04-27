@@ -558,7 +558,7 @@ namespace BattleShips.Migrations
             modelBuilder.Entity("BattleShips.Data.UserGame", b =>
                 {
                     b.HasOne("BattleShips.Data.Game", "Game")
-                        .WithMany()
+                        .WithMany("UserGames")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
