@@ -2,6 +2,7 @@
 using BattleShips.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -115,7 +116,9 @@ namespace BattleShips.Services
             }
 
             //Gets piece that user is trying to fire at.
-            NavyBattlePiece firedAtPiece = _db.NavyBattlePieces.Where(m => m.Id == pieceId).SingleOrDefault();
+            NavyBattlePiece firedAtPiece = _db.NavyBattlePieces.Where(m => m.Id == pieceId)
+                .Include(m => m.Ship)
+                .SingleOrDefault();
 
             //Gets active game.
             Game activeGame = GetGame();
@@ -127,16 +130,15 @@ namespace BattleShips.Services
             UserGame firingUserGame = _db.UserGames.Where(u => u.ApplicationUserId == activeUserId)
                 .Include(u => u.Game)
                 .AsNoTracking().SingleOrDefault();
-
+            //Checks if game isnt already done.
+            if (activeGame.GameState == GameState.Ended)
+            {
+                return "This game has already ended, you cannot play anymore.";
+            }
             //If user that fired isnt the one that is supossed to be firing.
             if (firingUserGame.ApplicationUserId != activeUserGame.ApplicationUserId)
             {
-               return "You are firing in wrong game or it is not your turn. :(";
-            }
-            //Checks if game isnt already done.
-            if(activeGame.GameState == GameState.Ended)
-            {
-                return "This game has already ended, you cannot play anymore.";
+               return "It is not your turn.";
             }
             //Checks if the game piece isnt already hit.
             if (firedAtPiece.PieceState == PieceState.HittedShip || firedAtPiece.PieceState == PieceState.HittedWater)
@@ -155,6 +157,7 @@ namespace BattleShips.Services
 
                 case PieceState.Water:
                     newState = PieceState.HittedWater;
+                    resultOfFiring = "Splash!";
                     break;
                 case PieceState.Ship:
                     newState = PieceState.HittedShip;
@@ -174,30 +177,37 @@ namespace BattleShips.Services
             if (newState == PieceState.HittedShip)
             { 
                 //Gets UserGame whose ship has been hit.
-                UserGame hittedUserGame = _db.UserGames.Where(u => u.Id == firedAtPiece.UserGameId).FirstOrDefault();
+                UserGame hittedUserGame = _db.UserGames.Where(u => u.Id == firedAtPiece.UserGameId)
+                                                        .Include(u => u.ApplicationUser)
+                                                        .FirstOrDefault();
 
-                //resultOfFiring = $"You have destroyed piece of a {firedAtPiece.Ship.Name} belonging to players {hittedUserGame.ApplicationUser.PlayerName} fleet.";
-                resultOfFiring = $"You have destroyed piece of a SHIPNAME belonging to players PLAYERNAMEs fleet.";
+                resultOfFiring = $"You have destroyed piece of a {firedAtPiece.Ship.Name} belonging to players {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
+               
                 //Gets piece of ship.
                 IList<NavyBattlePiece> UnhitedShipPiece = _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToList();
 
                 //Checks if there more than one piece of ship, if not then this usergame has lost. The piece state has to be yet saved to database.
                 if (UnhitedShipPiece.Count() < 2) //Check for default value. EqualityComparer<NavyBattlePiece>.Default.Equals(UnhitedShipPiece, default
                 {
-                    //resultOfFiring = $"You have destroyed the last piece of ship in {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
-                    resultOfFiring = $"You have destroyed the last piece of ship in PLAYERNAMEs fleet.";
+                    resultOfFiring = $"You have destroyed the last piece of ship in {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
+                   
                     hittedUserGame.PlayerState = PlayerState.Loser;
+                    _db.UserGames.Update(hittedUserGame);
+                    _db.SaveChanges();//Save to database so that in endgame the check counts even the last loser.
 
                     //Checks if the game hase ended because there is another loser.
                     if (GameEnd(firingUserGame))
                     {
                         resultOfFiring = "Congratulation you have Won, everyone else was destroyed!";
                     }
+                    else
+                    {
+                        ContinueGame(activeGame, firingUserGame);
+                    }
                 }
                 else
                 {
                     ContinueGame(activeGame, firingUserGame);
-
                 }
 
             }
@@ -255,25 +265,43 @@ namespace BattleShips.Services
                     losersCount++;
                 }
             }
+            //Checks if there is more than 1 player that hasnt lost.
             if (userGames.Count() -1 == losersCount)
             {
                
                 Game game = winnerUserGame.Game;
-                //Sets winners and loosers
+                winnerUserGame.PlayerState = PlayerState.Winner; //Sets winner usergame, others are already losers.
+
+                IList<ApplicationUser> loserApplicationUsers = new List<ApplicationUser>();
+                ApplicationUser winnerAplicationUser = new ApplicationUser();
                 foreach (var user in userGames)
                 {
-                    if (user != winnerUserGame)
+                    if (user.Id != winnerUserGame.Id)
                     {
-                        user.PlayerState = PlayerState.Loser;
                         user.ApplicationUser.TotalPlayedGames++;
+                        loserApplicationUsers.Add(user.ApplicationUser);
                     }
-                    else user.PlayerState = PlayerState.Winner;
-                    user.ApplicationUser.Wins++;
+                    else
+                    {
+                        user.ApplicationUser.TotalPlayedGames++;
+                        user.ApplicationUser.Wins++;
+                        winnerAplicationUser = user.ApplicationUser;
+                    }
                 }
-
+                game.GameRound++;
                 game.GameState = GameState.Ended;
                 _db.Games.Update(game);
-                _db.UserGames.UpdateRange(userGames);
+                _db.UserGames.Update(winnerUserGame);
+              
+                _db.ApplicationUsers.Update(winnerAplicationUser);
+
+                ////https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext
+                //using (var context = new ServiceProvider
+                //{
+                //    context.ApplicationUsers.UpdateRange(loserApplicationUsers);
+                //    context.SaveChanges();
+                //}
+
                 //_db.SaveChanges();
                 return true;
             }
