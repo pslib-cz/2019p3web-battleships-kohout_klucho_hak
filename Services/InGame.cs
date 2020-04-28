@@ -82,7 +82,7 @@ namespace BattleShips.Services
         #region IGameBattle (Kohout)
         //Returns currently active Game.
         public Game GetGame()
-        {   
+        {
             Guid currentGameId = CurrentGameId;
             return _db.Games.Where(m => m.Id == currentGameId).AsNoTracking().SingleOrDefault();
         }
@@ -138,7 +138,7 @@ namespace BattleShips.Services
             //If user that fired isnt the one that is supossed to be firing.
             if (firingUserGame.ApplicationUserId != activeUserGame.ApplicationUserId)
             {
-               return "It is not your turn.";
+                return "It is not your turn.";
             }
             //Checks if the game piece isnt already hit.
             if (firedAtPiece.PieceState == PieceState.HittedShip || firedAtPiece.PieceState == PieceState.HittedWater)
@@ -171,18 +171,18 @@ namespace BattleShips.Services
                     break;
             }
             firedAtPiece.PieceState = newState;
-          
+
 
             //If usergame hits ship check if there is any navybattlepiece of ship left on his board.
             if (newState == PieceState.HittedShip)
-            { 
+            {
                 //Gets UserGame whose ship has been hit.
                 UserGame hittedUserGame = _db.UserGames.Where(u => u.Id == firedAtPiece.UserGameId)
                                                         .Include(u => u.ApplicationUser)
                                                         .FirstOrDefault();
 
                 resultOfFiring = $"You have destroyed piece of a {firedAtPiece.Ship.Name} belonging to players {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
-               
+
                 //Gets piece of ship.
                 IList<NavyBattlePiece> UnhitedShipPiece = _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToList();
 
@@ -190,7 +190,7 @@ namespace BattleShips.Services
                 if (UnhitedShipPiece.Count() < 2) //Check for default value. EqualityComparer<NavyBattlePiece>.Default.Equals(UnhitedShipPiece, default
                 {
                     resultOfFiring = $"You have destroyed the last piece of ship in {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
-                   
+
                     hittedUserGame.PlayerState = PlayerState.Loser;
                     _db.UserGames.Update(hittedUserGame);
                     _db.SaveChanges();//Save to database so that in endgame the check counts even the last loser.
@@ -214,7 +214,7 @@ namespace BattleShips.Services
             else
             {
                 ContinueGame(activeGame, firingUserGame);
-               
+
             }
             _db.SaveChanges();
             return resultOfFiring;
@@ -229,7 +229,7 @@ namespace BattleShips.Services
             //new user game firing
             List<UserGame> listUserGames = _db.UserGames.Where(u => u.GameId == firedInGame.Id).OrderBy(u => u.Id).ToList();
             UserGame nextPlayer = new UserGame();
-            
+
             int index = listUserGames.FindIndex(u => u.Id == firingUserGame.Id);//Gets index of user game that is currently plaing
 
             //Populate next player if index not outOFRange
@@ -243,7 +243,7 @@ namespace BattleShips.Services
                 nextPlayer = listUserGames[0];
             }
 
-            
+
             firedInGame.GameRound++;
             firedInGame.CurrentPlayerId = nextPlayer.ApplicationUserId;
             _db.Games.Update(firedInGame);
@@ -256,19 +256,24 @@ namespace BattleShips.Services
         /// <param name="winnerUserGame"></param>
         private bool GameEnd(UserGame winnerUserGame)
         {
-            IList<UserGame> userGames = GetUserGamesWithUser();
+            IList<UserGame> userGames = _db.UserGames
+                .Where(m => m.GameId == winnerUserGame.GameId)
+                .Include(m => m.ApplicationUser)
+                .AsNoTracking()
+                .Include(m => m.Game)
+                .AsNoTracking().ToList();
             int losersCount = 0;
-            foreach(var item in userGames)
+            foreach (var item in userGames)
             {
-                if(item.PlayerState == PlayerState.Loser)
+                if (item.PlayerState == PlayerState.Loser)
                 {
                     losersCount++;
                 }
             }
             //Checks if there is more than 1 player that hasnt lost.
-            if (userGames.Count() -1 == losersCount)
+            if (userGames.Count() - 1 == losersCount)
             {
-               
+
                 Game game = winnerUserGame.Game;
                 winnerUserGame.PlayerState = PlayerState.Winner; //Sets winner usergame, others are already losers.
 
@@ -292,16 +297,16 @@ namespace BattleShips.Services
                 game.GameState = GameState.Ended;
                 _db.Games.Update(game);
                 _db.UserGames.Update(winnerUserGame);
-              
-                _db.ApplicationUsers.Update(winnerAplicationUser);
 
-                ////https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext
-                //using (var context = new ServiceProvider
+                _db.ApplicationUsers.Update(winnerAplicationUser);
+                //TODO - Save loserApplicationUser to database
+                //_db.ApplicationUsers.UpdateRange(loserApplicationUsers);
+                //https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext
+                //using (var context = new ApplicationDbContext())
                 //{
                 //    context.ApplicationUsers.UpdateRange(loserApplicationUsers);
                 //    context.SaveChanges();
                 //}
-
                 //_db.SaveChanges();
                 return true;
             }
