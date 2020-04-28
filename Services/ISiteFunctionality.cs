@@ -23,6 +23,6 @@ namespace BattleShips.Services
         /// <returns>list</returns>
         IList<Game> GetGames(string userId);
         IList<ApplicationUser> UsersByScore();
-        public ApplicationUser GetLoggedInUser();
+        //public ApplicationUser GetLoggedInUser();
     }
 }

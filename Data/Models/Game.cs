@@ -25,7 +25,7 @@ namespace BattleShips.Data
         public string OwnerId { get; set; }
 
         [ForeignKey("OwnerId")]
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser Owner { get; set; }
 
         public string CurrentPlayerId { get; set; }
         [ForeignKey("CurrentPlayerId")]

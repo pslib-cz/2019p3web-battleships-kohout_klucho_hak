@@ -13,8 +13,8 @@ namespace BattleShips.Data
         [Key]
         public int Id { get; set; }
         
-        public string UserId { get; set; }
-        [ForeignKey("UserId")]
+        public string ApplicationUserId { get; set; }
+        [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
 
         public Guid GameId { get; set; }

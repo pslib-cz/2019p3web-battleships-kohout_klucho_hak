@@ -15,9 +15,9 @@ namespace BattleShips.Data
 
         public int Score { get; set; } 
 
-        public int Wins { get; set; } = 0;
+        public int Wins { get; set; } 
 
-        public int TotalPlayedGames { get; set; } = 0;
+        public int TotalPlayedGames { get; set; } 
 
        
 

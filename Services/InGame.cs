@@ -24,6 +24,7 @@ namespace BattleShips.Services
         //TODO Vojta Dodělat ShipPlacement
         //TODO Vojta nastavit tvůrce hry jako Activního hráče ve hře.
         //TODO upozornění
+        //TODO - Firing functional. It just needs design, one more check if user can still fire when there are more than 2 players. Refreshing page or somehow differently display TempData messages without nedd of reloading site.
 
 
 
@@ -53,7 +54,7 @@ namespace BattleShips.Services
             //if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             //return result;
             //TODO - Use actual method instead placeholder for develompent 
-            Guid currentGameId = new Guid("0edf16a1-3c32-4ccc-84b7-6355ddc22c45");
+            Guid currentGameId = new Guid("b9841419-f01f-402a-9e39-4c77321321e9");
             return currentGameId;
         }
 
@@ -120,15 +121,15 @@ namespace BattleShips.Services
             Game activeGame = GetGame();
 
             //Gets UserGame that is suposed to be firing in the Game.
-            UserGame activeUserGame = _db.UserGames.Where(m => m.UserId == activeGame.CurrentPlayerId).AsNoTracking().SingleOrDefault();
+            UserGame activeUserGame = _db.UserGames.Where(m => m.ApplicationUserId == activeGame.CurrentPlayerId).AsNoTracking().SingleOrDefault();
             //Gets UserGame that is firing in the game
             string activeUserId = GetUserId();
-            UserGame firingUserGame = _db.UserGames.Where(u => u.UserId == activeUserId)
+            UserGame firingUserGame = _db.UserGames.Where(u => u.ApplicationUserId == activeUserId)
                 .Include(u => u.Game)
                 .AsNoTracking().SingleOrDefault();
 
             //If user that fired isnt the one that is supossed to be firing.
-            if (firingUserGame.UserId != activeUserGame.UserId)
+            if (firingUserGame.ApplicationUserId != activeUserGame.ApplicationUserId)
             {
                return "You are firing in wrong game or it is not your turn. :(";
             }
@@ -232,9 +233,9 @@ namespace BattleShips.Services
                 nextPlayer = listUserGames[0];
             }
 
-            //firingUserGame.PlayerState = PlayerState.Waiting;
+            
             firedInGame.GameRound++;
-            firedInGame.CurrentPlayerId = nextPlayer.UserId;
+            firedInGame.CurrentPlayerId = nextPlayer.ApplicationUserId;
             _db.Games.Update(firedInGame);
             // _db.SaveChanges();
         }
@@ -264,14 +265,15 @@ namespace BattleShips.Services
                     if (user != winnerUserGame)
                     {
                         user.PlayerState = PlayerState.Loser;
-                       // user.ApplicationUser.TotalPlayedGames++;
+                        user.ApplicationUser.TotalPlayedGames++;
                     }
                     else user.PlayerState = PlayerState.Winner;
-                    //user.ApplicationUser.Wins++;
+                    user.ApplicationUser.Wins++;
                 }
 
                 game.GameState = GameState.Ended;
                 _db.Games.Update(game);
+                _db.UserGames.UpdateRange(userGames);
                 //_db.SaveChanges();
                 return true;
             }
@@ -382,12 +384,12 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public ApplicationUser GetLoggedInUser()
-        {
-            string userId = _hca.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
-            //throw new NotImplementedException();
-        }
+        //public ApplicationUser GetLoggedInUser()
+        //{
+        //    string userId = _hca.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
+        //    //throw new NotImplementedException();
+        //}
 
 
 
