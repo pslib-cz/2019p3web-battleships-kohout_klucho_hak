@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BattleShips.Migrations
 {
-    public partial class Repair : Migration
+    public partial class InitialWithSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,11 +40,10 @@ namespace BattleShips.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    PlayerName = table.Column<string>(maxLength: 20, nullable: true),
-                    Score = table.Column<int>(nullable: true),
-                    Wins = table.Column<int>(nullable: true),
-                    TotalPlayedGames = table.Column<int>(nullable: true)
+                    PlayerName = table.Column<string>(nullable: true),
+                    Score = table.Column<int>(nullable: false),
+                    Wins = table.Column<int>(nullable: false),
+                    TotalPlayedGames = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -253,7 +252,7 @@ namespace BattleShips.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: true),
+                    ApplicationUserId = table.Column<string>(nullable: true),
                     GameId = table.Column<Guid>(nullable: false),
                     PlayerState = table.Column<int>(nullable: false)
                 },
@@ -261,17 +260,17 @@ namespace BattleShips.Migrations
                 {
                     table.PrimaryKey("PK_UserGames", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_UserGames_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_UserGames_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserGames_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -331,22 +330,78 @@ namespace BattleShips.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PlayerName", "Score", "SecurityStamp", "TotalPlayedGames", "TwoFactorEnabled", "UserName", "Wins" },
+                values: new object[,]
+                {
+                    { "f7e052d0-18f7-4128-bb37-2bb2fd523115", 0, "395c17c1-aa0c-434e-bfff-247e1082f3df", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player1", 0, "f1bceb3f-f8b6-4f80-a0a0-d26addc4c25b", 0, false, "player1@pslib.cz", 0 },
+                    { "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc", 0, "f33d8c04-13d1-4fde-8cb6-eb5097fa2cf8", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player2", 0, "0420dca8-43a3-4d6d-89b7-f07d5caa551f", 0, false, "player2@pslib.cz", 0 },
+                    { "69c92f5c-c923-4ab2-a189-7415e874422d", 0, "24f443ad-f474-489f-a66a-569724fe2906", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player3", 0, "45142a14-9b1d-44a1-9a01-c9c6d2db794f", 0, false, "player3@pslib.cz", 0 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Ships",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Ponorka" },
-                    { 2, "Torpédoborec" },
-                    { 3, "Křižník" },
-                    { 4, "Bitevní loď" },
-                    { 5, "Letadlová loď" },
-                    { 6, "Přistávací základna" },
-                    { 7, "Hydroplán" },
-                    { 8, "Křižník II" },
-                    { 9, "Těžký křižník" },
-                    { 10, "Katamaran" },
-                    { 11, "Lehká bitevní loď" },
-                    { 12, "Letadlová loď II" }
+                    { 1, "Submarine" },
+                    { 2, "Destroyer" },
+                    { 3, "Cruiser" },
+                    { 4, "Battleship" },
+                    { 5, "Aircraft carrier" },
+                    { 6, "Landing base" },
+                    { 7, "Hydro plane" },
+                    { 8, "Cruiser II" },
+                    { 9, "Heavy Cruiser" },
+                    { 10, "Catamaran" },
+                    { 11, "Light battleship" },
+                    { 12, "Aircraft carrier II" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Games",
+                columns: new[] { "Id", "CurrentPlayerId", "GameRound", "GameSize", "GameState", "MaxPlayers", "OwnerId" },
+                values: new object[,]
+                {
+                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"), "f7e052d0-18f7-4128-bb37-2bb2fd523115", 0, 2, 0, 2, "f7e052d0-18f7-4128-bb37-2bb2fd523115" },
+                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), "f7e052d0-18f7-4128-bb37-2bb2fd523115", 0, 2, 1, 2, "f7e052d0-18f7-4128-bb37-2bb2fd523115" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ShipPieces",
+                columns: new[] { "Id", "IsMargin", "PosX", "PosY", "ShipId" },
+                values: new object[,]
+                {
+                    { 1, false, 1, 1, 1 },
+                    { 2, true, 0, 1, 1 },
+                    { 3, true, 1, 0, 1 },
+                    { 4, true, 2, 1, 1 },
+                    { 5, true, 1, 2, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserGames",
+                columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
+                values: new object[] { 1, "f7e052d0-18f7-4128-bb37-2bb2fd523115", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+
+            migrationBuilder.InsertData(
+                table: "UserGames",
+                columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
+                values: new object[] { 2, "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+
+            migrationBuilder.InsertData(
+                table: "NavyBattlePieces",
+                columns: new[] { "Id", "Hidden", "PieceState", "PosX", "PosY", "TypeId", "UserGameId" },
+                values: new object[,]
+                {
+                    { 1, true, 1, 0, 0, 1, 1 },
+                    { 2, true, 1, 1, 0, 1, 1 },
+                    { 3, true, 0, 0, 1, 1, 1 },
+                    { 4, true, 0, 1, 1, 1, 1 },
+                    { 5, true, 0, 0, 0, 1, 2 },
+                    { 6, true, 0, 1, 0, 1, 2 },
+                    { 7, true, 1, 0, 1, 1, 2 },
+                    { 8, true, 1, 1, 1, 1, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -434,14 +489,14 @@ namespace BattleShips.Migrations
                 column: "UserGameId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserGames_ApplicationUserId",
+                table: "UserGames",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserGames_GameId",
                 table: "UserGames",
                 column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserGames_UserId",
-                table: "UserGames",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

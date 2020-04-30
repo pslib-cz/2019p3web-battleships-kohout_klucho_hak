@@ -62,9 +62,7 @@ namespace BattleShips.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PlayerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
@@ -100,65 +98,62 @@ namespace BattleShips.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9c8bc288-57d6-46a7-9186-1e981fae3ebb",
+                            Id = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "39bfa35e-5fec-4bba-a976-891cd68886bc",
+                            ConcurrencyStamp = "395c17c1-aa0c-434e-bfff-247e1082f3df",
                             Email = "player1@pslib.cz",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
                             NormalizedEmail = "PLAYER1@PSLIB.CZ",
-                            NormalizedUserName = "BOBIK",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN3SQfdSj+uMvjgP+s39cuDp6TtYxmxYkJCES1Iq36JQpaFXlESJQOvVEdPRr4hKVw==",
-                            PhoneNumber = "123456789",
+                            NormalizedUserName = "PLAYER1@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player1",
                             Score = 0,
-                            SecurityStamp = "5c760cd9-6cda-4f39-914d-2dc98782d95b",
+                            SecurityStamp = "f1bceb3f-f8b6-4f80-a0a0-d26addc4c25b",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
-                            UserName = "bobik",
+                            UserName = "player1@pslib.cz",
                             Wins = 0
                         },
                         new
                         {
-                            Id = "ccd8588c-7f7e-4aaf-bf50-e627fdaa8245",
+                            Id = "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32db9990-b51d-4ccb-a07a-0824f44e56b6",
+                            ConcurrencyStamp = "f33d8c04-13d1-4fde-8cb6-eb5097fa2cf8",
                             Email = "player2@pslib.cz",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
                             NormalizedEmail = "PLAYER2@PSLIB.CZ",
-                            NormalizedUserName = "BOBIK2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE5m1o4+z1iG99oKS8T8GEagUcc7sc4kRKDDs+T28ZGGy0IC/ZklQc1AQsjqQuFa+Q==",
-                            PhoneNumber = "123456789",
+                            NormalizedUserName = "PLAYER2@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player2",
                             Score = 0,
-                            SecurityStamp = "00ab69fa-6b1e-47c7-93ab-39bd3c729092",
+                            SecurityStamp = "0420dca8-43a3-4d6d-89b7-f07d5caa551f",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
-                            UserName = "bobik2",
+                            UserName = "player2@pslib.cz",
                             Wins = 0
                         },
                         new
                         {
-                            Id = "cfb0d7a3-c4e9-4442-8e84-ddac7e087b77",
+                            Id = "69c92f5c-c923-4ab2-a189-7415e874422d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "43e4a251-b6a9-4942-8537-eaa5c97cb6a8",
+                            ConcurrencyStamp = "24f443ad-f474-489f-a66a-569724fe2906",
                             Email = "player3@pslib.cz",
-                            EmailConfirmed = true,
-                            LockoutEnabled = false,
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
                             NormalizedEmail = "PLAYER3@PSLIB.CZ",
-                            NormalizedUserName = "BOBIK3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDvxumxvdMRGIDkQhtQorF6pJWF97JjvaQQqNG9qbRAiBoXCk62hNe0pmuRuG6qO9w==",
-                            PhoneNumber = "123456789",
+                            NormalizedUserName = "PLAYER3@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player3",
                             Score = 0,
-                            SecurityStamp = "a295fd75-17b2-4d89-b2d6-8ef7f30f2f04",
+                            SecurityStamp = "45142a14-9b1d-44a1-9a01-c9c6d2db794f",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
-                            UserName = "bobik3",
+                            UserName = "player3@pslib.cz",
                             Wins = 0
                         });
                 });
@@ -200,22 +195,22 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"),
-                            CurrentPlayerId = "9c8bc288-57d6-46a7-9186-1e981fae3ebb",
+                            CurrentPlayerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 0,
                             MaxPlayers = 2,
-                            OwnerId = "9c8bc288-57d6-46a7-9186-1e981fae3ebb"
+                            OwnerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115"
                         },
                         new
                         {
                             Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
-                            CurrentPlayerId = "9c8bc288-57d6-46a7-9186-1e981fae3ebb",
+                            CurrentPlayerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 1,
                             MaxPlayers = 2,
-                            OwnerId = "9c8bc288-57d6-46a7-9186-1e981fae3ebb"
+                            OwnerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115"
                         });
                 });
 
@@ -554,14 +549,14 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
-                            ApplicationUserId = "9c8bc288-57d6-46a7-9186-1e981fae3ebb",
+                            ApplicationUserId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
                             GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
                             PlayerState = 1
                         },
                         new
                         {
                             Id = 2,
-                            ApplicationUserId = "ccd8588c-7f7e-4aaf-bf50-e627fdaa8245",
+                            ApplicationUserId = "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc",
                             GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
                             PlayerState = 1
                         });

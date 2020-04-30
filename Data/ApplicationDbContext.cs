@@ -45,46 +45,50 @@ namespace BattleShips.Data
 
             ApplicationUser playerOne = new ApplicationUser
             {
-                UserName = "bobik",
+                UserName = "player1@pslib.cz",
                 PlayerName = "Player1",
                 Email = "player1@pslib.cz",
                 NormalizedEmail = "player1@pslib.cz".ToUpper(),
-                NormalizedUserName = "bobik".ToUpper(),
+                NormalizedUserName = "player1@pslib.cz".ToUpper(),
                 TwoFactorEnabled = false,
-                EmailConfirmed = true,
-                PhoneNumber = "123456789",
-                PhoneNumberConfirmed = false
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                PhoneNumberConfirmed = false,
+                 PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
             };
 
             ApplicationUser playerTwo = new ApplicationUser
             {
-                UserName = "bobik2",
+                UserName = "player2@pslib.cz",
                 PlayerName = "Player2",
                 Email = "player2@pslib.cz",
                 NormalizedEmail = "player2@pslib.cz".ToUpper(),
-                NormalizedUserName = "bobik2".ToUpper(),
+                NormalizedUserName = "player2@pslib.cz".ToUpper(),
                 TwoFactorEnabled = false,
-                EmailConfirmed = true,
-                PhoneNumber = "123456789",
-                PhoneNumberConfirmed = false
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                PhoneNumberConfirmed = false,
+                PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
             };
 
             ApplicationUser playerThree = new ApplicationUser
             {
-                UserName = "bobik3",
+                UserName = "player3@pslib.cz",
                 PlayerName = "Player3",
                 Email = "player3@pslib.cz",
                 NormalizedEmail = "player3@pslib.cz".ToUpper(),
-                NormalizedUserName = "bobik3".ToUpper(),
+                NormalizedUserName = "player3@pslib.cz".ToUpper(),
                 TwoFactorEnabled = false,
-                EmailConfirmed = true,
-                PhoneNumber = "123456789",
-                PhoneNumberConfirmed = false
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                PhoneNumberConfirmed = false,
+                PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
             };
-            PasswordHasher<ApplicationUser> ph = new PasswordHasher<ApplicationUser>();
-            playerOne.PasswordHash = ph.HashPassword(playerOne, "Lode123.");
-            playerTwo.PasswordHash = ph.HashPassword(playerTwo, "Lode123.");
-            playerThree.PasswordHash = ph.HashPassword(playerThree, "Lode123.");
+
+            //PasswordHasher<ApplicationUser> ph = new PasswordHasher<ApplicationUser>();
+            //playerOne.PasswordHash = ph.HashPassword(playerOne, "Lode123.");
+            //playerTwo.PasswordHash = ph.HashPassword(playerTwo, "Lode123.");
+            //playerThree.PasswordHash = ph.HashPassword(playerThree, "Lode123.");
 
             modelBuilder.Entity<ApplicationUser>().HasData(
                playerOne

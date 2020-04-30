@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BattleShips.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200428081530_HelpMeGodItBroke")]
-    partial class HelpMeGodItBroke
+    [Migration("20200430143204_InitialWithSeed")]
+    partial class InitialWithSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,145 @@ namespace BattleShips.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("BattleShips.Data.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PlayerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalPlayedGames")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "395c17c1-aa0c-434e-bfff-247e1082f3df",
+                            Email = "player1@pslib.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "PLAYER1@PSLIB.CZ",
+                            NormalizedUserName = "PLAYER1@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
+                            PhoneNumberConfirmed = false,
+                            PlayerName = "Player1",
+                            Score = 0,
+                            SecurityStamp = "f1bceb3f-f8b6-4f80-a0a0-d26addc4c25b",
+                            TotalPlayedGames = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "player1@pslib.cz",
+                            Wins = 0
+                        },
+                        new
+                        {
+                            Id = "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f33d8c04-13d1-4fde-8cb6-eb5097fa2cf8",
+                            Email = "player2@pslib.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "PLAYER2@PSLIB.CZ",
+                            NormalizedUserName = "PLAYER2@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
+                            PhoneNumberConfirmed = false,
+                            PlayerName = "Player2",
+                            Score = 0,
+                            SecurityStamp = "0420dca8-43a3-4d6d-89b7-f07d5caa551f",
+                            TotalPlayedGames = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "player2@pslib.cz",
+                            Wins = 0
+                        },
+                        new
+                        {
+                            Id = "69c92f5c-c923-4ab2-a189-7415e874422d",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "24f443ad-f474-489f-a66a-569724fe2906",
+                            Email = "player3@pslib.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "PLAYER3@PSLIB.CZ",
+                            NormalizedUserName = "PLAYER3@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
+                            PhoneNumberConfirmed = false,
+                            PlayerName = "Player3",
+                            Score = 0,
+                            SecurityStamp = "45142a14-9b1d-44a1-9a01-c9c6d2db794f",
+                            TotalPlayedGames = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "player3@pslib.cz",
+                            Wins = 0
+                        });
+                });
 
             modelBuilder.Entity("BattleShips.Data.Game", b =>
                 {
@@ -53,6 +192,28 @@ namespace BattleShips.Migrations
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Games");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"),
+                            CurrentPlayerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            GameRound = 0,
+                            GameSize = 2,
+                            GameState = 0,
+                            MaxPlayers = 2,
+                            OwnerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115"
+                        },
+                        new
+                        {
+                            Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
+                            CurrentPlayerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            GameRound = 0,
+                            GameSize = 2,
+                            GameState = 1,
+                            MaxPlayers = 2,
+                            OwnerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115"
+                        });
                 });
 
             modelBuilder.Entity("BattleShips.Data.NavyBattlePiece", b =>
@@ -87,6 +248,88 @@ namespace BattleShips.Migrations
                     b.HasIndex("UserGameId");
 
                     b.ToTable("NavyBattlePieces");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Hidden = true,
+                            PieceState = 1,
+                            PosX = 0,
+                            PosY = 0,
+                            TypeId = 1,
+                            UserGameId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Hidden = true,
+                            PieceState = 1,
+                            PosX = 1,
+                            PosY = 0,
+                            TypeId = 1,
+                            UserGameId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Hidden = true,
+                            PieceState = 0,
+                            PosX = 0,
+                            PosY = 1,
+                            TypeId = 1,
+                            UserGameId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Hidden = true,
+                            PieceState = 0,
+                            PosX = 1,
+                            PosY = 1,
+                            TypeId = 1,
+                            UserGameId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Hidden = true,
+                            PieceState = 0,
+                            PosX = 0,
+                            PosY = 0,
+                            TypeId = 1,
+                            UserGameId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Hidden = true,
+                            PieceState = 0,
+                            PosX = 1,
+                            PosY = 0,
+                            TypeId = 1,
+                            UserGameId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Hidden = true,
+                            PieceState = 1,
+                            PosX = 0,
+                            PosY = 1,
+                            TypeId = 1,
+                            UserGameId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Hidden = true,
+                            PieceState = 1,
+                            PosX = 1,
+                            PosY = 1,
+                            TypeId = 1,
+                            UserGameId = 2
+                        });
                 });
 
             modelBuilder.Entity("BattleShips.Data.Ship", b =>
@@ -109,62 +352,62 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Ponorka"
+                            Name = "Submarine"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Torpédoborec"
+                            Name = "Destroyer"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Křižník"
+                            Name = "Cruiser"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Bitevní loď"
+                            Name = "Battleship"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Letadlová loď"
+                            Name = "Aircraft carrier"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Přistávací základna"
+                            Name = "Landing base"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "Hydroplán"
+                            Name = "Hydro plane"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "Křižník II"
+                            Name = "Cruiser II"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "Těžký křižník"
+                            Name = "Heavy Cruiser"
                         },
                         new
                         {
                             Id = 10,
-                            Name = "Katamaran"
+                            Name = "Catamaran"
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Lehká bitevní loď"
+                            Name = "Light battleship"
                         },
                         new
                         {
                             Id = 12,
-                            Name = "Letadlová loď II"
+                            Name = "Aircraft carrier II"
                         });
                 });
 
@@ -214,6 +457,48 @@ namespace BattleShips.Migrations
                     b.HasIndex("ShipId");
 
                     b.ToTable("ShipPieces");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsMargin = false,
+                            PosX = 1,
+                            PosY = 1,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsMargin = true,
+                            PosX = 0,
+                            PosY = 1,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsMargin = true,
+                            PosX = 1,
+                            PosY = 0,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            IsMargin = true,
+                            PosX = 2,
+                            PosY = 1,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            IsMargin = true,
+                            PosX = 1,
+                            PosY = 2,
+                            ShipId = 1
+                        });
                 });
 
             modelBuilder.Entity("BattleShips.Data.ShipUser", b =>
@@ -261,6 +546,22 @@ namespace BattleShips.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("UserGames");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApplicationUserId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
+                            PlayerState = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApplicationUserId = "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc",
+                            GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
+                            PlayerState = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -312,77 +613,6 @@ namespace BattleShips.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(256)")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -469,27 +699,6 @@ namespace BattleShips.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BattleShips.Data.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("PlayerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalPlayedGames")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Wins")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
-                });
-
             modelBuilder.Entity("BattleShips.Data.Game", b =>
                 {
                     b.HasOne("BattleShips.Data.ApplicationUser", "CurrentPlayer")
@@ -536,7 +745,7 @@ namespace BattleShips.Migrations
             modelBuilder.Entity("BattleShips.Data.ShipPiece", b =>
                 {
                     b.HasOne("BattleShips.Data.Ship", "Ship")
-                        .WithMany()
+                        .WithMany("ShipPieces")
                         .HasForeignKey("ShipId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -581,7 +790,7 @@ namespace BattleShips.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -590,7 +799,7 @@ namespace BattleShips.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -605,7 +814,7 @@ namespace BattleShips.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -614,7 +823,7 @@ namespace BattleShips.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
