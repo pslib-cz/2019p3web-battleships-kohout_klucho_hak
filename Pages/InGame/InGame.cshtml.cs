@@ -15,7 +15,6 @@ namespace BattleShips
     public class InGameModel : PageModel
     {
         public Game Game { get; set; }
-        [TempData]
         public string FireResult { get; set; }
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
         public IList<UserGame> UserGames { get; set; }
