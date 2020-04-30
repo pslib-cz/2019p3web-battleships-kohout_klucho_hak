@@ -43,7 +43,7 @@ namespace BattleShips.Services
    
         }
 
-
+        
 
         #region Session for Active Game and Getting logged in User (Kohout)
         /// <summary>
