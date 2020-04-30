@@ -326,14 +326,14 @@ namespace BattleShips.Services
 
 
         #region IGameSetup (Klucho)
-        public bool CreateNewGame(string userId, int maxPlayers, int boardSize)
+        public bool CreateNewGame(string userId)
         {
             try
             {
                 Guid newGameId = Guid.NewGuid();
                 CurrentGameId = newGameId;
                 SaveGame("Game", newGameId);
-                var game = new Game() { OwnerId = userId, MaxPlayers = maxPlayers, GameSize = boardSize, Id = newGameId };
+                var game = new Game() { OwnerId = userId, MaxPlayers = 2, GameSize = 10, Id = newGameId };
                 _db.Games.Add(game);
                 _db.SaveChanges();
             }
@@ -344,14 +344,77 @@ namespace BattleShips.Services
             return true;
         }
 
-        public void CreateShipGames(Guid gameId, int shipId)
+        public void CreateShipGame(int? shipId)
         {
-            throw new NotImplementedException();
+            int shipIdx = shipId ?? default(int);
+            var shipGame = new ShipGame()
+            {
+                GameId = new Guid("c4ee36b9-67bb-4b79-ba0f-1f855b7a1325") /*TODO - VOJTA - CurrentGameId*/,
+                ShipId = shipIdx
+            };
+            _db.ShipGames.Add(shipGame);
+            _db.SaveChanges();
         }
+
+        public void DeleteShipGame(int shipGameId)
+        {
+            ShipGame shipGame = _db.ShipGames.Where(x => x.Id == shipGameId).FirstOrDefault();
+            _db.ShipGames.Remove(shipGame);
+            _db.SaveChanges();
+
+        }
+
+        private List<ShipGame> GetShipGamesWithRelatedData()
+        {
+            string userId = GetUserId();
+            return _db.ShipGames.Where(m => m.GameId == new Guid("c4ee36b9-67bb-4b79-ba0f-1f855b7a1325") /*TODO - VOJTA -  CurrentGameId*/)
+                .Include(m => m.Ship)
+                .ThenInclude(n => n.ShipPieces)
+                .AsNoTracking()
+                .ToList();
+        }
+
+        private List<NavyBattlePiece> ConvertToNavyBattlePiece(ICollection<ShipPiece> shipPieces)
+        {
+            List<NavyBattlePiece> result = new List<NavyBattlePiece>(); 
+            foreach(var piece in shipPieces)
+            {
+                NavyBattlePiece navyBattlePiece = new NavyBattlePiece() 
+                {
+                    PosX = piece.PosX,
+                    PosY = piece.PosY
+                };
+                result.Add(navyBattlePiece);
+            }
+            return result;
+        }
+
+        public IList<List<NavyBattlePiece>> GetChosenShips()
+        {
+            IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
+            List<ShipGame> shipGames = GetShipGamesWithRelatedData();
+            foreach(var shipGame in shipGames)
+            {
+                List<NavyBattlePiece> navyBattlePieces = new List<NavyBattlePiece>();
+                navyBattlePieces = ConvertToNavyBattlePiece(shipGame.Ship.ShipPieces);
+                result.Add(navyBattlePieces);
+            }
+            return result;
+        }
+
+        public void Setgame(int maxPlayers, int gameSize)
+        {
+            Game game = _db.Games.Where(x => x.Id == CurrentGameId).FirstOrDefault();
+            game.GameSize = gameSize;
+            game.MaxPlayers = maxPlayers;
+            _db.Games.Update(game);
+            _db.SaveChanges();
+        }
+
 
         public List<Ship> GetShips()
         {
-            return _db.Ships.ToList();
+            return _db.Ships.AsNoTracking().ToList();
         }
 
         //z ShipPiece udělat NavyBattlePiece
@@ -424,6 +487,12 @@ namespace BattleShips.Services
         {
             throw new NotImplementedException();
         }
+
+  
+
+
+
+
 
         //public ApplicationUser GetLoggedInUser()
         //{
