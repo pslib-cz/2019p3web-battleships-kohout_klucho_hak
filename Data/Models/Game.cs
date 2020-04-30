@@ -21,6 +21,7 @@ namespace BattleShips.Data
         [Range(0, 20, ErrorMessage = "Please enter valid size of game board!")]
         public int GameSize { get; set; }
         public int GameRound { get; set; }
+        public int UserRound { get; set; }
         [Required]
         public string OwnerId { get; set; }
 

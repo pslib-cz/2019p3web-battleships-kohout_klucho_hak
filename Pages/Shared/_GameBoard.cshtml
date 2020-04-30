@@ -15,16 +15,23 @@
                 <tr style="height:30px;">
                     @foreach (NavyBattlePiece navyBattlePiece in row)
                     {
-                        if (navyBattlePiece.PieceState == PieceState.HittedShip)
+                        if (navyBattlePiece.PieceState == PieceState.HitShip)
                         {
                             <td class="table-dark">
                                 <p>x: @navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id">click </a>
                             </td>
                         }
-                        else if (navyBattlePiece.PieceState == PieceState.HittedWater)
+                        else if (navyBattlePiece.PieceState == PieceState.HitWater)
                         {
                             <td class="table-primary">
+                                <p>x:@navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
+                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
+                            </td>
+                        }
+                        else if (navyBattlePiece.PieceState == PieceState.Margin)
+                        {
+                            <td class="table-secondary">
                                 <p>x:@navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
                             </td>
@@ -42,7 +49,10 @@
 
         </tbody>
     </table>
-     <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.UserGame.ApplicationUser.PlayerName</p>
+    @if (Model.UserGame != null)
+    {
+        <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.UserGame.ApplicationUser.PlayerName</p>
+    }
+
 </div>
-<div>
-</div>
+

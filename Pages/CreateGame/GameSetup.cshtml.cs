@@ -46,7 +46,7 @@ namespace BattleShips
             ChosenShips = _igamesetup.GetChosenShips();
 
 
-            //inicialization of All gameboards for every player in the given game.
+            //inicialization of All gameboards for every choosen ship
             foreach (var listOfPieces in ChosenShips)
             {
                 GameBoardData newBoard = new GameBoardData(listOfPieces, null, "GameSetup");

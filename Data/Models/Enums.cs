@@ -16,8 +16,8 @@ namespace BattleShips.Data
     {
         Water,
         Ship,
-        HittedWater,
-        HittedShip,
+        HitWater,
+        HitShip,
         Margin
     }
 

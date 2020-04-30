@@ -12,7 +12,6 @@ namespace BattleShips.ViewModels
     /// </summary>
     public class GameBoardData
     {
-        //TODO pagehandlery, page kam budou a hrefy mířit
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
         public Game Game { get; set; }
         public UserGame UserGame { get; set; }
@@ -21,8 +20,12 @@ namespace BattleShips.ViewModels
        
         public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, string pageHandler = "InGame")
         {
-            UserGame = userGame;
-            Game = userGame.Game;
+            if(userGame!=null)
+            {
+                UserGame = userGame;
+                Game = userGame.Game;
+            }
+           
             NavyBattlePieces = navyBattlePieces;
             PageHandler = pageHandler;
         }
@@ -35,17 +38,26 @@ namespace BattleShips.ViewModels
         public IEnumerable<IEnumerable<NavyBattlePiece>> MakeGameBoard(IList<NavyBattlePiece> navyBattlePieces)
         {
             IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
-
-            //TODO - Srovnat pro vypsání jako 2D IEnumerable
+            IList<NavyBattlePiece> sortednavyBattlePieces = navyBattlePieces.OrderBy(m => m.PosY).ThenBy(m => m.PosX).ToList();
 
             int index = 0;
-            for (int row = 0; row < Game.GameSize; row++)
+            int rowsNumber = 0;
+            if (Game == null)
+            {
+                rowsNumber = Convert.ToInt32(Math.Sqrt(sortednavyBattlePieces.Count())); //In the case of GameSetup.
+            }
+            else
+            {
+                rowsNumber = Game.GameSize;
+            }
+
+            for (int row = 0; row < rowsNumber; row++)
             {
                 List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
                 
-                for (int piece = 0; piece < Game.GameSize; piece++)
+                for (int piece = 0; piece < rowsNumber; piece++)
                 {
-                    NavyBattlePiece currentPiece = navyBattlePieces.ElementAt(index);
+                    NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
                     resultRow.Add(currentPiece);
                     index++;
                 }

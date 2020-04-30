@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BattleShips.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200430143204_InitialWithSeed")]
+    [Migration("20200430160948_InitialWithSeed")]
     partial class InitialWithSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,9 +100,9 @@ namespace BattleShips.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            Id = "eeae3311-0842-45b5-91bb-fb677e2d7386",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "395c17c1-aa0c-434e-bfff-247e1082f3df",
+                            ConcurrencyStamp = "e79d3991-7134-42c6-bf74-58ba99fee882",
                             Email = "player1@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
@@ -112,7 +112,7 @@ namespace BattleShips.Migrations
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player1",
                             Score = 0,
-                            SecurityStamp = "f1bceb3f-f8b6-4f80-a0a0-d26addc4c25b",
+                            SecurityStamp = "cfffb463-4fd1-405f-8344-5b566e70da84",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
                             UserName = "player1@pslib.cz",
@@ -120,9 +120,9 @@ namespace BattleShips.Migrations
                         },
                         new
                         {
-                            Id = "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc",
+                            Id = "466a7bbe-bdf7-4e64-9353-a5dbd62f05bd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f33d8c04-13d1-4fde-8cb6-eb5097fa2cf8",
+                            ConcurrencyStamp = "8eecb61a-69c9-464f-887a-1fe9c326293b",
                             Email = "player2@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
@@ -132,7 +132,7 @@ namespace BattleShips.Migrations
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player2",
                             Score = 0,
-                            SecurityStamp = "0420dca8-43a3-4d6d-89b7-f07d5caa551f",
+                            SecurityStamp = "bf537d4f-b412-4d31-866d-3f0ef9d7b2bf",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
                             UserName = "player2@pslib.cz",
@@ -140,9 +140,9 @@ namespace BattleShips.Migrations
                         },
                         new
                         {
-                            Id = "69c92f5c-c923-4ab2-a189-7415e874422d",
+                            Id = "4d66766e-e8b1-4c84-9d32-1dae1c8b2395",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "24f443ad-f474-489f-a66a-569724fe2906",
+                            ConcurrencyStamp = "a2988de6-0e64-45b6-954c-dc3cdb7d1833",
                             Email = "player3@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
@@ -152,7 +152,7 @@ namespace BattleShips.Migrations
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player3",
                             Score = 0,
-                            SecurityStamp = "45142a14-9b1d-44a1-9a01-c9c6d2db794f",
+                            SecurityStamp = "6f063d76-1315-4266-8082-71daa29a8860",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
                             UserName = "player3@pslib.cz",
@@ -185,6 +185,9 @@ namespace BattleShips.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("UserRound")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentPlayerId");
@@ -197,22 +200,24 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"),
-                            CurrentPlayerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            CurrentPlayerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 0,
                             MaxPlayers = 2,
-                            OwnerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115"
+                            OwnerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            UserRound = 0
                         },
                         new
                         {
                             Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
-                            CurrentPlayerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            CurrentPlayerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 1,
                             MaxPlayers = 2,
-                            OwnerId = "f7e052d0-18f7-4128-bb37-2bb2fd523115"
+                            OwnerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            UserRound = 0
                         });
                 });
 
@@ -440,8 +445,8 @@ namespace BattleShips.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsMargin")
-                        .HasColumnType("bit");
+                    b.Property<int>("PieceState")
+                        .HasColumnType("int");
 
                     b.Property<int>("PosX")
                         .HasColumnType("int");
@@ -462,7 +467,7 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
-                            IsMargin = false,
+                            PieceState = 3,
                             PosX = 1,
                             PosY = 1,
                             ShipId = 1
@@ -470,7 +475,7 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 2,
-                            IsMargin = true,
+                            PieceState = 4,
                             PosX = 0,
                             PosY = 1,
                             ShipId = 1
@@ -478,7 +483,7 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 3,
-                            IsMargin = true,
+                            PieceState = 4,
                             PosX = 1,
                             PosY = 0,
                             ShipId = 1
@@ -486,7 +491,7 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 4,
-                            IsMargin = true,
+                            PieceState = 4,
                             PosX = 2,
                             PosY = 1,
                             ShipId = 1
@@ -494,8 +499,40 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 5,
-                            IsMargin = true,
+                            PieceState = 4,
                             PosX = 1,
+                            PosY = 2,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            PieceState = 2,
+                            PosX = 0,
+                            PosY = 0,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            PieceState = 2,
+                            PosX = 2,
+                            PosY = 0,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            PieceState = 2,
+                            PosX = 0,
+                            PosY = 2,
+                            ShipId = 1
+                        },
+                        new
+                        {
+                            Id = 9,
+                            PieceState = 2,
+                            PosX = 2,
                             PosY = 2,
                             ShipId = 1
                         });
@@ -551,14 +588,14 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
-                            ApplicationUserId = "f7e052d0-18f7-4128-bb37-2bb2fd523115",
+                            ApplicationUserId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
                             GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
                             PlayerState = 1
                         },
                         new
                         {
                             Id = 2,
-                            ApplicationUserId = "fbd63c49-abbc-4323-ba42-fa7aa00fdcdc",
+                            ApplicationUserId = "466a7bbe-bdf7-4e64-9353-a5dbd62f05bd",
                             GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
                             PlayerState = 1
                         });

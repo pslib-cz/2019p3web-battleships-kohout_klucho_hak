@@ -23,6 +23,6 @@ namespace BattleShips.Data
         [Range(0, 20)]
         public int PosY { get; set; }
 
-        public bool IsMargin { get; set; }
+        public PieceState PieceState {get; set;}
     }
 }

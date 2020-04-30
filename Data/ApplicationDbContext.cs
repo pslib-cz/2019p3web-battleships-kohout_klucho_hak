@@ -226,13 +226,14 @@ namespace BattleShips.Data
                 Hidden = true
             });
 
+           
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
                 Id = 1,
                 PosX = 1,
                 PosY = 1,
                 ShipId = 1,
-                IsMargin = false
+                PieceState = PieceState.HitShip
             }) ;
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
@@ -240,7 +241,7 @@ namespace BattleShips.Data
                 PosX = 0,
                 PosY = 1,
                 ShipId = 1,
-                IsMargin = true
+                PieceState = PieceState.Margin
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
@@ -248,7 +249,7 @@ namespace BattleShips.Data
                 PosX = 1,
                 PosY = 0,
                 ShipId = 1,
-                IsMargin = true
+                PieceState = PieceState.Margin
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
@@ -256,7 +257,7 @@ namespace BattleShips.Data
                 PosX = 2,
                 PosY = 1,
                 ShipId = 1,
-                IsMargin = true
+                PieceState = PieceState.Margin
             });
 
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
@@ -265,7 +266,39 @@ namespace BattleShips.Data
                 PosX = 1,
                 PosY = 2,
                 ShipId = 1,
-                IsMargin = true
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 6,
+                PosX = 0,
+                PosY = 0,
+                ShipId = 1,
+                PieceState = PieceState.HitWater
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 7,
+                PosX = 2,
+                PosY = 0,
+                ShipId = 1,
+                PieceState = PieceState.HitWater
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 8,
+                PosX = 0,
+                PosY = 2,
+                ShipId = 1,
+                PieceState = PieceState.HitWater
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 9,
+                PosX = 2,
+                PosY = 2,
+                ShipId = 1,
+                PieceState = PieceState.HitWater
             });
         }
     }

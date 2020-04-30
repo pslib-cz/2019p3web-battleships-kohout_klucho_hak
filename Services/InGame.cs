@@ -17,15 +17,15 @@ namespace BattleShips.Services
     /// </summary>
     public class InGame : IGameSetup, IGameBattle, ISiteFunctionality, IShipPlacement
     {
-        //TODO Robert smazat migrace vytvořené pro SQL server a udělat nové
-        //TODO Robert vytvořít Seed.cshtml, kde se naseedují základní data, ships, ship pieces, nějací uživatelé, game, usergames, navybattlepieces (minimální data pro otestování hry, založení hry)
+      
+        
         //TODO Robert podle tutorialu dodělá identity, vytvořit admin a normální user
         //TODO Robert GameList, Index
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
         //TODO Vojta nastavit tvůrce hry jako Activního hráče ve hře.
         //TODO upozornění
-        //TODO - Firing functional. It just needs design, one more check if user can still fire when there are more than 2 players. Refreshing page or somehow differently display TempData messages without nedd of reloading site.
+        //TODO - Firing functional. It just needs design. And solve updateRange problem, for saving losers.
 
 
 
@@ -103,7 +103,7 @@ namespace BattleShips.Services
         public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
             IList<NavyBattlePiece> output;
-            output = _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).OrderBy(m => m.PosY).ThenBy(m => m.PosX).AsNoTracking().ToList();
+            output = _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
        
             return output;
         }
@@ -114,7 +114,7 @@ namespace BattleShips.Services
         //Fires at piece.
         public string Fire(int? pieceId)
         {
-            string resultOfFiring = "Somenthing went wrong. :(";
+            string resultOfFiring = "Somenthing went wrong :( Try Again.";
             if (pieceId == null)
             {
                 return "Somenthing went wrong, I did not get any piece to fire at. :(";
@@ -135,6 +135,7 @@ namespace BattleShips.Services
             UserGame firingUserGame = _db.UserGames.Where(u => u.ApplicationUserId == activeUserId)
                 .Include(u => u.Game)
                 .AsNoTracking().SingleOrDefault();
+        
             //Checks if game isnt already done.
             if (activeGame.GameState == GameState.Ended)
             {
@@ -151,36 +152,30 @@ namespace BattleShips.Services
                 return "You can not fire at your own piece!";
             }
             //Checks if the game piece isnt already hit.
-            if (firedAtPiece.PieceState == PieceState.HittedShip || firedAtPiece.PieceState == PieceState.HittedWater)
+            if (firedAtPiece.PieceState == PieceState.HitShip || firedAtPiece.PieceState == PieceState.HitWater)
             {
                 return "You have already fired at that piece!";
             }
           
-
+          
+            //Fire :)
             PieceState newState;
-            switch (firedAtPiece.PieceState)
+            if(firedAtPiece.PieceState == PieceState.Water)
             {
-
-                case PieceState.Water:
-                    newState = PieceState.HittedWater;
-                    resultOfFiring = "Splash!";
-                    break;
-                case PieceState.Ship:
-                    newState = PieceState.HittedShip;
-                    break;
-                case PieceState.Margin:
-                    newState = PieceState.HittedWater;
-                    break;
-
-                default:
-                    newState = firedAtPiece.PieceState;
-                    break;
+                newState = PieceState.HitWater;
+                resultOfFiring = "Splash!";
+            }
+            else
+            {
+                newState = PieceState.HitShip;
             }
             firedAtPiece.PieceState = newState;
+            _db.NavyBattlePieces.Update(firedAtPiece);
+            
 
 
             //If usergame hits ship check if there is any navybattlepiece of ship left on his board.
-            if (newState == PieceState.HittedShip)
+            if (newState == PieceState.HitShip)
             {
                 //Gets UserGame whose ship has been hit.
                 UserGame hittedUserGame = _db.UserGames.Where(u => u.Id == firedAtPiece.UserGameId)
@@ -232,26 +227,31 @@ namespace BattleShips.Services
         /// <param name="firedInGame"></param>
         private void ContinueGame(Game firedInGame, UserGame firingUserGame)
         {
+            firedInGame.UserRound++;
             //new user game firing
             List<UserGame> listUserGames = _db.UserGames.Where(u => u.GameId == firedInGame.Id).OrderBy(u => u.Id).ToList();
-            UserGame nextPlayer = new UserGame();
-
-            int index = listUserGames.FindIndex(u => u.Id == firingUserGame.Id);//Gets index of user game that is currently plaing
-
-            //Populate next player if index not outOFRange
-            if (index + 1 < listUserGames.Count())
+            //Checks if user fired at every enemy (Needed for more than 2 players)
+            if (firedInGame.UserRound >= listUserGames.Count() - 1)
             {
-                nextPlayer = listUserGames[index + 1];
-            }
-            //Next round
-            else
-            {
-                nextPlayer = listUserGames[0];
-            }
+                UserGame nextPlayer = new UserGame();
 
+                int index = listUserGames.FindIndex(u => u.Id == firingUserGame.Id);//Gets index of user game that is currently plaing
 
+                //Populate next player if index not outOFRange
+                if (index + 1 < listUserGames.Count())
+                {
+                    nextPlayer = listUserGames[index + 1];
+                }
+                //Next round
+                else
+                {
+                    nextPlayer = listUserGames[0];
+                }
+                firedInGame.CurrentPlayerId = nextPlayer.ApplicationUserId;
+                firedInGame.UserRound = 0;
+            }
+               
             firedInGame.GameRound++;
-            firedInGame.CurrentPlayerId = nextPlayer.ApplicationUserId;
             _db.Games.Update(firedInGame);
             // _db.SaveChanges();
         }
@@ -349,7 +349,7 @@ namespace BattleShips.Services
             int shipIdx = shipId ?? default(int);
             var shipGame = new ShipGame()
             {
-                GameId = new Guid("c4ee36b9-67bb-4b79-ba0f-1f855b7a1325") /*TODO - VOJTA - CurrentGameId*/,
+                GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA - CurrentGameId*/,
                 ShipId = shipIdx
             };
             _db.ShipGames.Add(shipGame);
@@ -367,7 +367,7 @@ namespace BattleShips.Services
         private List<ShipGame> GetShipGamesWithRelatedData()
         {
             string userId = GetUserId();
-            return _db.ShipGames.Where(m => m.GameId == new Guid("c4ee36b9-67bb-4b79-ba0f-1f855b7a1325") /*TODO - VOJTA -  CurrentGameId*/)
+            return _db.ShipGames.Where(m => m.GameId == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA -  CurrentGameId*/)
                 .Include(m => m.Ship)
                 .ThenInclude(n => n.ShipPieces)
                 .AsNoTracking()
@@ -382,7 +382,8 @@ namespace BattleShips.Services
                 NavyBattlePiece navyBattlePiece = new NavyBattlePiece() 
                 {
                     PosX = piece.PosX,
-                    PosY = piece.PosY
+                    PosY = piece.PosY,
+                    PieceState = piece.PieceState
                 };
                 result.Add(navyBattlePiece);
             }
@@ -404,7 +405,7 @@ namespace BattleShips.Services
 
         public void Setgame(int maxPlayers, int gameSize)
         {
-            Game game = _db.Games.Where(x => x.Id == CurrentGameId).FirstOrDefault();
+            Game game = _db.Games.Where(x => x.Id == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")/*CurrentGameId*/).FirstOrDefault();
             game.GameSize = gameSize;
             game.MaxPlayers = maxPlayers;
             _db.Games.Update(game);

@@ -39,7 +39,6 @@ namespace BattleShips
          
             }  
 
-            
             //inicialization of All gameboards for every player in the given game.
             for (int board = 0; board < UserGames.Count(); board++)
             {
