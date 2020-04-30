@@ -30,6 +30,7 @@ namespace BattleShips.Services
 
 
         private readonly ApplicationDbContext _db;
+    
         private readonly ISession _session;
         private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;
         public Guid CurrentGameId { get; private set; }
@@ -39,6 +40,7 @@ namespace BattleShips.Services
             _session = hca.HttpContext.Session;
             _hca = hca;
             CurrentGameId = LoadGame("Game");
+   
         }
 
 
@@ -100,7 +102,10 @@ namespace BattleShips.Services
         //Returns IList of NavyBattlePieces based on UserGame Id.
         public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
-            return _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
+            IList<NavyBattlePiece> output;
+            output = _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).OrderBy(m => m.PosY).ThenBy(m => m.PosX).AsNoTracking().ToList();
+       
+            return output;
         }
 
 
@@ -140,16 +145,17 @@ namespace BattleShips.Services
             {
                 return "It is not your turn.";
             }
-            //Checks if the game piece isnt already hit.
-            if (firedAtPiece.PieceState == PieceState.HittedShip || firedAtPiece.PieceState == PieceState.HittedWater)
-            {
-                return "You have already fired at that piece!";
-            }
             //Checks if user is not trying to fire at his own piece.
             if (firedAtPiece.UserGameId == firingUserGame.Id)
             {
                 return "You can not fire at your own piece!";
             }
+            //Checks if the game piece isnt already hit.
+            if (firedAtPiece.PieceState == PieceState.HittedShip || firedAtPiece.PieceState == PieceState.HittedWater)
+            {
+                return "You have already fired at that piece!";
+            }
+          
 
             PieceState newState;
             switch (firedAtPiece.PieceState)
@@ -299,11 +305,13 @@ namespace BattleShips.Services
                 _db.UserGames.Update(winnerUserGame);
 
                 _db.ApplicationUsers.Update(winnerAplicationUser);
+            
                 //TODO - Save loserApplicationUser to database
-                //_db.ApplicationUsers.UpdateRange(loserApplicationUsers);
+                //_dbUR.ApplicationUsers.UpdateRange(loserApplicationUsers);
                 //https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext
-                //using (var context = new ApplicationDbContext())
+                //using (var context = _dbUR)
                 //{
+
                 //    context.ApplicationUsers.UpdateRange(loserApplicationUsers);
                 //    context.SaveChanges();
                 //}

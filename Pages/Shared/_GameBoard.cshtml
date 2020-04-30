@@ -18,21 +18,21 @@
                         if (navyBattlePiece.PieceState == PieceState.HittedShip)
                         {
                             <td class="table-dark">
-                                <p>@navyBattlePiece.PosX</p><p>@navyBattlePiece.PosY</p>
+                                <p>x: @navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id">click </a>
                             </td>
                         }
                         else if (navyBattlePiece.PieceState == PieceState.HittedWater)
                         {
                             <td class="table-primary">
-                                <p>@navyBattlePiece.PosX</p><p>@navyBattlePiece.PosY</p>
+                                <p>x:@navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
                             </td>
                         }
                         else
                         {
                             <td>
-                                <p>@navyBattlePiece.PosX</p><p>@navyBattlePiece.PosY</p>
+                                <p>x: @navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
                             </td>
                         }

@@ -37,6 +37,7 @@ namespace BattleShips
             if (id != null)
             {
                 FireResult = _gameBattle.Fire(id);
+         
             }  
 
             
@@ -49,6 +50,8 @@ namespace BattleShips
             }
         
         }
+
+       
 
     }
 }
