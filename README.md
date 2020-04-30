@@ -23,4 +23,4 @@
 ## DATABÁZE
 
 ### Schema databáze pro hru
-![Database Kohout_Klucho_HakLode](https://github.com/pslib-cz/2019p3web-battleships-kohout_klucho_hak/blob/master/wwwroot/Images/Database.jpg)
+![Database Kohout_Klucho_HakLode](https://github.com/pslib-cz/2019p3web-battleships-kohout_klucho_hak/blob/master/wwwroot/Images/BattleshipsDBDiagram.png)
