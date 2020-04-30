@@ -19,7 +19,7 @@ namespace BattleShips.ViewModels
         public string PageHandler { get; set; } 
 
        
-        public GameBoardData(UserGame userGame, IList<NavyBattlePiece> navyBattlePieces, string pageHandler = "InGame")
+        public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, string pageHandler = "InGame")
         {
             UserGame = userGame;
             Game = userGame.Game;

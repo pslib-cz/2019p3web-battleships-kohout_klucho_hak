@@ -4,33 +4,45 @@
     ViewData["Title"] = "GameSetup";
 }
 
-<h3>Board Size</h3>
-<div class="form-group">
-    @*TODO - boardSize*@
-    <select asp-for="@Model.boardSize" class="form-control" id="exampleSelect">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
+<h3>Number of Players</h3>
+<form id="gameform" method="post" asp-page-handler="setgame">
+    <div class="form-group">
+        <select name="maxPlayers" asp-for="@Model.MaxPlayers" class="form-control" id="exampleSelect">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
 
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
 
-        <option value="11">11</option>
-        <option value="12">12</option>
-        <option value="13">13</option>
-        <option value="14">14</option>
-        <option value="15">15</option>
-    </select>
-</div>
+    <h3>Board Size</h3>
+    <div class="form-group">
+        @*TODO - boardSize*@
+        <select name="gameSize" asp-for="@Model.GameSize" class="form-control" id="exampleSelect">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+        </select>
+    </div>
+</form>
+
 
 <h3>Types of Ships</h3>
-
-
 @*TODO - vykreslení lodí přes foreach*@
 @*pocet lodi - pres button, pri kliknuti +1 ponorka*@
 
@@ -47,7 +59,9 @@
         {
             <tr>
                 <th>
-                    <input class="radiobtn" type="checkbox" id="ponorka" value="option1">
+                    <a asp-page="GameSetup" asp-route-Id="@item.Id" class="btn btn-primary">Add</a>
+
+                    @*<input class="radiobtn" type="checkbox" id="ponorka" value="option1">*@
                 </th>
                 <th>
                     @item.Name
@@ -60,8 +74,14 @@
     </tbody>
 </table>
 
+@foreach (var gameBoard in Model.GameBoards)
+{
+    <partial name="_GameBoard" model="gameBoard" />
+}
 
-<a asp-page="./ShipPlacement" class="btn btn-primary">Start Ship Placement</a>
+<button type="submit" form="gameform" class="btn btn-primary">
+    Start Ship Placement
+</button>
 
 
 

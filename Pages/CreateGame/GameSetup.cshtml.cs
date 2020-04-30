@@ -12,27 +12,53 @@ namespace BattleShips
 {
     public class GameSetupModel : PageModel
     {
-        public ApplicationDbContext _db;
+  
 
         public IGameSetup _igamesetup;
 
         public ShipViewModel Ship { get; set; }
-        public int boardSize { get; set; }
+        public int GameSize { get; set; }
+        public int MaxPlayers { get; set; }
         public List<Ship> SetupShips { get; set; }
+        IList<List<NavyBattlePiece>> ChosenShips { get; set; }
+
+        public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
 
 
-        public GameSetupModel(ApplicationDbContext db, IGameSetup igamesetup)
+
+        public GameSetupModel(IGameSetup igamesetup)
         {
-            _db = db;
+      
             _igamesetup = igamesetup;
         }
 
       
-
-        public void OnGet()
+        //při načtení stránky
+        public void OnGet(int? id)
         {
             SetupShips = new List<Ship>();
             SetupShips = _igamesetup.GetShips();
+            if (id!= null)
+            {
+                _igamesetup.CreateShipGame(id);
+            }
+
+            ChosenShips = _igamesetup.GetChosenShips();
+
+
+            //inicialization of All gameboards for every player in the given game.
+            foreach (var listOfPieces in ChosenShips)
+            {
+                GameBoardData newBoard = new GameBoardData(listOfPieces, null, "GameSetup");
+                GameBoards.Add(newBoard);
+            }
+        }
+
+        //ukládání dat
+        public IActionResult OnPostSetGame(int maxPlayers, int gameSize)
+        {
+            _igamesetup.Setgame(maxPlayers, gameSize);
+            return RedirectToPage("./ShipPlacement");
         }
 
     }
