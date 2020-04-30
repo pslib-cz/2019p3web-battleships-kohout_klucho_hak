@@ -57,7 +57,7 @@ namespace BattleShips.Services
             //if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             //return result;
             //TODO - Use actual method instead placeholder for develompent 
-            Guid currentGameId = new Guid("b9841419-f01f-402a-9e39-4c77321321e9");
+            Guid currentGameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e");
             return currentGameId;
         }
 

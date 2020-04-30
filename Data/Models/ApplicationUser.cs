@@ -9,8 +9,7 @@ namespace BattleShips.Data
 {
     public class ApplicationUser : IdentityUser
     {
-        [Required]
-        [MaxLength(20)]
+       
         public string PlayerName { get; set; }
 
         public int Score { get; set; } 
