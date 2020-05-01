@@ -33,21 +33,26 @@
                 @foreach (var item in Model.UsersGames)
                 {
                     <tr>
-                    <td>@item.GameState</td>
-                    <td>@item.GameRound</td>
-                    <td>@item.Owner.UserName</td>
-                    <td>@item.CurrentPlayer.UserName</td>
-                    <td>
-                        <form method="post" asp-page-handler="playgame">
-                            <button class="btn btn-primary">Play</button>
-                            <input type="hidden" name="id" value="@item.Id" />
-                        </form>
-                    </td>
-                    @if (Model.UserId == item.OwnerId)
-                    {
-                        <td><a asp-page="GameList" asp-route-Id="@item.Id" class="btn btn-danger">Delete</a></td>
+                        <td>@item.GameState</td>
+                        <td>@item.GameRound</td>
+                        <td>@item.Owner.UserName</td>
+                        <td>@item.CurrentPlayer.UserName</td>
+                        <td>
+                            <form method="post" asp-page-handler="playgame">
+                                <button class="btn btn-primary">Play</button>
+                                <input type="hidden" name="id" value="@item.Id" />
+                            </form>
+                        </td>
+                        @if (Model.UserId == item.OwnerId)
+                        {
+                            <td>
+                                <form method="post" asp-page-handler="removegame">
+                                    <button class="btn btn-danger">Delete</button>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </form>
+                            </td>
 
-                    }
+                        }
 
                     </tr>
                 }
@@ -73,18 +78,18 @@
             <tbody>
                 @foreach (var item in Model.OtherGames)
                 {
-                <tr>
-                    <td>@item.GameState</td>
-                    <td>@item.GameRound</td>
-                    <td>@item.Owner.UserName</td>
-                    <td>@item.CurrentPlayer.UserName</td>
-                    <td>
-                        <form method="post" asp-page-handler="joinshipplacement">
-                            <button class="btn btn-primary">Join</button>
-                            <input type="hidden" name="id" value="@item.Id" />
-                        </form>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@item.GameState</td>
+                        <td>@item.GameRound</td>
+                        <td>@item.Owner.UserName</td>
+                        <td>@item.CurrentPlayer.UserName</td>
+                        <td>
+                            <form method="post" asp-page-handler="joinshipplacement">
+                                <button class="btn btn-primary">Join</button>
+                                <input type="hidden" name="id" value="@item.Id" />
+                            </form>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

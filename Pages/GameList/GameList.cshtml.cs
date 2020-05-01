@@ -39,7 +39,7 @@ namespace BattleShips
             UserId = _siteFunctionality.GetUserId();
         }
 
-        public IActionResult OnGetRemove(Guid id)
+        public IActionResult OnPostRemoveGame(Guid id)
         {
             bool result = _siteFunctionality.RemoveGame(id);
             if (result)
