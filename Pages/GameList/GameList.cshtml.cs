@@ -57,12 +57,12 @@ namespace BattleShips
         public IActionResult OnPostJoinShiplacement(Guid id)
         {
             _siteFunctionality.SaveGame("Game", id);
-            return RedirectToPage("./CreateGame/ShipPlacement");
+            return RedirectToPage("../CreateGame/ShipPlacement");
         }
         public IActionResult OnPostPlayGame(Guid id)
         {
             _siteFunctionality.SaveGame("Game", id);
-            return RedirectToPage("./InGame/InGame");
+            return RedirectToPage("../InGame/InGame");
         }
     }
 }
