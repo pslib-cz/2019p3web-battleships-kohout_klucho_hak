@@ -491,7 +491,10 @@ namespace BattleShips.Services
         public IList<Game> GetUsersGames()
         {
             string userId = GetUserId();
-            IList<UserGame> userGames =  _db.UserGames.Where(o => o.ApplicationUserId == userId).Include(o => o.Game).AsNoTracking().ToList();
+            IList<UserGame> userGames =  _db.UserGames.Where(o => o.ApplicationUserId == userId)
+                .Include(o => o.Game).ThenInclude( s => s.CurrentPlayer)
+                .Include(o => o.Game).ThenInclude( s => s.Owner)
+                .AsNoTracking().ToList();
             IList<Game> games = new List<Game>();
             foreach(var item in userGames)
             {
@@ -508,7 +511,10 @@ namespace BattleShips.Services
 
         public IList<Game> GetOtherGames()
         {
-            return _db.Games.Where(o => o.GameState == GameState.Setup).AsNoTracking().ToList();
+            return _db.Games.Where(o => o.GameState == GameState.Setup)
+                .Include( o => o.Owner)
+                .Include( o => o.CurrentPlayer)
+                .AsNoTracking().ToList();
         }
 
 
