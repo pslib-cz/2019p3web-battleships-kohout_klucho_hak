@@ -13,16 +13,31 @@ namespace BattleShips.Services
     {
 
 
-        public void RemoveGame(Guid gameId);
-        public void RemoveUser(string userId);
+        bool RemoveGame(Guid gameId);
+        void RemoveUser(string userId);
 
         /// <summary>
-        /// games = list her do Pages/GameList
+        /// Gets the users Games
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns>list</returns>
-        IList<Game> GetGames(string userId);
+        /// <returns></returns>
+        IList<Game> GetUsersGames();
         IList<ApplicationUser> UsersByScore();
         //public ApplicationUser GetLoggedInUser();
+        /// <summary>
+        /// Gets the rest of the joinable games
+        /// </summary>
+        /// <returns></returns>
+        IList<Game> GetOtherGames();
+        /// <summary>
+        /// gets logged in users id
+        /// </summary>
+        /// <returns></returns>
+        string GetUserId();
+        /// <summary>
+        /// guid = game id
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="guid"></param>
+        void SaveGame(string key, Guid guid);
     }
 }

@@ -21,14 +21,34 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th></th>                
+                    <th>Game State</th>
+                    <th>Round</th>
+                    <th>Owner</th>
+                    <th>Current player</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Games)
+                @foreach (var item in Model.UsersGames)
                 {
                     <tr>
-                        <td>@item.GameState</td>
+                    <td>@item.GameState</td>
+                    <td>@item.GameRound</td>
+                    <td>@item.Owner.UserName</td>
+                    <td>@item.CurrentPlayer.UserName</td>
+                    <td>
+                        <form method="post" asp-page-handler="playgame">
+                            <button class="btn btn-primary">Play</button>
+                            <input type="hidden" name="id" value="@item.Id" />
+                        </form>
+                    </td>
+                    @if (Model.UserId == item.OwnerId)
+                    {
+                        <td><a asp-page="GameList" asp-route-Id="@item.Id" class="btn btn-danger">Delete</a></td>
+
+                    }
+
                     </tr>
                 }
             </tbody>
@@ -43,25 +63,29 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(m => m.GameLists[0].GameCreatedAt)</th>
-                    <th>@Html.DisplayNameFor(m => m.GameLists[0].GameState)</th>
-                    <th>@Html.DisplayNameFor(m => m.GameLists[0].Player1)</th>
-                    <th>@Html.DisplayNameFor(m => m.GameLists[0].Player2)</th>
-            
+                    <th>Game State</th>
+                    <th>Round</th>
+                    <th>Owner</th>
+                    <th>Current player</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.GameLists)
+                @foreach (var item in Model.OtherGames)
                 {
-                    <tr>
-                        <td>@item.GameCreatedAt</td>
-                        <td>@item.GameState</td>
-                        <td>@item.Player1</td>
-                        <td>@item.Player2</td>
-                     
-                    </tr>
+                <tr>
+                    <td>@item.GameState</td>
+                    <td>@item.GameRound</td>
+                    <td>@item.Owner.UserName</td>
+                    <td>@item.CurrentPlayer.UserName</td>
+                    <td>
+                        <form method="post" asp-page-handler="joinshipplacement">
+                            <button class="btn btn-primary">Join</button>
+                            <input type="hidden" name="id" value="@item.Id" />
+                        </form>
+                    </td>
+                </tr>
                 }
-
             </tbody>
         </table>
     </div>

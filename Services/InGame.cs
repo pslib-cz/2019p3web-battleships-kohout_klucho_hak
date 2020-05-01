@@ -66,7 +66,7 @@ namespace BattleShips.Services
         /// </summary>
         /// <param name="key"></param>
         /// <param name="guid"></param>
-        private void SaveGame(string key, Guid guid)
+        public void SaveGame(string key, Guid guid)
         {
             _session.Set(key, guid);
         }
@@ -467,11 +467,20 @@ namespace BattleShips.Services
 
 
         #region ISiteFunctionality (Hák)
-        public void RemoveGame(Guid gameId)
+        public bool RemoveGame(Guid gameId)
         {
-            var game = _db.Games.SingleOrDefault(g => g.Id == gameId);
-            _db.Games.Remove(game);
-            _db.SaveChanges();
+            try
+            {
+                var game = _db.Games.SingleOrDefault(g => g.Id == gameId);
+                _db.Games.Remove(game);
+                _db.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+           
         }
 
         public void RemoveUser(string userId)
@@ -479,9 +488,17 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-        public IList<Game> GetGames(string userId)
+        public IList<Game> GetUsersGames()
         {
-            throw new NotImplementedException();
+            string userId = GetUserId();
+            IList<UserGame> userGames =  _db.UserGames.Where(o => o.ApplicationUserId == userId).Include(o => o.Game).AsNoTracking().ToList();
+            IList<Game> games = new List<Game>();
+            foreach(var item in userGames)
+            {
+                games.Add(item.Game);
+            }
+
+            return games;
         }
 
         public IList<ApplicationUser> UsersByScore()
@@ -489,7 +506,12 @@ namespace BattleShips.Services
             throw new NotImplementedException();
         }
 
-  
+        public IList<Game> GetOtherGames()
+        {
+            return _db.Games.Where(o => o.GameState == GameState.Setup).AsNoTracking().ToList();
+        }
+
+
 
 
 

@@ -18,7 +18,5 @@ namespace BattleShips.Data
 
         public int TotalPlayedGames { get; set; } 
 
-       
-
     }
 }
