@@ -20,7 +20,7 @@ namespace BattleShips.Services
       
         
         //TODO Robert podle tutorialu dodělá identity, vytvořit admin a normální user
-        //TODO Robert GameList, Index
+        //TODO Robert Index
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
         //TODO Vojta nastavit tvůrce hry jako Activního hráče ve hře.
