@@ -14,7 +14,8 @@ namespace BattleShips
     {
   
 
-        public IGameSetup _igamesetup;
+        private readonly IGameSetup _igamesetup;
+        private readonly ISiteFunctionality _siteFunctionality;
 
         public ShipViewModel Ship { get; set; }
         public int GameSize { get; set; }
@@ -26,16 +27,17 @@ namespace BattleShips
 
 
 
-        public GameSetupModel(IGameSetup igamesetup)
+        public GameSetupModel(IGameSetup igamesetup, ISiteFunctionality siteFunctionality)
         {
-      
             _igamesetup = igamesetup;
+            _siteFunctionality = siteFunctionality;
         }
 
       
         //při načtení stránky
         public void OnGet(int? id)
         {
+            _siteFunctionality.SetupGame();
             SetupShips = new List<Ship>();
             SetupShips = _igamesetup.GetShips();
             if (id!= null)

@@ -39,5 +39,13 @@ namespace BattleShips.Services
         /// <param name="key"></param>
         /// <param name="guid"></param>
         void SaveGame(string key, Guid guid);
+        /// <summary>
+        /// If user doesnt have any setup game then new setup game is created and registered as currentGame otherwise an existing game is registered.
+        /// </summary>
+        void SetupGame();
+
+        IList<ApplicationUser> GetTopUsers();
+        ApplicationUser GetLoggedInUser();
+
     }
 }

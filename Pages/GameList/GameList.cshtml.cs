@@ -66,5 +66,8 @@ namespace BattleShips
             _siteFunctionality.SaveGame("Game", id);
             return RedirectToPage("../InGame/InGame");
         }
+
+       
+
     }
 }

@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace BattleShips.Services
@@ -17,8 +18,8 @@ namespace BattleShips.Services
     /// </summary>
     public class InGame : IGameSetup, IGameBattle, ISiteFunctionality, IShipPlacement
     {
-      
-        
+
+
         //TODO Robert podle tutorialu dodělá identity, vytvořit admin a normální user
         //TODO Robert Index
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
@@ -29,7 +30,7 @@ namespace BattleShips.Services
 
 
         private readonly ApplicationDbContext _db;
-    
+
         private readonly ISession _session;
         private readonly IHttpContextAccessor _hca; //Will be used for example when getting user: _hca.HttpContext.User;
         public Guid CurrentGameId { get; private set; }
@@ -39,10 +40,10 @@ namespace BattleShips.Services
             _session = hca.HttpContext.Session;
             _hca = hca;
             CurrentGameId = LoadGame("Game");
-   
+
         }
 
-        
+
 
         #region Session for Active Game and Getting logged in User (Kohout)
         /// <summary>
@@ -103,7 +104,7 @@ namespace BattleShips.Services
         {
             IList<NavyBattlePiece> output;
             output = _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
-       
+
             return output;
         }
 
@@ -134,7 +135,7 @@ namespace BattleShips.Services
             UserGame firingUserGame = _db.UserGames.Where(u => u.ApplicationUserId == activeUserId)
                 .Include(u => u.Game)
                 .AsNoTracking().SingleOrDefault();
-        
+
             //Checks if game isnt already done.
             if (activeGame.GameState == GameState.Ended)
             {
@@ -155,11 +156,11 @@ namespace BattleShips.Services
             {
                 return "You have already fired at that piece!";
             }
-          
-          
+
+
             //Fire :)
             PieceState newState;
-            if(firedAtPiece.PieceState == PieceState.Water)
+            if (firedAtPiece.PieceState == PieceState.Water)
             {
                 newState = PieceState.HitWater;
                 resultOfFiring = "Splash!";
@@ -170,7 +171,7 @@ namespace BattleShips.Services
             }
             firedAtPiece.PieceState = newState;
             _db.NavyBattlePieces.Update(firedAtPiece);
-            
+
 
 
             //If usergame hits ship check if there is any navybattlepiece of ship left on his board.
@@ -249,7 +250,7 @@ namespace BattleShips.Services
                 firedInGame.CurrentPlayerId = nextPlayer.ApplicationUserId;
                 firedInGame.UserRound = 0;
             }
-               
+
             firedInGame.GameRound++;
             _db.Games.Update(firedInGame);
             // _db.SaveChanges();
@@ -304,7 +305,7 @@ namespace BattleShips.Services
                 _db.UserGames.Update(winnerUserGame);
 
                 _db.ApplicationUsers.Update(winnerAplicationUser);
-            
+
                 //TODO - Save loserApplicationUser to database
                 //_dbUR.ApplicationUsers.UpdateRange(loserApplicationUsers);
                 //https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext
@@ -336,6 +337,8 @@ namespace BattleShips.Services
                 var game = new Game() { OwnerId = userId, MaxPlayers = 2, GameSize = 10, Id = newGameId };
                 _db.Games.Add(game);
                 _db.SaveChanges();
+                
+                SaveGame("Game", game.Id); //uloží do sessiony aktivní hru 
             }
             catch
             {
@@ -350,7 +353,7 @@ namespace BattleShips.Services
             int shipIdx = shipId ?? default(int);
             var shipGame = new ShipGame()
             {
-                GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA - CurrentGameId*/,
+                GameId = CurrentGameId, //new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA - CurrentGameId*/,
                 ShipId = shipIdx
             };
             _db.ShipGames.Add(shipGame);
@@ -366,12 +369,12 @@ namespace BattleShips.Services
 
         }
 
-       
+
         //vrátí mezitabulku shipGame se všema datama
         private List<ShipGame> GetShipGamesWithRelatedData()
         {
             //string userId = GetUserId(); 
-            return _db.ShipGames.Where(m => m.GameId == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA -  CurrentGameId*/)
+            return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/ /*TODO - VOJTA -  CurrentGameId*/
                 .Include(m => m.Ship) //model lodi (data)
                 .ThenInclude(n => n.ShipPieces) //v modelu lodi ICollection ShipPieces
                 .AsNoTracking()
@@ -381,10 +384,10 @@ namespace BattleShips.Services
         //konverze BattlePiece na NavyBattlePiece
         private List<NavyBattlePiece> ConvertToNavyBattlePiece(ICollection<ShipPiece> shipPieces)
         {
-            List<NavyBattlePiece> result = new List<NavyBattlePiece>(); 
-            foreach(var piece in shipPieces)
+            List<NavyBattlePiece> result = new List<NavyBattlePiece>();
+            foreach (var piece in shipPieces)
             {
-                NavyBattlePiece navyBattlePiece = new NavyBattlePiece() 
+                NavyBattlePiece navyBattlePiece = new NavyBattlePiece()
                 {
                     PosX = piece.PosX,
                     PosY = piece.PosY,
@@ -401,7 +404,7 @@ namespace BattleShips.Services
         {
             IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
             List<ShipGame> shipGames = GetShipGamesWithRelatedData();
-            foreach(var shipGame in shipGames)
+            foreach (var shipGame in shipGames)
             {
                 List<NavyBattlePiece> navyBattlePieces = new List<NavyBattlePiece>();
                 navyBattlePieces = ConvertToNavyBattlePiece(shipGame.Ship.ShipPieces);
@@ -491,7 +494,7 @@ namespace BattleShips.Services
                 return false;
             }
             return true;
-           
+
         }
 
         public void RemoveUser(string userId)
@@ -502,12 +505,12 @@ namespace BattleShips.Services
         public IList<Game> GetUsersGames()
         {
             string userId = GetUserId();
-            IList<UserGame> userGames =  _db.UserGames.Where(o => o.ApplicationUserId == userId)
-                .Include(o => o.Game).ThenInclude( s => s.CurrentPlayer)
-                .Include(o => o.Game).ThenInclude( s => s.Owner)
+            IList<UserGame> userGames = _db.UserGames.Where(o => o.ApplicationUserId == userId)
+                .Include(o => o.Game).ThenInclude(s => s.CurrentPlayer)
+                .Include(o => o.Game).ThenInclude(s => s.Owner)
                 .AsNoTracking().ToList();
             IList<Game> games = new List<Game>();
-            foreach(var item in userGames)
+            foreach (var item in userGames)
             {
                 games.Add(item.Game);
             }
@@ -523,23 +526,41 @@ namespace BattleShips.Services
         public IList<Game> GetOtherGames()
         {
             return _db.Games.Where(o => o.GameState == GameState.ShipPlacement)
-                .Include( o => o.Owner)
-                .Include( o => o.CurrentPlayer)
+                .Include(o => o.Owner)
+                .Include(o => o.CurrentPlayer)
                 .AsNoTracking().ToList();
         }
 
 
+        public void SetupGame()
+        {
+            string userId = GetUserId();
+            Game setupGame = _db.Games.Where(o => o.OwnerId == userId && o.GameState == GameState.Setup).AsNoTracking().SingleOrDefault();
+            if(setupGame is null)
+            {
+                CreateNewGame(userId);
+            }
+            else
+            {
+                SaveGame("Game", setupGame.Id);
+            }
+        }
+
+
+        public IList<ApplicationUser> GetTopUsers()
+        {
+            IList<ApplicationUser> applicationUsers = _db.ApplicationUsers.OrderByDescending(o => o.Wins).Take(10).AsNoTracking().ToList();
+            return applicationUsers;
+        }
 
 
 
-
-
-        //public ApplicationUser GetLoggedInUser()
-        //{
-        //    string userId = _hca.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //    return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
-        //    //throw new NotImplementedException();
-        //}
+        public ApplicationUser GetLoggedInUser()
+        {
+            string userId = GetUserId();
+            return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
+            //throw new NotImplementedException();
+        }
 
 
 

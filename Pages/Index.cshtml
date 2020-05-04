@@ -2,15 +2,89 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    int i = 0;
 }
 <br />
 <br />
 <h2>Pages for development</h2>
 <div class="form-group">
-   
+
     <a asp-page="./CreateGame/AdminGameSetup" class="btn btn-primary">Admin (dočasně)</a>
     <a asp-page="./CreateGame/ShipPlacement" class="btn btn-primary">Placement (dočasně)</a>
 </div>
+<br />
+<br />
+<h2>Top Players</h2>
+<div class="row">
+    <div class="col">
+        @if (Model.TopPlayers.Count() >= 1 || Model.TopPlayers is null)
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Wins</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model.TopPlayers)
+                    {
+                        i++;
+                        <tr>
+                            <td>@i.</td>
+                            <td>@item.PlayerName</td>
+                            <td>@item.Wins</td>
+                        </tr>
+                    }
+
+                </tbody>
+
+
+            </table>
+        }
+        else
+        {
+
+            <p> There are no games to join at the moment!</p>
+
+
+        }
+    </div>
+</div>
+@if (Model.LoggedInUser != null)
+{
+    <h2>My Stats</h2>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <tbody>
+
+                    <tr>
+                        <td><strong>Player Name</strong></td>
+                        <td>@Model.LoggedInUser.PlayerName</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Played Games</strong></td>
+                        <td>@Model.LoggedInUser.TotalPlayedGames</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wins</strong></td>
+                        <td>@Model.LoggedInUser.Wins</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>Position in Ladder</strong></td>
+                        <td>@*@Model.LoggedInUser.Position*@</td> 
+                    </tr>
+                    
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
 
 
 
