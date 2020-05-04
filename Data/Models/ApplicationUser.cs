@@ -17,12 +17,18 @@ namespace BattleShips.Data
         [DisplayName("Username")]
         public string PlayerName { get; set; }
 
-        public int Wins { get; set; } 
+        public int Wins { get; set; }
 
         public int TotalPlayedGames { get; set; }
 
         [NotMapped]
-        public int WinRate { get; set; }
+        public double WinRate => (TotalPlayedGames / Wins) * 100;
+
+
+
+
+
+
 
     }
 }

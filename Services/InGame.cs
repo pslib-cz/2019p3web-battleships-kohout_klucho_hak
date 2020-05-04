@@ -531,6 +531,7 @@ namespace BattleShips.Services
         public IList<ApplicationUser> GetTopUsers()
         {
             IList<ApplicationUser> applicationUsers = _db.ApplicationUsers.OrderByDescending(o => o.Wins).Take(10).AsNoTracking().ToList();
+      
             return applicationUsers;
         }
 
