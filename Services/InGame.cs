@@ -53,12 +53,12 @@ namespace BattleShips.Services
         /// <returns></returns>
         private Guid LoadGame(string key)
         {
-            //Guid result = _session.Get<Guid>(key);
-            //if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
-            //return result;
+            Guid result = _session.Get<Guid>(key);
+            if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
+            return result;
             //TODO - Use actual method instead placeholder for develompent 
-            Guid currentGameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e");
-            return currentGameId;
+            //Guid currentGameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e");
+            //return currentGameId;
         }
 
         /// <summary>
@@ -511,7 +511,7 @@ namespace BattleShips.Services
 
         public IList<Game> GetOtherGames()
         {
-            return _db.Games.Where(o => o.GameState == GameState.Setup)
+            return _db.Games.Where(o => o.GameState == GameState.ShipPlacement)
                 .Include( o => o.Owner)
                 .Include( o => o.CurrentPlayer)
                 .AsNoTracking().ToList();

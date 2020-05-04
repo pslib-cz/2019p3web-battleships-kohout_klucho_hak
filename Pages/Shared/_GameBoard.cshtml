@@ -6,41 +6,49 @@
     //Načtu dvourozměrné pole
     IEnumerable<IEnumerable<NavyBattlePiece>> board = Model.MakeGameBoard(Model.NavyBattlePieces);
 }
-
 <div>
     <table class="table table-bordered">
         <tbody>
             @foreach (IEnumerable<NavyBattlePiece> row in board)
             {
-                <tr style="height:30px;">
+                <tr style="">
                     @foreach (NavyBattlePiece navyBattlePiece in row)
                     {
                         if (navyBattlePiece.PieceState == PieceState.HitShip)
                         {
-                            <td class="table-dark">
-                                <p>x: @navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
-                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id">click </a>
+                            <td class="bg-dark">
+                                <div class="media position-relative">
+                                    @*<p>x:@navyBattlePiece.PosX y: @navyBattlePiece.PosY</p>*@
+                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                </div>
                             </td>
                         }
                         else if (navyBattlePiece.PieceState == PieceState.HitWater)
                         {
-                            <td class="table-primary">
-                                <p>x:@navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
-                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
+                            <td class="bg-primary ">
+                                <div class="media position-relative">
+                                    @*<p>x:@navyBattlePiece.PosX y: @navyBattlePiece.PosY</p>*@
+                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                </div>
                             </td>
                         }
                         else if (navyBattlePiece.PieceState == PieceState.Margin)
                         {
-                            <td class="table-secondary">
-                                <p>x:@navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
-                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
+                            <td class="table-secondary ">
+                                <div class="media position-relative">
+                                    @*<p>x:@navyBattlePiece.PosX y: @navyBattlePiece.PosY</p>*@
+                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                </div>
                             </td>
                         }
                         else
                         {
-                            <td>
-                                <p>x: @navyBattlePiece.PosX</p><p>y: @navyBattlePiece.PosY</p>
-                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" name="pieceId">click </a>
+
+                            <td class="table-light" >
+                                <div class="media position-relative" >
+                                    @*<p>x:@navyBattlePiece.PosX y: @navyBattlePiece.PosY</p>*@
+                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                </div>
                             </td>
                         }
                     }
@@ -48,7 +56,9 @@
             }
 
         </tbody>
+
     </table>
+
     @if (Model.UserGame != null)
     {
         <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.UserGame.ApplicationUser.PlayerName</p>

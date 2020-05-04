@@ -335,9 +335,9 @@ namespace BattleShips.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PlayerName", "Score", "SecurityStamp", "TotalPlayedGames", "TwoFactorEnabled", "UserName", "Wins" },
                 values: new object[,]
                 {
-                    { "eeae3311-0842-45b5-91bb-fb677e2d7386", 0, "e79d3991-7134-42c6-bf74-58ba99fee882", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player1", 0, "cfffb463-4fd1-405f-8344-5b566e70da84", 0, false, "player1@pslib.cz", 0 },
-                    { "466a7bbe-bdf7-4e64-9353-a5dbd62f05bd", 0, "8eecb61a-69c9-464f-887a-1fe9c326293b", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player2", 0, "bf537d4f-b412-4d31-866d-3f0ef9d7b2bf", 0, false, "player2@pslib.cz", 0 },
-                    { "4d66766e-e8b1-4c84-9d32-1dae1c8b2395", 0, "a2988de6-0e64-45b6-954c-dc3cdb7d1833", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player3", 0, "6f063d76-1315-4266-8082-71daa29a8860", 0, false, "player3@pslib.cz", 0 }
+                    { "54a65766-3144-4541-8c56-872ae76d593e", 0, "2080b6b6-c9f9-4783-8ef3-f540f9994871", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player1", 0, "da9598f5-1345-406f-895b-7497aaf9b158", 0, false, "player1@pslib.cz", 0 },
+                    { "056ae612-64e6-417b-ad73-0e904472ff4d", 0, "2f384657-cea2-4419-a701-c298eb242e94", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player2", 0, "f5d52493-8bf6-4af3-97e2-80fb4d7f9a6e", 0, false, "player2@pslib.cz", 0 },
+                    { "1fe6c42c-f9e8-4cc6-845e-d8404f8e78f6", 0, "2db3f77c-513a-4f1a-bdfe-3a3674ebd5fe", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player3", 0, "7ad564a7-276a-4de9-8900-9ce7084a7f7b", 0, false, "player3@pslib.cz", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -364,8 +364,8 @@ namespace BattleShips.Migrations
                 columns: new[] { "Id", "CurrentPlayerId", "GameRound", "GameSize", "GameState", "MaxPlayers", "OwnerId", "UserRound" },
                 values: new object[,]
                 {
-                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"), "eeae3311-0842-45b5-91bb-fb677e2d7386", 0, 2, 0, 2, "eeae3311-0842-45b5-91bb-fb677e2d7386", 0 },
-                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), "eeae3311-0842-45b5-91bb-fb677e2d7386", 0, 2, 1, 2, "eeae3311-0842-45b5-91bb-fb677e2d7386", 0 }
+                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"), "54a65766-3144-4541-8c56-872ae76d593e", 0, 2, 0, 2, "54a65766-3144-4541-8c56-872ae76d593e", 0 },
+                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), "54a65766-3144-4541-8c56-872ae76d593e", 0, 2, 2, 2, "54a65766-3144-4541-8c56-872ae76d593e", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -387,12 +387,12 @@ namespace BattleShips.Migrations
             migrationBuilder.InsertData(
                 table: "UserGames",
                 columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
-                values: new object[] { 1, "eeae3311-0842-45b5-91bb-fb677e2d7386", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+                values: new object[] { 1, "54a65766-3144-4541-8c56-872ae76d593e", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
 
             migrationBuilder.InsertData(
                 table: "UserGames",
                 columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
-                values: new object[] { 2, "466a7bbe-bdf7-4e64-9353-a5dbd62f05bd", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+                values: new object[] { 2, "056ae612-64e6-417b-ad73-0e904472ff4d", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
 
             migrationBuilder.InsertData(
                 table: "NavyBattlePieces",

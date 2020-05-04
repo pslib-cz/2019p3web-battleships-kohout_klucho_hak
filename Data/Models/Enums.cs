@@ -8,6 +8,7 @@ namespace BattleShips.Data
     public enum GameState
     {
         Setup,
+        ShipPlacement,
         Battle,
         Ended
     }

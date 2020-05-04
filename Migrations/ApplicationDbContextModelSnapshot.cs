@@ -98,9 +98,9 @@ namespace BattleShips.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            Id = "54a65766-3144-4541-8c56-872ae76d593e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e79d3991-7134-42c6-bf74-58ba99fee882",
+                            ConcurrencyStamp = "2080b6b6-c9f9-4783-8ef3-f540f9994871",
                             Email = "player1@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
@@ -110,7 +110,7 @@ namespace BattleShips.Migrations
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player1",
                             Score = 0,
-                            SecurityStamp = "cfffb463-4fd1-405f-8344-5b566e70da84",
+                            SecurityStamp = "da9598f5-1345-406f-895b-7497aaf9b158",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
                             UserName = "player1@pslib.cz",
@@ -118,9 +118,9 @@ namespace BattleShips.Migrations
                         },
                         new
                         {
-                            Id = "466a7bbe-bdf7-4e64-9353-a5dbd62f05bd",
+                            Id = "056ae612-64e6-417b-ad73-0e904472ff4d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8eecb61a-69c9-464f-887a-1fe9c326293b",
+                            ConcurrencyStamp = "2f384657-cea2-4419-a701-c298eb242e94",
                             Email = "player2@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
@@ -130,7 +130,7 @@ namespace BattleShips.Migrations
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player2",
                             Score = 0,
-                            SecurityStamp = "bf537d4f-b412-4d31-866d-3f0ef9d7b2bf",
+                            SecurityStamp = "f5d52493-8bf6-4af3-97e2-80fb4d7f9a6e",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
                             UserName = "player2@pslib.cz",
@@ -138,9 +138,9 @@ namespace BattleShips.Migrations
                         },
                         new
                         {
-                            Id = "4d66766e-e8b1-4c84-9d32-1dae1c8b2395",
+                            Id = "1fe6c42c-f9e8-4cc6-845e-d8404f8e78f6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a2988de6-0e64-45b6-954c-dc3cdb7d1833",
+                            ConcurrencyStamp = "2db3f77c-513a-4f1a-bdfe-3a3674ebd5fe",
                             Email = "player3@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
@@ -150,7 +150,7 @@ namespace BattleShips.Migrations
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player3",
                             Score = 0,
-                            SecurityStamp = "6f063d76-1315-4266-8082-71daa29a8860",
+                            SecurityStamp = "7ad564a7-276a-4de9-8900-9ce7084a7f7b",
                             TotalPlayedGames = 0,
                             TwoFactorEnabled = false,
                             UserName = "player3@pslib.cz",
@@ -198,23 +198,23 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"),
-                            CurrentPlayerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            CurrentPlayerId = "54a65766-3144-4541-8c56-872ae76d593e",
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 0,
                             MaxPlayers = 2,
-                            OwnerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            OwnerId = "54a65766-3144-4541-8c56-872ae76d593e",
                             UserRound = 0
                         },
                         new
                         {
                             Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
-                            CurrentPlayerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            CurrentPlayerId = "54a65766-3144-4541-8c56-872ae76d593e",
                             GameRound = 0,
                             GameSize = 2,
-                            GameState = 1,
+                            GameState = 2,
                             MaxPlayers = 2,
-                            OwnerId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            OwnerId = "54a65766-3144-4541-8c56-872ae76d593e",
                             UserRound = 0
                         });
                 });
@@ -586,14 +586,14 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
-                            ApplicationUserId = "eeae3311-0842-45b5-91bb-fb677e2d7386",
+                            ApplicationUserId = "54a65766-3144-4541-8c56-872ae76d593e",
                             GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
                             PlayerState = 1
                         },
                         new
                         {
                             Id = 2,
-                            ApplicationUserId = "466a7bbe-bdf7-4e64-9353-a5dbd62f05bd",
+                            ApplicationUserId = "056ae612-64e6-417b-ad73-0e904472ff4d",
                             GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
                             PlayerState = 1
                         });

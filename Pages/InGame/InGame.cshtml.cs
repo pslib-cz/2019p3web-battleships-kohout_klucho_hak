@@ -46,10 +46,6 @@ namespace BattleShips
                 GameBoardData newBoard = new GameBoardData(navyBattlePieces, UserGames[board]);
                 GameBoards.Add(newBoard);
             }
-        
         }
-
-       
-
     }
 }

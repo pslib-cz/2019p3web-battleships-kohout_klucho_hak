@@ -14,14 +14,19 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">@TempData["MessageError"]<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
 }
 
+@*TODO - Robert Udělat z create new game OnPostCreateNewGame a zkontrolovat jestli hráč už má nějakou setup game jinak vytvořit novou aby jí mohl nastavit a nastavit budto novou hru nebo jiz vytvořenou jako current game do session.*@
+<a asp-page="/CreateGame/GameSetup" class="btn btn-success text-right" >Create New Game</a>
+
+@*Placeholder pro development až OnPostCreateNewGame hotový tak to smaž. *@
+<a asp-page="/CreateGame/GameSetup" asp-route-id="80828d2b-e7e0-4316-aa6b-cea1d08f413c" class="btn btn-success text-right">GameSetup (Placeholder for development)</a>
 
 <h2>My Games</h2>
 <div class="row">
     <div class="col">
-        @if (Model.UsersGames.Count() >= 1)
+        @if (Model.UsersGames.Count() >= 1 || Model.UsersGames is null)
         {
             <table class="table table-striped">
-                <thead>
+                <thead class="thead-dark">
                     <tr>
                         <th>Game State</th>
                         <th>Round</th>
@@ -40,8 +45,8 @@
                         <tr>
                             <td>@item.GameState</td>
                             <td>@item.GameRound</td>
-                            <td>@item.Owner.UserName</td>
-                            <td>@item.CurrentPlayer.UserName</td>
+                            <td>@item.Owner.PlayerName</td>
+                            <td>@item.CurrentPlayer.PlayerName</td>
                             <td>
                                 <form method="post" asp-page-handler="playgame">
                                     <button class="btn btn-primary">Play</button>
@@ -80,7 +85,7 @@
 <h2>Other Games</h2>
 <div class="row">
     <div class="col">
-        @if (Model.OtherGames.Count() >= 1)
+        @if (Model.OtherGames.Count() >= 1 || Model.UsersGames is null)
         {
             <table class="table table-striped">
                 <thead>
@@ -99,8 +104,8 @@
                         <tr>
                             <td>@item.GameState</td>
                             <td>@item.GameRound</td>
-                            <td>@item.Owner.UserName</td>
-                            <td>@item.CurrentPlayer.UserName</td>
+                            <td>@item.Owner.PlayerName</td>
+                            <td>@item.CurrentPlayer.PlayerName</td>
                             <td>
                                 <form method="post" asp-page-handler="joinshipplacement">
                                     <button class="btn btn-primary">Join</button>

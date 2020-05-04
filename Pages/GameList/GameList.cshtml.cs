@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using BattleShips.Data;
 using BattleShips.Services;
 using BattleShips.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BattleShips
 {
+    [Authorize]
     public class GameListModel : PageModel
     {
         [TempData]
