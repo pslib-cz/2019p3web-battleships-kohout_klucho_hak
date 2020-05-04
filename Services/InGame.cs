@@ -24,7 +24,6 @@ namespace BattleShips.Services
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
         //TODO Vojta nastavit tvůrce hry jako Activního hráče ve hře.
-        //TODO upozornění
         //TODO - Firing functional. It just needs design. And solve updateRange problem, for saving losers.
 
 
@@ -326,6 +325,7 @@ namespace BattleShips.Services
 
 
         #region IGameSetup (Klucho)
+        //vytváří hru
         public bool CreateNewGame(string userId)
         {
             try
@@ -344,6 +344,7 @@ namespace BattleShips.Services
             return true;
         }
 
+        //vytvoří list dostupných lodí pro rozmístění (mezitabulka zakliknutých lodí)
         public void CreateShipGame(int? shipId)
         {
             int shipIdx = shipId ?? default(int);
@@ -356,6 +357,7 @@ namespace BattleShips.Services
             _db.SaveChanges();
         }
 
+        //odstraní mezitabulku (propojení ship a game)
         public void DeleteShipGame(int shipGameId)
         {
             ShipGame shipGame = _db.ShipGames.Where(x => x.Id == shipGameId).FirstOrDefault();
@@ -364,16 +366,19 @@ namespace BattleShips.Services
 
         }
 
+       
+        //vrátí mezitabulku shipGame se všema datama
         private List<ShipGame> GetShipGamesWithRelatedData()
         {
-            string userId = GetUserId();
+            //string userId = GetUserId(); 
             return _db.ShipGames.Where(m => m.GameId == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA -  CurrentGameId*/)
-                .Include(m => m.Ship)
-                .ThenInclude(n => n.ShipPieces)
+                .Include(m => m.Ship) //model lodi (data)
+                .ThenInclude(n => n.ShipPieces) //v modelu lodi ICollection ShipPieces
                 .AsNoTracking()
                 .ToList();
         }
 
+        //konverze BattlePiece na NavyBattlePiece
         private List<NavyBattlePiece> ConvertToNavyBattlePiece(ICollection<ShipPiece> shipPieces)
         {
             List<NavyBattlePiece> result = new List<NavyBattlePiece>(); 
@@ -390,6 +395,8 @@ namespace BattleShips.Services
             return result;
         }
 
+        //TODO - VOJTA - upravit, aby šlo nastavit více lodí stejného typu
+        //vrátí list zakliknutých lodí
         public IList<List<NavyBattlePiece>> GetChosenShips()
         {
             IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
@@ -403,16 +410,17 @@ namespace BattleShips.Services
             return result;
         }
 
+        //nastaví hru
         public void Setgame(int maxPlayers, int gameSize)
         {
-            Game game = _db.Games.Where(x => x.Id == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")/*CurrentGameId*/).FirstOrDefault();
+            Game game = _db.Games.Where(x => x.Id == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")/*TODO - VOJTA - CurrentGameId*/).FirstOrDefault();
             game.GameSize = gameSize;
             game.MaxPlayers = maxPlayers;
             _db.Games.Update(game);
             _db.SaveChanges();
         }
 
-
+        //dostupné lodě ze kterých si uživatel bude vybírat
         public List<Ship> GetShips()
         {
             return _db.Ships.AsNoTracking().ToList();
@@ -434,30 +442,33 @@ namespace BattleShips.Services
 
 
         #region IShipPlacement (Klucho)
+        // po rozmístění lodí vytvoří novou mezitabulku (UserGame)
         public void CreateUserGame(Guid gameId, string userId)
         {
             throw new NotImplementedException();
         }
 
 
-
+        // upraví prázdné hrací pole podle rozmístění lodí a uloží ho do databáze
         public void ShipPlacement(int userGameId)
         {
             throw new NotImplementedException();
         }
 
+        // podle velikosti hry vytvoří prázdné hrací pole při načtení stránky
         public void CreateBlankGameBoard(Game game)
         {
             throw new NotImplementedException();
         }
 
 
-
+        // vrátí lodě, které jsou dostupné v dané hře, pomocí listu mezitabulek shipGame
         public IList<Ship> GetGameShips(IList<ShipGame> shipGame)
         {
             throw new NotImplementedException();
         }
 
+        // vrátí mezitabulky shipGames
         public IList<ShipGame> GetShipGames(Game game)
         {
             throw new NotImplementedException();

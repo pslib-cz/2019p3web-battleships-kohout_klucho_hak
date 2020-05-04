@@ -29,14 +29,24 @@ namespace BattleShips.Services
         /// <returns></returns>
         void CreateShipGame(int? shipId);
 
-
+        /// <summary>
+        /// odstraní mezitabulku (propojení ship a game)
+        /// </summary>
+        /// <param name="shipGameId"></param>
         void DeleteShipGame(int shipGameId);
 
+        /// <summary>
+        /// vrátí list zakliknutých lodí
+        /// </summary>
+        /// <returns></returns>
         IList<List<NavyBattlePiece>> GetChosenShips();
 
+        /// <summary>
+        /// nastaví hru
+        /// </summary>
+        /// <param name="maxPlayers"></param>
+        /// <param name="gameSize"></param>
         void Setgame(int maxPlayers, int gameSize);
-
-
 
         /// <summary>
         /// dostupné lodě ze kterých si uživatel bude vybírat
@@ -44,8 +54,10 @@ namespace BattleShips.Services
         /// <returns></returns>
         List<Ship> GetShips();
 
+        //z ShipPiece udělat NavyBattlePiece
         IEnumerable GetShipPieces(int ShipId);
 
+        //TODO - VOJTA - DisplayShips
         IEnumerable<IEnumerable<ShipPiece>> DisplayShips(ShipPiece shipPiece);
 
 

@@ -32,8 +32,6 @@ namespace BattleShips.Services
         /// <param name="game"></param>
         void CreateBlankGameBoard(Game game);
 
-       
-
         /// <summary>
         /// upraví prázdné hrací pole podle rozmístění lodí a uloží ho do databáze
         /// </summary>
