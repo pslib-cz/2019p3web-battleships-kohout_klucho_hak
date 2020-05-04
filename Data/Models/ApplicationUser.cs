@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,12 +17,12 @@ namespace BattleShips.Data
         [DisplayName("Username")]
         public string PlayerName { get; set; }
 
-       
-
         public int Wins { get; set; } 
 
         public int TotalPlayedGames { get; set; }
-        public int Score { get; set; }
+
+        [NotMapped]
+        public int WinRate { get; set; }
 
     }
 }

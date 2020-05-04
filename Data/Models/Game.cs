@@ -35,6 +35,6 @@ namespace BattleShips.Data
         [Required]
         public GameState GameState { get; set; }
 
-        //public ICollection<UserGame> UserGames { get; set; }
+        public ICollection<UserGame> UserGames { get; set; }
     }
 }

@@ -20,12 +20,10 @@ namespace BattleShips.Services
     {
 
 
-        //TODO Robert podle tutorialu dodělá identity, vytvořit admin a normální user
-        //TODO Robert Index
+        //TODO Robert dodělá identity, vytvořit admin a normální user
         //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
-        //TODO Vojta nastavit tvůrce hry jako Activního hráče ve hře.
-        //TODO - Firing functional. It just needs design. And solve updateRange problem, for saving losers.
+  
 
 
 
@@ -56,9 +54,6 @@ namespace BattleShips.Services
             Guid result = _session.Get<Guid>(key);
             if (typeof(Guid).IsClass && result == null) result = (Guid)Activator.CreateInstance(typeof(Guid));
             return result;
-            //TODO - Use actual method instead placeholder for develompent 
-            //Guid currentGameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e");
-            //return currentGameId;
         }
 
         /// <summary>
@@ -86,7 +81,7 @@ namespace BattleShips.Services
         public Game GetGame()
         {
             Guid currentGameId = CurrentGameId;
-            return _db.Games.Where(m => m.Id == currentGameId).AsNoTracking().SingleOrDefault();
+            return _db.Games.Where(m => m.Id == currentGameId).Include(m => m.UserGames).ThenInclude(x => x.ApplicationUser).AsNoTracking().SingleOrDefault();
         }
         //Returns Ilist of UserGames in currently active Game.
         public IList<UserGame> GetUserGamesWithUser()
@@ -95,8 +90,8 @@ namespace BattleShips.Services
             return _db.UserGames
                 .Where(m => m.GameId == currentGameId)
                 .Include(m => m.ApplicationUser)
-                .Include(m => m.Game)
-                .AsNoTracking().ToList();
+                .AsNoTracking()
+                .ToList();
         }
 
         //Returns IList of NavyBattlePieces based on UserGame Id.
@@ -134,7 +129,9 @@ namespace BattleShips.Services
             string activeUserId = GetUserId();
             UserGame firingUserGame = _db.UserGames.Where(u => u.ApplicationUserId == activeUserId)
                 .Include(u => u.Game)
-                .AsNoTracking().SingleOrDefault();
+                .ThenInclude(x => x.UserGames)
+                .ThenInclude(y => y.ApplicationUser)
+                .SingleOrDefault();
 
             //Checks if game isnt already done.
             if (activeGame.GameState == GameState.Ended)
@@ -177,10 +174,9 @@ namespace BattleShips.Services
             //If usergame hits ship check if there is any navybattlepiece of ship left on his board.
             if (newState == PieceState.HitShip)
             {
+
                 //Gets UserGame whose ship has been hit.
-                UserGame hittedUserGame = _db.UserGames.Where(u => u.Id == firedAtPiece.UserGameId)
-                                                        .Include(u => u.ApplicationUser)
-                                                        .FirstOrDefault();
+                UserGame hittedUserGame = firingUserGame.Game.UserGames.Where( x => x.Id == firedAtPiece.UserGameId).FirstOrDefault();
 
                 resultOfFiring = $"You have destroyed piece of a {firedAtPiece.Ship.Name} belonging to players {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
 
@@ -203,18 +199,18 @@ namespace BattleShips.Services
                     }
                     else
                     {
-                        ContinueGame(activeGame, firingUserGame);
+                        ContinueGame(firingUserGame);
                     }
                 }
                 else
                 {
-                    ContinueGame(activeGame, firingUserGame);
+                    ContinueGame(firingUserGame);
                 }
 
             }
             else
             {
-                ContinueGame(activeGame, firingUserGame);
+                ContinueGame(firingUserGame);
 
             }
             _db.SaveChanges();
@@ -224,14 +220,14 @@ namespace BattleShips.Services
         /// <summary>
         /// Sets next player to play.
         /// </summary>
-        /// <param name="firedInGame"></param>
-        private void ContinueGame(Game firedInGame, UserGame firingUserGame)
+        /// <param name="game"></param>
+        private void ContinueGame(UserGame firingUserGame)
         {
-            firedInGame.UserRound++;
+            firingUserGame.Game.UserRound++;
             //new user game firing
-            List<UserGame> listUserGames = _db.UserGames.Where(u => u.GameId == firedInGame.Id).OrderBy(u => u.Id).ToList();
+            List<UserGame> listUserGames = _db.UserGames.Where(u => u.GameId == firingUserGame.Game.Id).OrderBy(u => u.Id).ToList();
             //Checks if user fired at every enemy (Needed for more than 2 players)
-            if (firedInGame.UserRound >= listUserGames.Count() - 1)
+            if (firingUserGame.Game.UserRound >= listUserGames.Count() - 1)
             {
                 UserGame nextPlayer = new UserGame();
 
@@ -247,13 +243,13 @@ namespace BattleShips.Services
                 {
                     nextPlayer = listUserGames[0];
                 }
-                firedInGame.CurrentPlayerId = nextPlayer.ApplicationUserId;
-                firedInGame.UserRound = 0;
+                firingUserGame.Game.CurrentPlayerId = nextPlayer.ApplicationUserId;
+                firingUserGame.Game.UserRound = 0;
             }
 
-            firedInGame.GameRound++;
-            _db.Games.Update(firedInGame);
-            // _db.SaveChanges();
+            firingUserGame.Game.GameRound++;
+            _db.Games.Update(firingUserGame.Game);
+
         }
 
         /// <summary>
@@ -261,36 +257,31 @@ namespace BattleShips.Services
         /// </summary>
         /// <param name="winnerUserGame"></param>
         private bool GameEnd(UserGame winnerUserGame)
-        {
-            IList<UserGame> userGames = _db.UserGames
-                .Where(m => m.GameId == winnerUserGame.GameId)
-                .Include(m => m.ApplicationUser)
-                .AsNoTracking()
-                .Include(m => m.Game)
-                .AsNoTracking().ToList();
+        { 
             int losersCount = 0;
-            foreach (var item in userGames)
+            foreach (var item in winnerUserGame.Game.UserGames)
             {
                 if (item.PlayerState == PlayerState.Loser)
                 {
                     losersCount++;
                 }
             }
+
             //Checks if there is more than 1 player that hasnt lost.
-            if (userGames.Count() - 1 == losersCount)
+            if (winnerUserGame.Game.UserGames.Count() - 1 == losersCount)
             {
 
-                Game game = winnerUserGame.Game;
                 winnerUserGame.PlayerState = PlayerState.Winner; //Sets winner usergame, others are already losers.
 
-                IList<ApplicationUser> loserApplicationUsers = new List<ApplicationUser>();
+                //IList<ApplicationUser> loserApplicationUsers = new List<ApplicationUser>();
                 ApplicationUser winnerAplicationUser = new ApplicationUser();
-                foreach (var user in userGames)
+                foreach (var user in winnerUserGame.Game.UserGames)
                 {
                     if (user.Id != winnerUserGame.Id)
                     {
                         user.ApplicationUser.TotalPlayedGames++;
-                        loserApplicationUsers.Add(user.ApplicationUser);
+                        _db.ApplicationUsers.Update(user.ApplicationUser);
+                        //loserApplicationUsers.Add(user.ApplicationUser);
                     }
                     else
                     {
@@ -299,9 +290,9 @@ namespace BattleShips.Services
                         winnerAplicationUser = user.ApplicationUser;
                     }
                 }
-                game.GameRound++;
-                game.GameState = GameState.Ended;
-                _db.Games.Update(game);
+                winnerUserGame.Game.GameRound++;
+                winnerUserGame.Game.GameState = GameState.Ended;
+                _db.Games.Update(winnerUserGame.Game);
                 _db.UserGames.Update(winnerUserGame);
 
                 _db.ApplicationUsers.Update(winnerAplicationUser);
@@ -363,7 +354,7 @@ namespace BattleShips.Services
         private List<ShipGame> GetShipGamesWithRelatedData()
         {
             //string userId = GetUserId(); 
-            return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/ /*TODO - VOJTA -  CurrentGameId*/
+            return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/ 
                 .Include(m => m.Ship) //model lodi (data)
                 .ThenInclude(n => n.ShipPieces) //v modelu lodi ICollection ShipPieces
                 .AsNoTracking()
@@ -405,8 +396,9 @@ namespace BattleShips.Services
         //nastaví hru
         public void Setgame(int maxPlayers, int gameSize)
         {
-            Game game = _db.Games.Where(x => x.Id == new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")/*TODO - VOJTA - CurrentGameId*/).FirstOrDefault();
+            Game game = _db.Games.Where(x => x.Id == CurrentGameId).FirstOrDefault();
             game.GameSize = gameSize;
+            game.CurrentPlayerId = game.OwnerId;
             game.MaxPlayers = maxPlayers;
             _db.Games.Update(game);
             _db.SaveChanges();

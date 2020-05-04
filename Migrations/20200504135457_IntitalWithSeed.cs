@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BattleShips.Migrations
 {
-    public partial class InitialWithSeed : Migration
+    public partial class IntitalWithSeed : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,8 +40,7 @@ namespace BattleShips.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    PlayerName = table.Column<string>(nullable: true),
-                    Score = table.Column<int>(nullable: false),
+                    PlayerName = table.Column<string>(maxLength: 20, nullable: false),
                     Wins = table.Column<int>(nullable: false),
                     TotalPlayedGames = table.Column<int>(nullable: false)
                 },
@@ -332,12 +331,12 @@ namespace BattleShips.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PlayerName", "Score", "SecurityStamp", "TotalPlayedGames", "TwoFactorEnabled", "UserName", "Wins" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PlayerName", "SecurityStamp", "TotalPlayedGames", "TwoFactorEnabled", "UserName", "Wins" },
                 values: new object[,]
                 {
-                    { "54a65766-3144-4541-8c56-872ae76d593e", 0, "2080b6b6-c9f9-4783-8ef3-f540f9994871", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player1", 0, "da9598f5-1345-406f-895b-7497aaf9b158", 0, false, "player1@pslib.cz", 0 },
-                    { "056ae612-64e6-417b-ad73-0e904472ff4d", 0, "2f384657-cea2-4419-a701-c298eb242e94", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player2", 0, "f5d52493-8bf6-4af3-97e2-80fb4d7f9a6e", 0, false, "player2@pslib.cz", 0 },
-                    { "1fe6c42c-f9e8-4cc6-845e-d8404f8e78f6", 0, "2db3f77c-513a-4f1a-bdfe-3a3674ebd5fe", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player3", 0, "7ad564a7-276a-4de9-8900-9ce7084a7f7b", 0, false, "player3@pslib.cz", 0 }
+                    { "3e42196d-9a77-4667-9f90-44d61b361159", 0, "f45805da-dcad-49c3-8268-0f5bc3b6c246", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player1", "b390e6f7-7850-4eb1-adcc-10fbe787c9fc", 0, false, "player1@pslib.cz", 0 },
+                    { "e9f61305-8496-4089-a291-f44828b43c9c", 0, "62fcbc73-87f9-4b0d-b0d1-4d314a351b8a", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player2", "82080c62-7b10-4122-ab37-4cb1010d8900", 0, false, "player2@pslib.cz", 0 },
+                    { "55c337ee-a687-49d9-ad2d-9cfbd49bdd7f", 0, "bb6959de-92d6-4e70-bd66-72ce4ab8ca78", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player3", "1b7e8f8a-cc64-45c4-ac8c-523fcb8b4307", 0, false, "player3@pslib.cz", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -364,8 +363,8 @@ namespace BattleShips.Migrations
                 columns: new[] { "Id", "CurrentPlayerId", "GameRound", "GameSize", "GameState", "MaxPlayers", "OwnerId", "UserRound" },
                 values: new object[,]
                 {
-                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"), "54a65766-3144-4541-8c56-872ae76d593e", 0, 2, 0, 2, "54a65766-3144-4541-8c56-872ae76d593e", 0 },
-                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), "54a65766-3144-4541-8c56-872ae76d593e", 0, 2, 2, 2, "54a65766-3144-4541-8c56-872ae76d593e", 0 }
+                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"), "3e42196d-9a77-4667-9f90-44d61b361159", 0, 2, 0, 2, "3e42196d-9a77-4667-9f90-44d61b361159", 0 },
+                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), "3e42196d-9a77-4667-9f90-44d61b361159", 0, 2, 2, 2, "3e42196d-9a77-4667-9f90-44d61b361159", 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -387,12 +386,12 @@ namespace BattleShips.Migrations
             migrationBuilder.InsertData(
                 table: "UserGames",
                 columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
-                values: new object[] { 1, "54a65766-3144-4541-8c56-872ae76d593e", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+                values: new object[] { 1, "3e42196d-9a77-4667-9f90-44d61b361159", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
 
             migrationBuilder.InsertData(
                 table: "UserGames",
                 columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
-                values: new object[] { 2, "056ae612-64e6-417b-ad73-0e904472ff4d", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+                values: new object[] { 2, "e9f61305-8496-4089-a291-f44828b43c9c", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
 
             migrationBuilder.InsertData(
                 table: "NavyBattlePieces",
