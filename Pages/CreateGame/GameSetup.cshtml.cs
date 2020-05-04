@@ -63,5 +63,6 @@ namespace BattleShips
             return RedirectToPage("./ShipPlacement");
         }
 
+        //TODO - Vojta - Udělej tu metodu OnPostDeleteShip(int id), remove button bude tam kde je vybraná loď vedle add buttonu
     }
 }

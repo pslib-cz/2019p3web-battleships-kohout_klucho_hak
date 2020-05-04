@@ -305,17 +305,6 @@ namespace BattleShips.Services
                 _db.UserGames.Update(winnerUserGame);
 
                 _db.ApplicationUsers.Update(winnerAplicationUser);
-
-                //TODO - Save loserApplicationUser to database
-                //_dbUR.ApplicationUsers.UpdateRange(loserApplicationUsers);
-                //https://docs.microsoft.com/en-us/ef/core/miscellaneous/configuring-dbcontext
-                //using (var context = _dbUR)
-                //{
-
-                //    context.ApplicationUsers.UpdateRange(loserApplicationUsers);
-                //    context.SaveChanges();
-                //}
-                //_db.SaveChanges();
                 return true;
             }
             return false;
