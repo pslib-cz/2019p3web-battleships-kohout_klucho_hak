@@ -226,6 +226,7 @@ namespace BattleShips.Data
                 Hidden = true
             });
 
+            //Ships battleSipPieces
             //Each BattleShip is divided into x-columns for better navigation
 
             #region Submarine
@@ -891,7 +892,535 @@ namespace BattleShips.Data
 
             #region Landing base
 
+            //x = 0
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 73,
+                PosX = 0,
+                PosY = 0,
+                ShipId = 6,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 74,
+                PosX = 0,
+                PosY = 1,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 75,
+                PosX = 0,
+                PosY = 2,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 76,
+                PosX = 0,
+                PosY = 3,
+                ShipId = 6,
+                PieceState = PieceState.Water
+            });
+
+            //x = 1
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 77,
+                PosX = 1,
+                PosY = 0,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 78,
+                PosX = 1,
+                PosY = 1,
+                ShipId = 6,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 79,
+                PosX = 1,
+                PosY = 2,
+                ShipId = 6,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 80,
+                PosX = 1,
+                PosY = 3,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 2
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 81,
+                PosX = 2,
+                PosY = 0,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 82,
+                PosX = 2,
+                PosY = 1,
+                ShipId = 6,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 83,
+                PosX = 2,
+                PosY = 2,
+                ShipId = 6,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 84,
+                PosX = 2,
+                PosY = 3,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 3
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 85,
+                PosX = 3,
+                PosY = 0,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 86,
+                PosX = 3,
+                PosY = 1,
+                ShipId = 6,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 87,
+                PosX = 3,
+                PosY = 2,
+                ShipId = 6,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 88,
+                PosX = 3,
+                PosY = 3,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 4
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 89,
+                PosX = 4,
+                PosY = 0,
+                ShipId = 6,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 90,
+                PosX = 4,
+                PosY = 1,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 91,
+                PosX = 4,
+                PosY = 2,
+                ShipId = 6,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 92,
+                PosX = 4,
+                PosY = 3,
+                ShipId = 6,
+                PieceState = PieceState.Water
+            });
             #endregion
+
+            #region Hydro plane
+
+            //x = 0
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 93,
+                PosX = 0,
+                PosY = 0,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 94,
+                PosX = 0,
+                PosY = 1,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 95,
+                PosX = 0,
+                PosY = 2,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 96,
+                PosX = 0,
+                PosY = 3,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+
+            //x = 1
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 97,
+                PosX = 1,
+                PosY = 0,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 98,
+                PosX = 1,
+                PosY = 1,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 99,
+                PosX = 1,
+                PosY = 2,
+                ShipId = 7,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 100,
+                PosX = 1,
+                PosY = 3,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 2
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 101,
+                PosX = 2,
+                PosY = 0,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 102,
+                PosX = 2,
+                PosY = 1,
+                ShipId = 7,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 103,
+                PosX = 2,
+                PosY = 2,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 104,
+                PosX = 0,
+                PosY = 3,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+
+            //x = 3
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 105,
+                PosX = 3,
+                PosY = 0,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 106,
+                PosX = 3,
+                PosY = 1,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 107,
+                PosX = 3,
+                PosY = 2,
+                ShipId = 7,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 108,
+                PosX = 3,
+                PosY = 3,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 5
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 109,
+                PosX = 5,
+                PosY = 0,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 110,
+                PosX = 5,
+                PosY = 1,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 111,
+                PosX = 5,
+                PosY = 2,
+                ShipId = 7,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 112,
+                PosX = 5,
+                PosY = 3,
+                ShipId = 7,
+                PieceState = PieceState.Water
+            });
+            #endregion
+
+            #region Cruiser II
+
+            //x = 0
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 113,
+                PosX = 0,
+                PosY = 0,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 114,
+                PosX = 0,
+                PosY = 1,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 115,
+                PosX = 0,
+                PosY = 2,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 116,
+                PosX = 0,
+                PosY = 3,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+
+            //x = 1
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 117,
+                PosX = 1,
+                PosY = 0,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 118,
+                PosX = 1,
+                PosY = 1,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 119,
+                PosX = 1,
+                PosY = 2,
+                ShipId = 8,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 120,
+                PosX = 1,
+                PosY = 3,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 2
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 121,
+                PosX = 2,
+                PosY = 0,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 122,
+                PosX = 2,
+                PosY = 1,
+                ShipId = 8,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 123,
+                PosX = 2,
+                PosY = 2,
+                ShipId = 8,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 124,
+                PosX = 2,
+                PosY = 3,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 3
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 125,
+                PosX = 3,
+                PosY = 0,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 126,
+                PosX = 3,
+                PosY = 1,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 127,
+                PosX = 3,
+                PosY = 2,
+                ShipId = 8,
+                PieceState = PieceState.Ship
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 128,
+                PosX = 3,
+                PosY = 3,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+
+            //x = 4
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 129,
+                PosX = 4,
+                PosY = 0,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 130,
+                PosX = 4,
+                PosY = 1,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 131,
+                PosX = 4,
+                PosY = 2,
+                ShipId = 8,
+                PieceState = PieceState.Margin
+            });
+            modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
+            {
+                Id = 132,
+                PosX = 4,
+                PosY = 3,
+                ShipId = 8,
+                PieceState = PieceState.Water
+            });
+            #endregion
+
+            #region Heavy Cruiser
+            #endregion
+
+            #region Catamaran
+            #endregion
+
+            #region Light BattleShip
+            #endregion
+
+            #region AirCraft Carrier II
+            #endregion
+
         }
     }
 }
