@@ -178,7 +178,7 @@ namespace BattleShips.Services
                 //Gets UserGame whose ship has been hit.
                 UserGame hittedUserGame = firingUserGame.Game.UserGames.Where( x => x.Id == firedAtPiece.UserGameId).FirstOrDefault();
 
-                resultOfFiring = $"You have destroyed piece of a {firedAtPiece.Ship.Name} belonging to players {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
+                resultOfFiring = $"You have destroyed piece of a {firedAtPiece.Ship.Name} belonging to {hittedUserGame.ApplicationUser.PlayerName}s fleet.";
 
                 //Gets piece of ship.
                 IList<NavyBattlePiece> UnhitedShipPiece = _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToList();
@@ -195,7 +195,7 @@ namespace BattleShips.Services
                     //Checks if the game hase ended because there is another loser.
                     if (GameEnd(firingUserGame))
                     {
-                        resultOfFiring = "Congratulation you have Won, everyone else was destroyed!";
+                        resultOfFiring = "Congratulations you have Won, everyone else was destroyed!";
                     }
                     else
                     {
