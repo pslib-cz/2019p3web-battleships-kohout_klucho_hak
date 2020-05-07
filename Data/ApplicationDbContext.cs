@@ -226,9 +226,9 @@ namespace BattleShips.Data
                 Hidden = true
             });
 
-            //kazda lod je rozdelena do sloupecku pro prehlednost
+            //Each BattleShip is divided into x-columns for better navigation
 
-            #region Ponorka
+            #region Submarine
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
                 Id = 1,
@@ -304,7 +304,7 @@ namespace BattleShips.Data
             });
             #endregion
 
-            #region Torpedoborec
+            #region Destroyer
 
             //x = 0
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
@@ -411,7 +411,7 @@ namespace BattleShips.Data
             });
             #endregion
 
-            #region Kriznik
+            #region Cruiser
 
             //x = 0
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
@@ -545,7 +545,7 @@ namespace BattleShips.Data
 
             #endregion
 
-            #region Bitevni lod
+            #region BattleShip
 
             //x = 0
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
@@ -704,7 +704,7 @@ namespace BattleShips.Data
             });
             #endregion
 
-            #region Letadlova lod
+            #region Aircraft Carrier
 
             //x = 0
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
@@ -887,6 +887,10 @@ namespace BattleShips.Data
                 ShipId = 5,
                 PieceState = PieceState.Water
             });
+            #endregion
+
+            #region Landing base
+
             #endregion
         }
     }
