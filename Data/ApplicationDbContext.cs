@@ -53,6 +53,8 @@ namespace BattleShips.Data
                 TwoFactorEnabled = false,
                 EmailConfirmed = false,
                 LockoutEnabled = true,
+                TotalPlayedGames = 10,
+                Wins = 3,
                 PhoneNumberConfirmed = false,
                  PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
             };
@@ -67,6 +69,8 @@ namespace BattleShips.Data
                 TwoFactorEnabled = false,
                 EmailConfirmed = false,
                 LockoutEnabled = true,
+                TotalPlayedGames = 10,
+                Wins = 6,
                 PhoneNumberConfirmed = false,
                 PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
             };
@@ -81,6 +85,8 @@ namespace BattleShips.Data
                 TwoFactorEnabled = false,
                 EmailConfirmed = false,
                 LockoutEnabled = true,
+                TotalPlayedGames = 12,
+                Wins = 3,
                 PhoneNumberConfirmed = false,
                 PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
             };
@@ -559,7 +565,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 35,
+                Id = 350,
                 PosX = 0,
                 PosY = 1,
                 ShipId = 4,
@@ -567,7 +573,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 36,
+                Id = 360,
                 PosX = 0,
                 PosY = 2,
                 ShipId = 4,
@@ -577,7 +583,7 @@ namespace BattleShips.Data
             //x = 1
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 37,
+                Id = 370,
                 PosX = 1,
                 PosY = 0,
                 ShipId = 4,
@@ -1693,7 +1699,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 166,
+                Id = 1660,
                 PosX = 1,
                 PosY = 3,
                 ShipId = 10,
@@ -1701,7 +1707,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 167,
+                Id = 1670,
                 PosX = 1,
                 PosY = 4,
                 ShipId = 10,
@@ -1711,7 +1717,7 @@ namespace BattleShips.Data
             //x = 2
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 168,
+                Id = 1680,
                 PosX = 2,
                 PosY = 0,
                 ShipId = 10,
@@ -1719,7 +1725,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 169,
+                Id = 1690,
                 PosX = 2,
                 PosY = 1,
                 ShipId = 10,
@@ -1727,7 +1733,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 170,
+                Id = 1700,
                 PosX = 2,
                 PosY = 2,
                 ShipId = 10,
@@ -1735,7 +1741,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 171,
+                Id = 1710,
                 PosX = 2,
                 PosY = 3,
                 ShipId = 10,
@@ -1743,7 +1749,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 172,
+                Id = 1720,
                 PosX = 2,
                 PosY = 4,
                 ShipId = 10,
@@ -1753,7 +1759,7 @@ namespace BattleShips.Data
             //x = 3
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 173,
+                Id = 1730,
                 PosX = 3,
                 PosY = 0,
                 ShipId = 10,
@@ -1761,7 +1767,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 174,
+                Id = 1740,
                 PosX = 3,
                 PosY = 1,
                 ShipId = 10,
@@ -1769,7 +1775,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 175,
+                Id = 1750,
                 PosX = 3,
                 PosY = 2,
                 ShipId = 10,
@@ -1966,7 +1972,7 @@ namespace BattleShips.Data
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
-                Id = 188,
+                Id = 1880,
                 PosX = 3,
                 PosY = 3,
                 ShipId = 11,

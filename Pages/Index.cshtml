@@ -25,7 +25,7 @@
                         <th>Position in Ladder</th>
                         <th>Name</th>
                         <th>Wins</th>
-                        <th>Win Rate</th>
+                        <th>Games Played</th>
                     </tr>
                 </thead>
 
@@ -33,20 +33,21 @@
                     @foreach (var item in Model.TopPlayers)
                     {
                         i++;
-                    <tr>
-                        <td>@i.</td>
-                        <td>@item.PlayerName</td>
-                        <td>@item.Wins</td>
-                        @if (item.Wins != 0)
-                        {
-                            <td>@item.WinRate%</td>
-                        }
-                        else
-                        {
-                            <td>0%</td>
-                        }
+                        <tr>
+                            <td>@i.</td>
+                            <td>@item.PlayerName</td>
+                            <td>@item.Wins</td>
+                            <td>@item.TotalPlayedGames</td>
+                            @*@if (item.Wins != 0)
+                                {
+                                    <td>@item.WinRate%</td>
+                                }
+                                else
+                                {
+                                    <td>0%</td>
+                                }*@
 
-                    </tr>
+                        </tr>
                     }
 
                 </tbody>
@@ -84,16 +85,17 @@
                         <td>@Model.LoggedInUser.Wins</td>
                     </tr>
                     <tr>
-                        <td><strong>Win Rate</strong></td>
-                        @if (Model.LoggedInUser.Wins != 0)
-                        {
-                            <td>@Model.LoggedInUser.WinRate%</td>
-                        }
-                        else
-                        {
-                          <td>0%</td>
-                        }
-                        </tr>
+                        <td><strong>Total Games Played</strong></td>
+                        <td>@Model.LoggedInUser.TotalPlayedGames</td>
+                        @*@if (Model.LoggedInUser.Wins != 0)
+                            {
+                                <td>@Model.LoggedInUser.WinRate%</td>
+                            }
+                            else
+                            {
+                                <td>0%</td>
+                            }*@
+                    </tr>
 
                     <tr>
                         <td><strong>Position in Ladder</strong></td>

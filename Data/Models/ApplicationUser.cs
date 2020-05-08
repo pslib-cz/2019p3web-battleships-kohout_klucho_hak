@@ -21,14 +21,26 @@ namespace BattleShips.Data
 
         public int TotalPlayedGames { get; set; }
 
-        [NotMapped]
-        public double WinRate => (TotalPlayedGames / Wins) * 100;
 
+        ////public double WinRate => ((Wins / TotalPlayedGames) * 100);
+        //[NotMapped]
+        //private double _winRate;
 
-
-
-
-
-
+        //[NotMapped]
+        //public double WinRate
+        //{
+        //    get { return _winRate; }
+        //    set 
+        //    {
+        //        if(TotalPlayedGames !=0 || Wins !=0)
+        //        {
+        //            _winRate = ((Wins / TotalPlayedGames) * 100);
+        //        }
+        //        else
+        //        {
+        //            _winRate = 0;
+        //        }
+        //    }
+        //}
     }
 }

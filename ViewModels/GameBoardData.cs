@@ -15,9 +15,10 @@ namespace BattleShips.ViewModels
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
         public Game Game { get; set; }
         public UserGame UserGame { get; set; }
-        public string PageHandler { get; set; } 
+        public string PageHandler { get; set; }
+        public Ship Ship { get; set; }
 
-       
+
         public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, string pageHandler = "InGame")
         {
             if(userGame!=null)
@@ -41,28 +42,55 @@ namespace BattleShips.ViewModels
             IList<NavyBattlePiece> sortednavyBattlePieces = navyBattlePieces.OrderBy(m => m.PosY).ThenBy(m => m.PosX).ToList();
 
             int index = 0;
-            int rowsNumber = 0;
+           
             if (Game == null)
             {
-                rowsNumber = Convert.ToInt32(Math.Sqrt(sortednavyBattlePieces.Count())); //In the case of GameSetup.
+                int rowsNumber = 0;
+                int columsNumber = 0;
+                int itemCount = sortednavyBattlePieces.Count;
+                NavyBattlePiece lastNavyBattlePiece = sortednavyBattlePieces[itemCount - 1];
+                rowsNumber = lastNavyBattlePiece.PosY;
+                Ship = lastNavyBattlePiece.Ship;
+                //rowsNumber = Convert.ToInt32(Math.Sqrt(sortednavyBattlePieces.Count())); //In the case of GameSetup.
+                foreach (var item in sortednavyBattlePieces)
+                {
+                    if (item.PosY == 0)
+                    {
+                        columsNumber++;
+                    }
+                }
+                
+               
+                for (int row = 0; row <= rowsNumber; row++)
+                {
+                    List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
+
+                    for (int piece = 0; piece < columsNumber; piece++)
+                    {
+                        NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
+                        resultRow.Add(currentPiece);
+                        index++;
+                    }
+                    result.Add(resultRow);
+                }
             }
             else
             {
-                rowsNumber = Game.GameSize;
+                for (int row = 0; row < Game.GameSize; row++)
+                {
+                    List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
+
+                    for (int piece = 0; piece < Game.GameSize; piece++)
+                    {
+                        NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
+                        resultRow.Add(currentPiece);
+                        index++;
+                    }
+                    result.Add(resultRow);
+                }
             }
 
-            for (int row = 0; row < rowsNumber; row++)
-            {
-                List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
-                
-                for (int piece = 0; piece < rowsNumber; piece++)
-                {
-                    NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
-                    resultRow.Add(currentPiece);
-                    index++;
-                }
-                result.Add(resultRow);
-            }
+            
             return result;
         }
     }

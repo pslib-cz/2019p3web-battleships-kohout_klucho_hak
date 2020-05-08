@@ -357,7 +357,7 @@ namespace BattleShips.Services
             return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/ 
                 .Include(m => m.Ship) //model lodi (data)
                 .ThenInclude(n => n.ShipPieces) //v modelu lodi ICollection ShipPieces
-                .AsNoTracking()
+                .ThenInclude(s => s.Ship)
                 .ToList();
         }
 
@@ -371,7 +371,8 @@ namespace BattleShips.Services
                 {
                     PosX = piece.PosX,
                     PosY = piece.PosY,
-                    PieceState = piece.PieceState
+                    PieceState = piece.PieceState,
+                    Ship = piece.Ship
                 };
                 result.Add(navyBattlePiece);
             }

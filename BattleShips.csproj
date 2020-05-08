@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-BattleShips-981D97A9-102B-45B3-B03B-8AC2B538DDBD</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Images\shipShapes.PNG" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />

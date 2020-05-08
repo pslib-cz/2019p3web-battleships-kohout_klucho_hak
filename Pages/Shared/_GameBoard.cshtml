@@ -50,32 +50,42 @@
 }
 else
 {
-    <div>
-        <table class="table table-bordered">
-            <tbody>
-                @foreach (IEnumerable<NavyBattlePiece> row in board)
-                {
+<div>
+    <table class="table table-bordered">
+        <tbody>
+            @foreach (IEnumerable<NavyBattlePiece> row in board)
+            {
                 <tr style="">
                     @foreach (NavyBattlePiece navyBattlePiece in row)
                     {
-                        if (navyBattlePiece.PieceState == PieceState.HitShip)
+                        if (navyBattlePiece.PieceState == PieceState.Ship)
                         {
-                            <td class="bg-dark"></td>
+
+                            <td class="bg-dark">
+                                @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
+                            </td>
                         }
                         else if (navyBattlePiece.PieceState == PieceState.Margin)
                         {
-                            <td class="table-secondary "></td>
+
+                            <td class="table-secondary ">
+                                @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
+                            </td>
                         }
-                        else 
+                        else
                         {
-                            <td class="bg-primary "></td>
+
+                            <td class="bg-primary ">
+                                @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
+                            </td>
                         }
                     }
                 </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+    <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.Ship.Name</p>
+</div>
 }
 
 
