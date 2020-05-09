@@ -57,7 +57,6 @@ namespace BattleShips.Services
         //z ShipPiece udělat NavyBattlePiece
         IEnumerable GetShipPieces(int ShipId);
 
-        //TODO - VOJTA - DisplayShips
         IEnumerable<IEnumerable<ShipPiece>> DisplayShips(ShipPiece shipPiece);
 
 

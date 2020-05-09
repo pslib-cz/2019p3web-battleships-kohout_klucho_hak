@@ -21,7 +21,7 @@ namespace BattleShips.Services
 
 
         //TODO Robert dodělá identity, vytvořit admin a normální user
-        //TODO Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
+        //TODO Robert => Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
         //TODO Vojta Dodělat ShipPlacement
   
 
@@ -379,7 +379,6 @@ namespace BattleShips.Services
             return result;
         }
 
-        //TODO - VOJTA - upravit, aby šlo nastavit více lodí stejného typu
         //vrátí list zakliknutých lodí
         public IList<List<NavyBattlePiece>> GetChosenShips()
         {
