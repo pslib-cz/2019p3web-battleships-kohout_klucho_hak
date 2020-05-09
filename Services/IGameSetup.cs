@@ -30,7 +30,7 @@ namespace BattleShips.Services
         void CreateShipGame(int? shipId);
 
         /// <summary>
-        /// odstraní mezitabulku (propojení ship a game)
+        /// odstraní mezitabulku (propojení ship a game) - vybranou loď
         /// </summary>
         /// <param name="shipGameId"></param>
         void DeleteShipGame(int shipGameId);

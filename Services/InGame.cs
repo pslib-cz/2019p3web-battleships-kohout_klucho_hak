@@ -340,7 +340,7 @@ namespace BattleShips.Services
             _db.SaveChanges();
         }
 
-        //odstraní mezitabulku (propojení ship a game)
+        //odstraní mezitabulku (propojení ship a game) - vybranou loď
         public void DeleteShipGame(int shipGameId)
         {
             ShipGame shipGame = _db.ShipGames.Where(x => x.Id == shipGameId).FirstOrDefault();
@@ -394,6 +394,7 @@ namespace BattleShips.Services
             return result;
         }
 
+
         //nastaví hru
         public void Setgame(int maxPlayers, int gameSize)
         {
@@ -403,7 +404,15 @@ namespace BattleShips.Services
             game.MaxPlayers = maxPlayers;
             _db.Games.Update(game);
             _db.SaveChanges();
+            CreateUserGame();
+            string userId = GetUserId();
+            UserGame createdUserGame = _db.UserGames.Where(y => y.GameId == CurrentGameId && y.ApplicationUserId == userId)
+                .Include(z => z.Game)
+                .AsNoTracking()
+                .FirstOrDefault();
+            CreateBlankGameBoard(createdUserGame);
         }
+
 
         //dostupné lodě ze kterých si uživatel bude vybírat
         public List<Ship> GetShips()
@@ -428,9 +437,15 @@ namespace BattleShips.Services
 
         #region IShipPlacement (Klucho)
         // po rozmístění lodí vytvoří novou mezitabulku (UserGame)
-        public void CreateUserGame(Guid gameId, string userId)
+        public void CreateUserGame()
         {
-            throw new NotImplementedException();
+            UserGame userGame = new UserGame 
+            {
+                GameId = CurrentGameId,
+                ApplicationUserId = GetUserId()
+            };
+            _db.UserGames.Add(userGame);
+            _db.SaveChanges();
         }
 
 
@@ -441,9 +456,24 @@ namespace BattleShips.Services
         }
 
         // podle velikosti hry vytvoří prázdné hrací pole při načtení stránky
-        public void CreateBlankGameBoard(Game game)
+        public void CreateBlankGameBoard(UserGame userGame)
         {
-            throw new NotImplementedException();
+            for (int row = 0; row < userGame.Game.GameSize; row++)
+            {
+                for (int piece = 0; piece < userGame.Game.GameSize; piece++)
+                {
+                    NavyBattlePiece navyBattlePiece = new NavyBattlePiece
+                    {
+                        PosY = row,
+                        PosX = piece,
+                        UserGameId = userGame.Id,
+                        PieceState = PieceState.Water,
+                        TypeId = 1 
+                    };
+                    _db.NavyBattlePieces.Add(navyBattlePiece);
+                    _db.SaveChanges();
+                }
+            }
         }
 
 

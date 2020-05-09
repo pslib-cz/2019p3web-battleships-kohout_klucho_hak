@@ -57,22 +57,28 @@
     <tbody>
         @foreach (var item in Model.SetupShips)
         {
-            <tr>
-                <th>
-                    <a asp-page="GameSetup" asp-route-Id="@item.Id" class="btn btn-primary">Add</a>
-
-                    @*<input class="radiobtn" type="checkbox" id="ponorka" value="option1">*@
-                </th>
-                <th>
-                    @item.Name
-                </th>
-                <th>
-                    todo image
-                </th>
-            </tr>
+        <tr>
+            <th>
+                <a asp-page="GameSetup" asp-route-Id="@item.Id" class="btn btn-primary">Add</a>
+            </th>
+            @*<th>
+                <form method="post" asp-page-handler="delete">
+                    <input type="hidden" name="id" value="@item.Id" />
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </th>*@
+            <th>
+                @item.Name
+            </th>
+            <th>
+                todo image
+            </th>
+        </tr>
         }
     </tbody>
 </table>
+
+@* TODO - VOJTA - styly *@
 
 @foreach (var gameBoard in Model.GameBoards)
 {
