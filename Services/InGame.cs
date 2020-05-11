@@ -106,6 +106,7 @@ namespace BattleShips.Services
 
         #region Firing
         //TODO - Refactor metodu fire pokud bude fungovat. It is a mess. :(
+        //TODO - Nastavit hidden na false 
         //Fires at piece.
         public string Fire(int? pieceId)
         {
