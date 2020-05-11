@@ -38,15 +38,6 @@
                             <td>@item.PlayerName</td>
                             <td>@item.Wins</td>
                             <td>@item.TotalPlayedGames</td>
-                            @*@if (item.Wins != 0)
-                                {
-                                    <td>@item.WinRate%</td>
-                                }
-                                else
-                                {
-                                    <td>0%</td>
-                                }*@
-
                         </tr>
                     }
 
@@ -87,22 +78,6 @@
                     <tr>
                         <td><strong>Total Games Played</strong></td>
                         <td>@Model.LoggedInUser.TotalPlayedGames</td>
-                        @*@if (Model.LoggedInUser.Wins != 0)
-                            {
-                                <td>@Model.LoggedInUser.WinRate%</td>
-                            }
-                            else
-                            {
-                                <td>0%</td>
-                            }*@
-                    </tr>
-
-                    <tr>
-                        <td><strong>Position in Ladder</strong></td>
-                        <td>@*@Model.LoggedInUser.Position*@</td>
-                    </tr>
-
-
                 </tbody>
             </table>
         </div>
