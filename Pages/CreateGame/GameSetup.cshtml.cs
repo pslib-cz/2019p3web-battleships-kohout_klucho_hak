@@ -18,9 +18,12 @@ namespace BattleShips
         private readonly ISiteFunctionality _siteFunctionality;
 
         public ShipViewModel Ship { get; set; }
+
+        [BindProperty]
         public int GameSize { get; set; }
+        [BindProperty]
         public int MaxPlayers { get; set; }
-        public List<Ship> SetupShips { get; set; }
+        public List<Ship> SetupShips { get; set; } = new List<Ship>();
         IList<List<NavyBattlePiece>> ChosenShips { get; set; }
 
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
@@ -63,6 +66,10 @@ namespace BattleShips
             return RedirectToPage("./ShipPlacement");
         }
 
-        //TODO - Vojta - Udělej tu metodu OnPostDeleteShip(int id), remove button bude tam kde je vybraná loď vedle add buttonu
+        public IActionResult OnPostDelete(int id)
+        {
+            _igamesetup.DeleteShipGame(id);
+            return RedirectToPage("./GameSetup");
+        }
     }
 }

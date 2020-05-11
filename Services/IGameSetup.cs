@@ -30,7 +30,7 @@ namespace BattleShips.Services
         void CreateShipGame(int? shipId);
 
         /// <summary>
-        /// odstraní mezitabulku (propojení ship a game)
+        /// odstraní mezitabulku (propojení ship a game) - vybranou loď
         /// </summary>
         /// <param name="shipGameId"></param>
         void DeleteShipGame(int shipGameId);
@@ -57,7 +57,6 @@ namespace BattleShips.Services
         //z ShipPiece udělat NavyBattlePiece
         IEnumerable GetShipPieces(int ShipId);
 
-        //TODO - VOJTA - DisplayShips
         IEnumerable<IEnumerable<ShipPiece>> DisplayShips(ShipPiece shipPiece);
 
 

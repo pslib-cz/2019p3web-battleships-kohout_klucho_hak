@@ -24,13 +24,13 @@ namespace BattleShips.Services
         /// </summary>
         /// <param name="gameId"></param>
         /// <param name="userId"></param>
-        void CreateUserGame(Guid gameId, string userId);
+        void CreateUserGame();
         
         /// <summary>
         /// podle velikosti hry vytvoří prázdné hrací pole při načtení stránky
         /// </summary>
         /// <param name="game"></param>
-        void CreateBlankGameBoard(Game game);
+        void CreateBlankGameBoard(UserGame userGame);
 
         /// <summary>
         /// upraví prázdné hrací pole podle rozmístění lodí a uloží ho do databáze
