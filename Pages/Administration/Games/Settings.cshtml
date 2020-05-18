@@ -23,7 +23,7 @@
                     <th>
                         <form method="post" asp-page-handler="allowship">
                             <input type="hidden" name="shipId" value="@item.Ship.Id" />
-                            <button class="btn btn-primary">Allow Ship</button>
+                            <button class="btn btn-primary pt-3 pb-3 pl-4 pr-4" >Allow Ship</button>
                         </form>
                     </th>
                 }
@@ -32,7 +32,7 @@
                     <th>
                         <form method="post" asp-page-handler="disallowship">
                             <input type="hidden" name="shipId" value="@item.Ship.Id" />
-                            <button class="btn btn-primary">Disallow Ship</button>
+                            <button class="btn btn-danger p-3">Disallow Ship</button>
                         </form>
                     </th>
                 }

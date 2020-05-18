@@ -1981,7 +1981,7 @@ namespace BattleShips.Data
                 PosX = 3,
                 PosY = 1,
                 ShipId = 11,
-                PieceState = PieceState.Margin
+                PieceState = PieceState.Water
             });
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {

@@ -16,6 +16,14 @@
 }
 
 
+
+.game-board-table td {
+    padding: 0;
+}
+.game-board-table th {
+    padding: 0;
+}
+
 .Water {
     background-color: rgb(33, 151, 221);
 }
