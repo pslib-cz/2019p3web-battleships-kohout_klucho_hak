@@ -6,140 +6,25 @@
     //Načtu dvourozměrné pole
     IEnumerable<IEnumerable<NavyBattlePiece>> board = Model.MakeGameBoard(Model.NavyBattlePieces);
 }
-@if (Model.UserGame != null)
-{
-    <div>
-        <table class="game-board-table">
-            <tbody>
-                @foreach (IEnumerable<NavyBattlePiece> row in board)
-                {
-                    <tr>
-                        @foreach (NavyBattlePiece navyBattlePiece in row)
-                        {
-                            if (navyBattlePiece.Hidden)
-                            {
-                                if (navyBattlePiece.PieceState == PieceState.HitShip)
-                                {
-                                    <td class="board-piece-ship piece">
-                                        <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
-                                        </div>
-                                    </td>
-                                }
-
-                                else if (navyBattlePiece.PieceState == PieceState.HitWater)
-                                {
-                                    <td class="board-piece-water piece">
-                                        <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
-                                        </div>
-                                    </td>
-                                }
-
-                                else
-                                {
-                                    <td class="board-piece-hidden piece">
-                                        <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
-                                        </div>
-                                    </td>
-                                }
-                            }
-                            else
-                            {
-                                if (navyBattlePiece.PieceState == PieceState.HitShip || navyBattlePiece.PieceState == PieceState.Ship)
-                                {
-                                    <td class="board-piece-ship piece">
-                                        <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a"  name="pieceId"></a>
-                                        </div>
-                                    </td>
-                                }
-                                else if (navyBattlePiece.PieceState == PieceState.HitWater || navyBattlePiece.PieceState == PieceState.Water)
-                                {
-                                    <td class="board-piece-water piece">
-                                        <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a"  name="pieceId"></a>
-                                        </div>
-                                    </td>
-                                }
-
-                            }
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @if (Model.UserGame.ApplicationUser != null)
-        {
-            <p class="text-primary" style="font-size:large; font-weight:500; text-align:center">@Model.UserGame.ApplicationUser.PlayerName</p>
-        }
-
-    </div>
-}
-
-
-else
-{
-    <div>
-        <table class="table table-bordered">
-            <tbody>
-                @foreach (IEnumerable<NavyBattlePiece> row in board)
-                {
-                    <tr style="">
-                        @foreach (NavyBattlePiece navyBattlePiece in row)
-                        {
-                            if (navyBattlePiece.PieceState == PieceState.Ship)
-                            {
-
-                                <td class="bg-dark">
-                                    @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
-                                </td>
-                            }
-                            else if (navyBattlePiece.PieceState == PieceState.Margin)
-                            {
-
-                                <td class="table-secondary ">
-                                    @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
-                                </td>
-                            }
-                            else
-                            {
-
-                                <td class="bg-primary ">
-                                    @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
-                                </td>
-                            }
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.Ship.Name</p>
-    </div>
-}
-
-@*Ready for better solution*@
-
-@*<div>
-        <table class="table table-bordered">
-            <tbody>
-                @foreach (IEnumerable<NavyBattlePiece> row in board)
-                {
-                    <tr>
-                        @foreach (NavyBattlePiece navyBattlePiece in row)
-                        {
+<div>
+    <table class="game-board-table">
+        <tbody>
+            @foreach (IEnumerable<NavyBattlePiece> row in board)
+            {
+                <tr>
+                    @foreach (NavyBattlePiece navyBattlePiece in row)
+                    {
 
                         @if (navyBattlePiece.Hidden)
                         {
-                            <td class="@navyBattlePiece.PieceState">
-                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                            <td class="board-piece-hidden">
+                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                             </td>
                         }
                         else
                         {
                             <td class="@navyBattlePiece.PieceState">
-                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                             </td>
                         }
                     }
@@ -157,5 +42,6 @@ else
         <p class="text-primary" style="font-size:large; font-weight:500; text-align:center;">@Model.Ship.Name</p>
     }
 </div>
+
 
 
