@@ -100,12 +100,18 @@ namespace BattleShips.Services
 
         public async Task FireAsync(int pieceId)
         {
-            // Gets piece that user is trying to fire at.
-            var firedAtPiece = await GetNavyBattlePiecesByIdAsync(pieceId);
-
             // Gets active game.
             var activeGame = await GetGameAsync();
 
+            if(activeGame.GameState != GameState.Battle)
+            {
+                return;
+            }
+
+            // Gets piece that user is trying to fire at.
+            var firedAtPiece = await GetNavyBattlePiecesByIdAsync(pieceId);
+
+            
             // Gets UserGame that is suposed to be firing in the Game.
             var activeUserGame = await GetActiveUserGameAsync(activeGame);
 

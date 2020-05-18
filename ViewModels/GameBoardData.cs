@@ -14,9 +14,9 @@ namespace BattleShips.ViewModels
     {
         public IList<NavyBattlePiece> NavyBattlePieces { get; set; }
         public Game Game { get; set; }
-        public UserGame UserGame { get; set; }
+        public UserGame UserGame { get; set; } = new UserGame();
         public string PageHandler { get; set; }
-        public Ship Ship { get; set; }
+        public Ship Ship { get; set; } = new Ship();
         public Guid? LoggedInUserId { get; set; }
 
         public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, Guid? loggedInUserId = null, string pageHandler = "InGame")

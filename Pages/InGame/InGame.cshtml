@@ -6,13 +6,21 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>InGame (Development)</h1>
+<h1 class="text-primary">InGame</h1>
+@if (Model.Game.GameState == GameState.ShipPlacement)
+{
+    <h3>Waiting for other players to join in.</h3>
+}
+@if (Model.Game.GameState == GameState.Ended)
+{
+    <h3>This game has ended.</h3>
+}
 <br />
 <br />
 <h4 class="text-primary">@Model.FireResult</h4>
 
-@foreach(GameBoardData gameBoard in Model.GameBoards)
+@foreach (GameBoardData gameBoard in Model.GameBoards)
 {
-    <partial name="_GameBoard" model="gameBoard"/>
+    <partial name="_GameBoard" model="gameBoard" />
 
 }
