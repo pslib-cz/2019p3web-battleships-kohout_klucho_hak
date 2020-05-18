@@ -48,7 +48,7 @@
         <tr>
             <th>@Html.DisplayNameFor(m => m.Ship.Select)</th>
             <th>@Html.DisplayNameFor(m => m.Ship.Name)</th>
-            <th>@Html.DisplayNameFor(m => m.Ship.Picture)</th>
+            <th >@Html.DisplayNameFor(m => m.Ship.Picture)</th>
         </tr>
     </thead>
     <tbody>
@@ -77,14 +77,15 @@
                     @item.Ship.Name
                 </th>
                 <th>
-                    <partial name="_GameBoard" model="item.GameBoard" />
+                    <div style="width:200px">
+                        <partial name="_GameBoard" model="item.GameBoard" />
+                    </div>
                 </th>
             </tr>
         }
     </tbody>
 </table>
 
-@* TODO - VOJTA - styly *@
 
 @foreach (var gameBoard in Model.GameBoards)
 {

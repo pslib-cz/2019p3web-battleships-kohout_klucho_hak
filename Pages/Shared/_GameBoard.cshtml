@@ -23,10 +23,24 @@
                         }
                         else
                         {
-                          
-                            <td class="@navyBattlePiece.PieceState piece">
-                                <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
-                            </td>
+                            if (Model.IsLoggedInUsersBoard && (navyBattlePiece.PieceState == PieceState.HitWater || navyBattlePiece.PieceState == PieceState.HitShip))
+                            {
+                                <td class="@navyBattlePiece.PieceState piece">
+                                    <div>
+                                        <svg class="bi bi-x" width="3em" height="3em" color="red" viewBox="0 0 15 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="nonzero" d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z" clip-rule="nonzero" />
+                                            <path fill-rule="nonzero" d="M4.146 4.146a.5.5 0 000 .708l7 7a.5.5 0 00.708-.708l-7-7a.5.5 0 00-.708 0z" clip-rule="nonzero" />
+                                        </svg>
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="@navyBattlePiece.PieceState piece">
+                                    <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
+                                </td>
+                            }
+
                         }
                     }
                 </tr>
@@ -37,7 +51,7 @@
     {
         <p class="text-primary" style="font-size:large; font-weight:500; text-align:center;">@Model.UserGame.ApplicationUser.PlayerName</p>
     }
-    else if(Model.Ship != null)
+    else if (Model.Ship != null)
     {
 
         <p class="text-primary" style="font-size:large; font-weight:500; text-align:center;">@Model.Ship.Name</p>

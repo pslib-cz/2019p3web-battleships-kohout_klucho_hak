@@ -19,12 +19,16 @@
 .Water {
     background-color: rgb(33, 151, 221);
 }
-
+.HitWater {
+    background-color: rgb(33, 151, 221);
+}
 
 .Ship {
     background-color: rgb(57, 37, 30);
 }
-
+.HitShip {
+    background-color: rgb(57, 37, 30);
+}
 .Margin {
     background-color: rgb(200, 200, 200);
 }

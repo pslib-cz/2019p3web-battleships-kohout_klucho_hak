@@ -18,7 +18,7 @@ namespace BattleShips.ViewModels
         public string PageHandler { get; set; }
         public Ship Ship { get; set; } = new Ship();
         public Guid? LoggedInUserId { get; set; }
-
+        public bool IsLoggedInUsersBoard { get; set; } = false;
         public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, Guid? loggedInUserId = null, string pageHandler = "InGame")
         {
             if (userGame != null)
@@ -50,7 +50,9 @@ namespace BattleShips.ViewModels
                     foreach (var piece in sortednavyBattlePieces)
                     {
                         piece.Hidden = false;
+                       
                     }
+                    IsLoggedInUsersBoard = true;
                 }
             }
 

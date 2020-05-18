@@ -77,7 +77,9 @@ namespace BattleShips.Services
         public async Task<Game> GetGameAsync()
         {
             Guid currentGameId = CurrentGameId;
-            return await _db.Games.Where(m => m.Id == currentGameId).Include(m => m.UserGames).ThenInclude(x => x.ApplicationUser).AsNoTracking().SingleOrDefaultAsync();
+            return await _db.Games.Where(m => m.Id == currentGameId)
+                .Include(x => x.CurrentPlayer)
+                .Include(m => m.UserGames).ThenInclude(x => x.ApplicationUser).AsNoTracking().SingleOrDefaultAsync();
         }
         // Returns Ilist of UserGames in currently active Game.
         public async Task<IList<UserGame>> GetUserGamesWithUserAsync()
@@ -187,10 +189,9 @@ namespace BattleShips.Services
             UserGame hittedUserGame = firingUserGame.Game.UserGames.Where(x => x.Id == firedAtPiece.UserGameId).FirstOrDefault();
 
             // Gets piece of ship.
-           NavyBattlePiece UnhitedShipPiece = await _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship &&  p.Hidden == true).AsNoTracking().FirstOrDefaultAsync();
-
+            IList<NavyBattlePiece> UnhitedShipPiece = await _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToListAsync();
             // Checks if there more than one piece of ship, if not then this usergame has lost. The piece state has to be yet saved to database.
-            if (UnhitedShipPiece is null)
+            if (UnhitedShipPiece.Count() < 2)
             {
                 hittedUserGame.PlayerState = PlayerState.Loser;
                 _db.UserGames.Update(hittedUserGame);
@@ -208,17 +209,21 @@ namespace BattleShips.Services
         {
             bool output = false;
             //Fire :)
-            
+            PieceState newState;
+
             if (firedAtPiece.PieceState == PieceState.Water)
             {
+                newState = PieceState.HitWater;
                 firedAtPiece.Hidden = false;
             }
             else
             {
+                newState = PieceState.HitShip;
                 firedAtPiece.Hidden = false;
                 output = true;
             }
-            
+
+            firedAtPiece.PieceState = newState;
             _db.NavyBattlePieces.Update(firedAtPiece);
             return output;
         }
@@ -545,7 +550,7 @@ namespace BattleShips.Services
                         UserGameId = userGame.Id,
                         PieceState = PieceState.Water,
                         TypeId = 1,
-                        Hidden = false
+                        Hidden = true
                     };
                     _db.NavyBattlePieces.Add(navyBattlePiece);
                     _db.SaveChanges();

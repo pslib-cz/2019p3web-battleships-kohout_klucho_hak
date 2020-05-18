@@ -7,21 +7,28 @@
 }
 
 <h1 class="text-primary">InGame</h1>
-
-@if (Model.Game.GameState == GameState.ShipPlacement)
+@if (Model.Game is null)
 {
-    <h3>Waiting for other players to finish ship placement.</h3>
+    <h3>There currently is not an active game.</h3>
 }
-@if (Model.Game.GameState == GameState.Ended)
+else
 {
-    <h3>This game has ended.</h3>
-}
-<br />
-<br />
-<h4 class="text-primary">@Model.FireResult</h4>
+    @if (Model.Game.GameState == GameState.ShipPlacement)
+    {
+        <h3>Waiting for other players to finish ship placement.</h3>
+    }
+    @if (Model.Game.GameState == GameState.Ended)
+    {
+        <h3>This game has ended. <strong>@Model.Game.CurrentPlayer.PlayerName</strong> won!</h3>
+    }
+    <br />
+    <br />
+    <h4 class="text-primary">@Model.FireResult</h4>
 
-@foreach (GameBoardData gameBoard in Model.GameBoards)
-{
-    <partial name="_GameBoard" model="gameBoard" />
+    @foreach (GameBoardData gameBoard in Model.GameBoards)
+    {
+        <partial name="_GameBoard" model="gameBoard" />
+
+    }
 
 }

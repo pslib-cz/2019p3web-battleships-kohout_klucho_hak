@@ -14,6 +14,7 @@ namespace BattleShips
     {
         private readonly IShipPlacement _shipPlacement;
         private readonly IGameSetup _gameSetup;
+        private readonly ISiteFunctionality _siteFunctionality;
 
         IList<List<NavyBattlePiece>> ChosenShips { get; set; }
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
@@ -21,10 +22,12 @@ namespace BattleShips
         public GameBoardData Board { get; set; }
         public UserGame UserGame { get; set; }
         public IList<NavyBattlePiece> BoardPieces { get; set; }
-        public ShipPlacementModel(IShipPlacement shipPlacement, IGameSetup gameSetup)
+        public Guid? LoggedInUserId { get; set; }
+        public ShipPlacementModel(IShipPlacement shipPlacement, IGameSetup gameSetup, ISiteFunctionality siteFunctionality)
         {
             _shipPlacement = shipPlacement;
             _gameSetup = gameSetup;
+            _siteFunctionality = siteFunctionality;
         }
 
         public void OnGet(int? id, int? shipId)
@@ -41,7 +44,7 @@ namespace BattleShips
             ChosenShips = _gameSetup.GetChosenShips();
             UserGame = _shipPlacement.GetUserGame();
             BoardPieces = _shipPlacement.GetGameBoard();
-
+            LoggedInUserId = _siteFunctionality.GetUserId();
 
             GameBoards = _shipPlacement.PopulateGameBoards(ChosenShips, shipId);
 
@@ -52,7 +55,7 @@ namespace BattleShips
             }
 
             // Get new board
-            Board = new GameBoardData(BoardPieces, UserGame);
+            Board = new GameBoardData(BoardPieces, UserGame, LoggedInUserId);
             #endregion
 
         }
