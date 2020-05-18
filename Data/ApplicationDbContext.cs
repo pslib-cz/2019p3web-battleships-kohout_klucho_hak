@@ -1188,7 +1188,7 @@ namespace BattleShips.Data
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
                 Id = 104,
-                PosX = 0,
+                PosX = 2,
                 PosY = 3,
                 ShipId = 7,
                 PieceState = PieceState.Water
