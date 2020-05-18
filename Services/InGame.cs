@@ -18,13 +18,9 @@ namespace BattleShips.Services
     /// </summary>
     public class InGame : IGameSetup, IGameBattle, ISiteFunctionality, IShipPlacement, IAdministration
     {
-        //TODO Robert => Vojta AdminGameSetup.cshtml - Zde admin nastaví jaké ships a parametry můžou uživatelé nastavovat při vytváření hry, GameSetup.cshtml - Zde uživatelé nastaví svoje hry (načítat seznam dostupných ships z databáze (IList<Ships> setupShips {get; set;}))
-        //TODO Vojta Dodělat ShipPlacement
-
         private readonly ApplicationDbContext _db;
-
         private readonly ISession _session;
-        private readonly IHttpContextAccessor _hca; 
+        private readonly IHttpContextAccessor _hca;
         public Guid CurrentGameId { get; private set; }
         public InGame(ApplicationDbContext db, IHttpContextAccessor hca)
         {
@@ -354,7 +350,7 @@ namespace BattleShips.Services
                 var game = new Game() { OwnerId = userId, MaxPlayers = 2, GameSize = 10, Id = newGameId, CurrentPlayerId = userId };
                 _db.Games.Add(game);
                 _db.SaveChanges();
-                
+
                 SaveGame("Game", game.Id); //uloží do sessiony aktivní hru 
             }
             catch
@@ -391,7 +387,7 @@ namespace BattleShips.Services
         private List<ShipGame> GetShipGamesWithRelatedData()
         {
             //string userId = GetUserId(); 
-            return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/ 
+            return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/
                 .Include(m => m.Ship) //model lodi (data)
                 .ThenInclude(n => n.ShipPieces) //v modelu lodi ICollection ShipPieces
                 .ThenInclude(s => s.Ship)
@@ -469,7 +465,6 @@ namespace BattleShips.Services
         {
             return _db.ShipGames.Where(x => x.ShipId == shipId && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
         }
-
         #endregion
 
 
@@ -478,7 +473,7 @@ namespace BattleShips.Services
         // po rozmístění lodí vytvoří novou mezitabulku (UserGame)
         public void CreateUserGame()
         {
-            UserGame userGame = new UserGame 
+            UserGame userGame = new UserGame
             {
                 GameId = CurrentGameId,
                 ApplicationUserId = GetUserId()
@@ -507,7 +502,7 @@ namespace BattleShips.Services
                         PosX = piece,
                         UserGameId = userGame.Id,
                         PieceState = PieceState.Water,
-                        TypeId = 1 
+                        TypeId = 1
                     };
                     _db.NavyBattlePieces.Add(navyBattlePiece);
                     _db.SaveChanges();
@@ -587,7 +582,7 @@ namespace BattleShips.Services
         {
             Guid userId = GetUserId();
             Game setupGame = _db.Games.Where(o => o.OwnerId == userId && o.GameState == GameState.Setup).AsNoTracking().SingleOrDefault();
-            if(setupGame is null)
+            if (setupGame is null)
             {
                 CreateNewGame(userId);
             }
@@ -601,7 +596,7 @@ namespace BattleShips.Services
         public IList<ApplicationUser> GetTopUsers()
         {
             IList<ApplicationUser> applicationUsers = _db.ApplicationUsers.OrderByDescending(o => o.Wins).Take(10).AsNoTracking().ToList();
-      
+
             return applicationUsers;
         }
 
@@ -689,6 +684,27 @@ namespace BattleShips.Services
                 result = false;
             }
             return result;
+        }
+        public void AllowShip(int id)
+        {
+            var ship = _db.Ships.Where(x => x.Id == id).AsNoTracking().FirstOrDefault();
+            ship.IsAllowed = true;
+            _db.Ships.Update(ship);
+            _db.SaveChanges();
+        }
+        public void DisallowShip(int id)
+        {
+            var ship = _db.Ships.Where(x => x.Id == id).AsNoTracking().FirstOrDefault();
+            ship.IsAllowed = false;
+            _db.Ships.Update(ship);
+            _db.SaveChanges();
+        }
+
+        public IList<Ship> GetAllShips()
+        {
+            return _db.Ships
+                .Include(x => x.ShipPieces)
+                .AsNoTracking().ToList();
         }
         #endregion
     }

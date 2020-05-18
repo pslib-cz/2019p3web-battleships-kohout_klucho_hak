@@ -32,6 +32,7 @@ namespace BattleShips.ViewModels
             PageHandler = pageHandler;
         }
 
+        // TODO - Refactor make SOLID
         /// <summary>
         /// Creates IEnumerable<IEnumerable<NavyBattlePiece>>, from IList<NavyBattlePiece> NavyBattlePieces so that it can be presented easily as a board in view.
         /// </summary>

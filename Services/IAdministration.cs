@@ -16,5 +16,8 @@ namespace BattleShips.Services
 
         void UpdatePlayerName(string PlayerName, Guid id);
         bool DeleteUser(Guid id);
+        void DisallowShip(int id);
+        void AllowShip(int id);
+        IList<Ship> GetAllShips();
     }
 }
