@@ -554,7 +554,7 @@ namespace BattleShips.Services
         public UserGame GetUserGame()
         {
             var userId = GetUserId();
-            var output = _db.UserGames.Where(x => x.ApplicationUserId == userId && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
+            var output = _db.UserGames.Where(x => x.ApplicationUserId == userId && x.GameId == CurrentGameId).Include(x => x.Game).AsNoTracking().FirstOrDefault();
             return output;
         }
 

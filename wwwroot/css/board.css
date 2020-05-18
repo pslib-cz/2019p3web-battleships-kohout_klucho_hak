@@ -16,16 +16,16 @@
 }
 
 
-.board-piece-water {
+.Water {
     background-color: rgb(33, 151, 221);
 }
 
 
-.board-piece-ship {
+.Ship {
     background-color: rgb(57, 37, 30);
 }
 
-.board-piece-margin {
+.Margin {
     background-color: rgb(200, 200, 200);
 }
 

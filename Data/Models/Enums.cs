@@ -17,15 +17,15 @@ namespace BattleShips.Data
 
     public enum PieceState
     {
-        [Display(Name = "piece board-piece-water")]
+        [Display(Name = "board-piece-water piece")]
         Water,
-        [Display(Name = "bg-piece board-piece-ship")]
+        [Display(Name = "board-piece-ship piece")]
         Ship,
-        [Display(Name = "bg-piece board-piece-water")]
+        [Display(Name = "board-piece-water piece")]
         HitWater,
-        [Display(Name = "bg-piece board-piece-ship")]
+        [Display(Name = "board-piece-ship piece")]
         HitShip,
-        [Display(Name = "table-piece board-piece-margin")]
+        [Display(Name = "board-piece-margin piece")]
         Margin
     }
 

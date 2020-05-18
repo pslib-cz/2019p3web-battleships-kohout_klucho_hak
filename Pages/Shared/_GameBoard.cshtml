@@ -17,13 +17,14 @@
 
                         @if (navyBattlePiece.Hidden)
                         {
-                            <td class="board-piece-hidden">
+                            <td class="board-piece-hidden piece">
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                             </td>
                         }
                         else
                         {
-                            <td class="@navyBattlePiece.PieceState">
+                          
+                            <td class="@navyBattlePiece.PieceState piece">
                                 <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                             </td>
                         }
