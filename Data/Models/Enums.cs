@@ -17,11 +17,15 @@ namespace BattleShips.Data
 
     public enum PieceState
     {
-        [Display(Name = "Nazev tridy když je to voda")]
+        [Display(Name = "bg-primary")]
         Water,
+        [Display(Name = "bg-dark")]
         Ship,
+        [Display(Name = "bg-primary")]
         HitWater,
+        [Display(Name = "bg-dark")]
         HitShip,
+        [Display(Name = "table-secondary")]
         Margin
     }
 

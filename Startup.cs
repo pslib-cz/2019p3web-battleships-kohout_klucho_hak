@@ -36,11 +36,11 @@ namespace BattleShips
                 options.EnableSensitiveDataLogging();
             });
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-            //services.AddIdentityCore<ApplicationUser>()
-            //     .AddEntityFrameworkStores<ApplicationDbContext>();
-                
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                 .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
+                 .AddDefaultUI()
+                 .AddDefaultTokenProviders()
+                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
             services.AddDistributedMemoryCache();
@@ -51,7 +51,20 @@ namespace BattleShips
             services.AddTransient<IGameSetup, InGame>();
             services.AddTransient<IGameBattle, InGame>();
             services.AddTransient<ISiteFunctionality, InGame>();
+            services.AddTransient<IAdministration, InGame>();
+
             services.AddRazorPages();
+            services.AddAuthorization();
+
+            services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    Configuration.GetSection("Authentication:Google");
+
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+            });
 
         }
 

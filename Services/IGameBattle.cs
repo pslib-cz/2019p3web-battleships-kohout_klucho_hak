@@ -16,27 +16,22 @@ namespace BattleShips.Services
         /// Returns currently active Game.
         /// </summary>
         /// <returns></returns>
-        Game GetGame();
+        Task<Game> GetGameAsync();
 
-        /// <summary>
-        ///  Method for firing at choosen piece.
-        /// </summary>
-        /// <param name="pieceId"></param>
-        /// <returns>String containing results of firing.</returns>
-        string Fire(int? pieceId);
+
+        Task FireAsync(int pieceId);
 
         /// <summary>
         /// Returns Ilist of UserGames in currently active Game.
         /// </summary>
         /// <returns></returns>
-        IList<UserGame> GetUserGamesWithUser();
+        Task<IList<UserGame>> GetUserGamesWithUserAsync();
 
         /// <summary>
         /// Gets list of navybattlepieces based on UserGameId.
         /// </summary>
         /// <param name="userGameId"></param>
         /// <returns></returns>
-        IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId);
-
+        Task<IList<NavyBattlePiece>> GetNavyBattlePiecesAsync(int userGameId);
     }
 }

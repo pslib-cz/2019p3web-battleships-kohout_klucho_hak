@@ -23,7 +23,7 @@ namespace BattleShips
 
         public IList<Game> OtherGames { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         ISiteFunctionality _siteFunctionality;
 
@@ -32,7 +32,6 @@ namespace BattleShips
             _siteFunctionality = siteFunctionality;
         }
 
-        public List<GameListViewModel> GameLists { get; set; }
 
         public void OnGet()
         {
@@ -67,7 +66,11 @@ namespace BattleShips
             return RedirectToPage("../InGame/InGame");
         }
 
-       
+        public IActionResult OnPostCreateNewGame()
+        {
+            _siteFunctionality.SetupGame();
+            return RedirectToPage("../CreateGame/GameSetup");
+        }
 
     }
 }

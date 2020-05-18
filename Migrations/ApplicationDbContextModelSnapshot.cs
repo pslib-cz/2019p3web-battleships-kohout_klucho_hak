@@ -21,8 +21,9 @@ namespace BattleShips.Migrations
 
             modelBuilder.Entity("BattleShips.Data.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -62,9 +63,8 @@ namespace BattleShips.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("PlayerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -97,18 +97,37 @@ namespace BattleShips.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b71cf7ca-c377-49f6-9248-d8d429de0bc5",
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a1abc922-d551-4fd5-8f98-aa2a915cbec3",
+                            ConcurrencyStamp = "b474e5e6-0e82-4184-b9ec-e6f55689b6cf",
+                            Email = "admin@pslib.cz",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ADMIN@PSLIB.CZ",
+                            NormalizedUserName = "ADMIN@PSLIB.CZ",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN2e36uDDe7BUJ4d/+sZ2aKB0O9zmer7YOHwYodbo8ZIaS9A6o4J6nv8PBvQ0HEpWQ==",
+                            PhoneNumberConfirmed = false,
+                            PlayerName = "Admin",
+                            SecurityStamp = "",
+                            TotalPlayedGames = 0,
+                            TwoFactorEnabled = false,
+                            UserName = "admin@pslib.cz",
+                            Wins = 0
+                        },
+                        new
+                        {
+                            Id = new Guid("21111111-1111-1111-1111-111111111111"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "67500a40-10e9-4529-a8a7-23de18a23a26",
                             Email = "player1@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER1@PSLIB.CZ",
                             NormalizedUserName = "PLAYER1@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIWIuvNm23E8gevIGAHkL69imQpnygJ5wVx3Uc+qhAMWXmOZhlCRM+PjEe3XRFLG8w==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player1",
-                            SecurityStamp = "39c6972a-a1bf-4f23-a77e-bf96f7cfc5b6",
+                            SecurityStamp = "",
                             TotalPlayedGames = 10,
                             TwoFactorEnabled = false,
                             UserName = "player1@pslib.cz",
@@ -116,18 +135,18 @@ namespace BattleShips.Migrations
                         },
                         new
                         {
-                            Id = "121525be-385a-48c7-b5a7-2194757075fd",
+                            Id = new Guid("31111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "61fc5550-097b-47a8-b7d2-bb43a5910515",
+                            ConcurrencyStamp = "b6c3745c-3932-4a30-b8fa-53f4ca4fe682",
                             Email = "player2@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER2@PSLIB.CZ",
                             NormalizedUserName = "PLAYER2@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKnH4EzJRxwILnRXrbsWMS9p1cFxjmyVg5DzPao11nbnl2WrNE9jvHzvLl9Yt/FapQ==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player2",
-                            SecurityStamp = "6aa3382d-f2c2-46be-aa29-43d7e5b8cead",
+                            SecurityStamp = "",
                             TotalPlayedGames = 10,
                             TwoFactorEnabled = false,
                             UserName = "player2@pslib.cz",
@@ -135,18 +154,18 @@ namespace BattleShips.Migrations
                         },
                         new
                         {
-                            Id = "7c4e532f-1d0d-4d6b-b521-e81eadd79543",
+                            Id = new Guid("41111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e44bbc0f-e746-4417-ac1e-4ef03a251428",
+                            ConcurrencyStamp = "2b36e7e5-38be-4b3f-a2b2-ca0b94911a84",
                             Email = "player3@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER3@PSLIB.CZ",
                             NormalizedUserName = "PLAYER3@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEETKvoesmzg6val6R2UgOPp66reMYzXM3QLVKYxfBAaiCKbHmeOj7mClBi0/EtbkoA==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player3",
-                            SecurityStamp = "df550323-fdc2-4c6d-ae86-9a2782ebe8d2",
+                            SecurityStamp = "",
                             TotalPlayedGames = 12,
                             TwoFactorEnabled = false,
                             UserName = "player3@pslib.cz",
@@ -160,8 +179,8 @@ namespace BattleShips.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CurrentPlayerId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("CurrentPlayerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("GameRound")
                         .HasColumnType("int");
@@ -175,9 +194,8 @@ namespace BattleShips.Migrations
                     b.Property<int>("MaxPlayers")
                         .HasColumnType("int");
 
-                    b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("OwnerId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("UserRound")
                         .HasColumnType("int");
@@ -193,24 +211,24 @@ namespace BattleShips.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"),
-                            CurrentPlayerId = "b71cf7ca-c377-49f6-9248-d8d429de0bc5",
+                            Id = new Guid("11111111-1111-1111-1111-111111111112"),
+                            CurrentPlayerId = new Guid("21111111-1111-1111-1111-111111111111"),
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 0,
                             MaxPlayers = 2,
-                            OwnerId = "b71cf7ca-c377-49f6-9248-d8d429de0bc5",
+                            OwnerId = new Guid("21111111-1111-1111-1111-111111111111"),
                             UserRound = 0
                         },
                         new
                         {
-                            Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
-                            CurrentPlayerId = "b71cf7ca-c377-49f6-9248-d8d429de0bc5",
+                            Id = new Guid("11111111-1111-1111-1111-111111111113"),
+                            CurrentPlayerId = new Guid("21111111-1111-1111-1111-111111111111"),
                             GameRound = 0,
                             GameSize = 2,
                             GameState = 2,
                             MaxPlayers = 2,
-                            OwnerId = "b71cf7ca-c377-49f6-9248-d8d429de0bc5",
+                            OwnerId = new Guid("21111111-1111-1111-1111-111111111111"),
                             UserRound = 0
                         });
                 });
@@ -338,6 +356,9 @@ namespace BattleShips.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("IsAllowed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)")
@@ -351,61 +372,73 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
+                            IsAllowed = true,
                             Name = "Submarine"
                         },
                         new
                         {
                             Id = 2,
+                            IsAllowed = true,
                             Name = "Destroyer"
                         },
                         new
                         {
                             Id = 3,
+                            IsAllowed = true,
                             Name = "Cruiser"
                         },
                         new
                         {
                             Id = 4,
+                            IsAllowed = true,
                             Name = "Battleship"
                         },
                         new
                         {
                             Id = 5,
+                            IsAllowed = true,
                             Name = "Aircraft carrier"
                         },
                         new
                         {
                             Id = 6,
+                            IsAllowed = true,
                             Name = "Landing base"
                         },
                         new
                         {
                             Id = 7,
+                            IsAllowed = true,
                             Name = "Hydro plane"
                         },
                         new
                         {
                             Id = 8,
+                            IsAllowed = true,
                             Name = "Cruiser II"
                         },
                         new
                         {
                             Id = 9,
+                            IsAllowed = true,
                             Name = "Heavy Cruiser"
                         },
                         new
                         {
                             Id = 10,
+                            IsAllowed = true,
                             Name = "Catamaran"
                         },
                         new
                         {
                             Id = 11,
+                            IsAllowed = true,
                             Name = "Light battleship"
                         },
                         new
                         {
                             Id = 12,
+                            IsAllowed = true,
                             Name = "Aircraft carrier II"
                         });
                 });
@@ -2353,8 +2386,8 @@ namespace BattleShips.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
@@ -2374,23 +2407,24 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = 1,
-                            ApplicationUserId = "b71cf7ca-c377-49f6-9248-d8d429de0bc5",
-                            GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
+                            ApplicationUserId = new Guid("21111111-1111-1111-1111-111111111111"),
+                            GameId = new Guid("11111111-1111-1111-1111-111111111113"),
                             PlayerState = 1
                         },
                         new
                         {
                             Id = 2,
-                            ApplicationUserId = "121525be-385a-48c7-b5a7-2194757075fd",
-                            GameId = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
+                            ApplicationUserId = new Guid("31111111-1111-1111-1111-111111111111"),
+                            GameId = new Guid("11111111-1111-1111-1111-111111111113"),
                             PlayerState = 1
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -2412,9 +2446,18 @@ namespace BattleShips.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            ConcurrencyStamp = "5cf4f749-b354-4e05-bf9f-f82cdb045cf9",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2427,9 +2470,8 @@ namespace BattleShips.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -2438,7 +2480,7 @@ namespace BattleShips.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2451,9 +2493,8 @@ namespace BattleShips.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -2462,22 +2503,19 @@ namespace BattleShips.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -2486,33 +2524,38 @@ namespace BattleShips.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            RoleId = new Guid("11111111-1111-1111-1111-111111111111")
+                        });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -2526,7 +2569,9 @@ namespace BattleShips.Migrations
                 {
                     b.HasOne("BattleShips.Data.ApplicationUser", "CurrentPlayer")
                         .WithMany()
-                        .HasForeignKey("CurrentPlayerId");
+                        .HasForeignKey("CurrentPlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BattleShips.Data.ApplicationUser", "Owner")
                         .WithMany()
@@ -2592,8 +2637,10 @@ namespace BattleShips.Migrations
             modelBuilder.Entity("BattleShips.Data.UserGame", b =>
                 {
                     b.HasOne("BattleShips.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
+                        .WithMany("UserGames")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BattleShips.Data.Game", "Game")
                         .WithMany("UserGames")
@@ -2602,16 +2649,16 @@ namespace BattleShips.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()
@@ -2620,7 +2667,7 @@ namespace BattleShips.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()
@@ -2629,9 +2676,9 @@ namespace BattleShips.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -2644,7 +2691,7 @@ namespace BattleShips.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("BattleShips.Data.ApplicationUser", null)
                         .WithMany()

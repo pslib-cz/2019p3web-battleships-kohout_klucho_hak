@@ -19,7 +19,7 @@ namespace BattleShips.Services
         /// <param name="maxPlayers"></param>
         /// <param name="boardSize"></param>
         /// <returns></returns>
-        bool CreateNewGame(string userId);
+        bool CreateNewGame(Guid userId);
 
         /// <summary>
         /// vytvoří list dostupných lodí pro rozmístění (mezitabulka zakliknutých lodí)
@@ -54,12 +54,8 @@ namespace BattleShips.Services
         /// <returns></returns>
         List<Ship> GetShips();
 
-        //z ShipPiece udělat NavyBattlePiece
-        IEnumerable GetShipPieces(int ShipId);
-
-        IEnumerable<IEnumerable<ShipPiece>> DisplayShips(ShipPiece shipPiece);
-
-
+        ShipGame GetShipGame(int shipId);
+        IList<NavyBattlePiece> GetDataForGameboard(Ship ship);
 
     }
 }

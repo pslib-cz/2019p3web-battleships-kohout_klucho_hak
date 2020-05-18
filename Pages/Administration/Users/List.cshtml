@@ -1,0 +1,41 @@
+﻿@page
+@model BattleShips.Pages.Administration.Users.ListModel
+@{
+    ViewData["Title"] = "List";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-primary">Users List</h1>
+<h4>@TempData["FormResult"]</h4>
+
+<form method="get" class="float-sm-right">
+    <input type="hidden" name="handler" value="search" />
+    <input type="text" name="searchTerm" />
+    <input type="submit" class="btn btn-primary" value="Search" />
+</form>
+<form method="post" class="float-sm-left">
+    <input type="submit" class="btn btn-success" value="Create New User" />
+</form>
+<br />
+<hr />
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Email</th>
+            <th>Player Name</th>
+            <th>Total Played Games</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>@user.PlayerName</td>
+                <td>@user.TotalPlayedGames</td>
+                <td><a asp-page="./Detail" asp-route-Id="@user.Id" class="btn btn-primary">Detail</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -23,12 +23,12 @@ namespace BattleShips.Data
         public int GameRound { get; set; }
         public int UserRound { get; set; }
         [Required]
-        public string OwnerId { get; set; }
+        public Guid OwnerId { get; set; }
 
         [ForeignKey("OwnerId")]
         public ApplicationUser Owner { get; set; }
 
-        public string CurrentPlayerId { get; set; }
+        public Guid CurrentPlayerId { get; set; }
         [ForeignKey("CurrentPlayerId")]
         public ApplicationUser CurrentPlayer { get; set; }
 

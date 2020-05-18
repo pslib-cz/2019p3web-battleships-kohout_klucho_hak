@@ -11,7 +11,7 @@ namespace BattleShips.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -25,7 +25,7 @@ namespace BattleShips.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<Guid>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -40,7 +40,7 @@ namespace BattleShips.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    PlayerName = table.Column<string>(maxLength: 20, nullable: false),
+                    PlayerName = table.Column<string>(maxLength: 15, nullable: true),
                     Wins = table.Column<int>(nullable: false),
                     TotalPlayedGames = table.Column<int>(nullable: false)
                 },
@@ -55,7 +55,8 @@ namespace BattleShips.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 20, nullable: false)
+                    Name = table.Column<string>(maxLength: 20, nullable: false),
+                    IsAllowed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,7 +69,7 @@ namespace BattleShips.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -89,7 +90,7 @@ namespace BattleShips.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -108,10 +109,10 @@ namespace BattleShips.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -128,8 +129,8 @@ namespace BattleShips.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    UserId = table.Column<Guid>(nullable: false),
+                    RoleId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -152,9 +153,9 @@ namespace BattleShips.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
-                    Name = table.Column<string>(maxLength: 128, nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -177,8 +178,8 @@ namespace BattleShips.Migrations
                     GameSize = table.Column<int>(nullable: false),
                     GameRound = table.Column<int>(nullable: false),
                     UserRound = table.Column<int>(nullable: false),
-                    OwnerId = table.Column<string>(nullable: false),
-                    CurrentPlayerId = table.Column<string>(nullable: true),
+                    OwnerId = table.Column<Guid>(nullable: false),
+                    CurrentPlayerId = table.Column<Guid>(nullable: false),
                     GameState = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -189,7 +190,7 @@ namespace BattleShips.Migrations
                         column: x => x.CurrentPlayerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Games_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
@@ -252,7 +253,7 @@ namespace BattleShips.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ApplicationUserId = table.Column<string>(nullable: true),
+                    ApplicationUserId = table.Column<Guid>(nullable: false),
                     GameId = table.Column<Guid>(nullable: false),
                     PlayerState = table.Column<int>(nullable: false)
                 },
@@ -264,13 +265,13 @@ namespace BattleShips.Migrations
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserGames_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -330,41 +331,52 @@ namespace BattleShips.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { new Guid("11111111-1111-1111-1111-111111111111"), "5cf4f749-b354-4e05-bf9f-f82cdb045cf9", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "PlayerName", "SecurityStamp", "TotalPlayedGames", "TwoFactorEnabled", "UserName", "Wins" },
                 values: new object[,]
                 {
-                    { "b71cf7ca-c377-49f6-9248-d8d429de0bc5", 0, "a1abc922-d551-4fd5-8f98-aa2a915cbec3", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player1", "39c6972a-a1bf-4f23-a77e-bf96f7cfc5b6", 10, false, "player1@pslib.cz", 3 },
-                    { "121525be-385a-48c7-b5a7-2194757075fd", 0, "61fc5550-097b-47a8-b7d2-bb43a5910515", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player2", "6aa3382d-f2c2-46be-aa29-43d7e5b8cead", 10, false, "player2@pslib.cz", 6 },
-                    { "7c4e532f-1d0d-4d6b-b521-e81eadd79543", 0, "e44bbc0f-e746-4417-ac1e-4ef03a251428", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==", null, false, "Player3", "df550323-fdc2-4c6d-ae86-9a2782ebe8d2", 12, false, "player3@pslib.cz", 3 }
+                    { new Guid("41111111-1111-1111-1111-111111111111"), 0, "2b36e7e5-38be-4b3f-a2b2-ca0b94911a84", "player3@pslib.cz", false, true, null, "PLAYER3@PSLIB.CZ", "PLAYER3@PSLIB.CZ", "AQAAAAEAACcQAAAAEETKvoesmzg6val6R2UgOPp66reMYzXM3QLVKYxfBAaiCKbHmeOj7mClBi0/EtbkoA==", null, false, "Player3", "", 12, false, "player3@pslib.cz", 3 },
+                    { new Guid("11111111-1111-1111-1111-111111111111"), 0, "b474e5e6-0e82-4184-b9ec-e6f55689b6cf", "admin@pslib.cz", false, true, null, "ADMIN@PSLIB.CZ", "ADMIN@PSLIB.CZ", "AQAAAAEAACcQAAAAEN2e36uDDe7BUJ4d/+sZ2aKB0O9zmer7YOHwYodbo8ZIaS9A6o4J6nv8PBvQ0HEpWQ==", null, false, "Admin", "", 0, false, "admin@pslib.cz", 0 },
+                    { new Guid("21111111-1111-1111-1111-111111111111"), 0, "67500a40-10e9-4529-a8a7-23de18a23a26", "player1@pslib.cz", false, true, null, "PLAYER1@PSLIB.CZ", "PLAYER1@PSLIB.CZ", "AQAAAAEAACcQAAAAEIWIuvNm23E8gevIGAHkL69imQpnygJ5wVx3Uc+qhAMWXmOZhlCRM+PjEe3XRFLG8w==", null, false, "Player1", "", 10, false, "player1@pslib.cz", 3 },
+                    { new Guid("31111111-1111-1111-1111-111111111111"), 0, "b6c3745c-3932-4a30-b8fa-53f4ca4fe682", "player2@pslib.cz", false, true, null, "PLAYER2@PSLIB.CZ", "PLAYER2@PSLIB.CZ", "AQAAAAEAACcQAAAAEKnH4EzJRxwILnRXrbsWMS9p1cFxjmyVg5DzPao11nbnl2WrNE9jvHzvLl9Yt/FapQ==", null, false, "Player2", "", 10, false, "player2@pslib.cz", 6 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Ships",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "IsAllowed", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Submarine" },
-                    { 2, "Destroyer" },
-                    { 3, "Cruiser" },
-                    { 4, "Battleship" },
-                    { 5, "Aircraft carrier" },
-                    { 6, "Landing base" },
-                    { 7, "Hydro plane" },
-                    { 8, "Cruiser II" },
-                    { 9, "Heavy Cruiser" },
-                    { 10, "Catamaran" },
-                    { 11, "Light battleship" },
-                    { 12, "Aircraft carrier II" }
+                    { 1, true, "Submarine" },
+                    { 2, true, "Destroyer" },
+                    { 3, true, "Cruiser" },
+                    { 4, true, "Battleship" },
+                    { 12, true, "Aircraft carrier II" },
+                    { 6, true, "Landing base" },
+                    { 7, true, "Hydro plane" },
+                    { 8, true, "Cruiser II" },
+                    { 9, true, "Heavy Cruiser" },
+                    { 10, true, "Catamaran" },
+                    { 11, true, "Light battleship" },
+                    { 5, true, "Aircraft carrier" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "UserId", "RoleId" },
+                values: new object[] { new Guid("11111111-1111-1111-1111-111111111111"), new Guid("11111111-1111-1111-1111-111111111111") });
 
             migrationBuilder.InsertData(
                 table: "Games",
                 columns: new[] { "Id", "CurrentPlayerId", "GameRound", "GameSize", "GameState", "MaxPlayers", "OwnerId", "UserRound" },
                 values: new object[,]
                 {
-                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"), "b71cf7ca-c377-49f6-9248-d8d429de0bc5", 0, 2, 0, 2, "b71cf7ca-c377-49f6-9248-d8d429de0bc5", 0 },
-                    { new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), "b71cf7ca-c377-49f6-9248-d8d429de0bc5", 0, 2, 2, 2, "b71cf7ca-c377-49f6-9248-d8d429de0bc5", 0 }
+                    { new Guid("11111111-1111-1111-1111-111111111112"), new Guid("21111111-1111-1111-1111-111111111111"), 0, 2, 0, 2, new Guid("21111111-1111-1111-1111-111111111111"), 0 },
+                    { new Guid("11111111-1111-1111-1111-111111111113"), new Guid("21111111-1111-1111-1111-111111111111"), 0, 2, 2, 2, new Guid("21111111-1111-1111-1111-111111111111"), 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -372,7 +384,6 @@ namespace BattleShips.Migrations
                 columns: new[] { "Id", "PieceState", "PosX", "PosY", "ShipId" },
                 values: new object[,]
                 {
-                    { 145, 1, 2, 2, 9 },
                     { 146, 1, 2, 3, 9 },
                     { 147, 4, 2, 4, 9 },
                     { 148, 0, 3, 0, 9 },
@@ -397,10 +408,11 @@ namespace BattleShips.Migrations
                     { 1670, 4, 1, 4, 10 },
                     { 1680, 0, 2, 0, 10 },
                     { 1690, 4, 2, 1, 10 },
+                    { 1700, 1, 2, 2, 10 },
+                    { 145, 1, 2, 2, 9 },
                     { 144, 1, 2, 1, 9 },
                     { 143, 4, 2, 0, 9 },
                     { 142, 0, 1, 4, 9 },
-                    { 141, 4, 1, 3, 9 },
                     { 116, 0, 0, 3, 8 },
                     { 117, 0, 1, 0, 8 },
                     { 118, 4, 1, 1, 8 },
@@ -413,8 +425,8 @@ namespace BattleShips.Migrations
                     { 125, 0, 3, 0, 8 },
                     { 126, 4, 3, 1, 8 },
                     { 127, 1, 3, 2, 8 },
+                    { 1710, 4, 2, 3, 10 },
                     { 128, 4, 3, 3, 8 },
-                    { 129, 0, 4, 0, 8 },
                     { 130, 0, 4, 1, 8 },
                     { 131, 4, 4, 2, 8 },
                     { 132, 0, 4, 3, 8 },
@@ -426,11 +438,11 @@ namespace BattleShips.Migrations
                     { 138, 0, 1, 0, 9 },
                     { 139, 4, 1, 1, 9 },
                     { 140, 1, 1, 2, 9 },
-                    { 1700, 1, 2, 2, 10 },
-                    { 1710, 4, 2, 3, 10 },
+                    { 141, 4, 1, 3, 9 },
+                    { 129, 0, 4, 0, 8 },
+                    { 115, 4, 0, 2, 8 },
                     { 1720, 0, 2, 4, 10 },
-                    { 1730, 4, 3, 0, 10 },
-                    { 193, 4, 1, 1, 12 },
+                    { 1740, 1, 3, 1, 10 },
                     { 194, 1, 1, 2, 12 },
                     { 195, 4, 1, 3, 12 },
                     { 196, 0, 2, 0, 12 },
@@ -455,11 +467,11 @@ namespace BattleShips.Migrations
                     { 215, 4, 5, 3, 12 },
                     { 216, 0, 6, 0, 12 },
                     { 217, 4, 6, 1, 12 },
+                    { 218, 4, 6, 2, 12 },
+                    { 193, 4, 1, 1, 12 },
                     { 192, 0, 1, 0, 12 },
                     { 191, 0, 0, 3, 12 },
                     { 190, 4, 0, 2, 12 },
-                    { 189, 0, 0, 1, 12 },
-                    { 1740, 1, 3, 1, 10 },
                     { 1750, 1, 3, 2, 10 },
                     { 166, 1, 3, 3, 10 },
                     { 167, 4, 3, 4, 10 },
@@ -471,9 +483,9 @@ namespace BattleShips.Migrations
                     { 173, 0, 0, 0, 11 },
                     { 174, 4, 0, 1, 11 },
                     { 175, 4, 0, 2, 11 },
-                    { 115, 4, 0, 2, 8 },
                     { 176, 0, 0, 3, 11 },
-                    { 178, 1, 1, 1, 11 },
+                    { 1730, 4, 3, 0, 10 },
+                    { 177, 4, 1, 0, 11 },
                     { 179, 1, 1, 2, 11 },
                     { 180, 4, 1, 3, 11 },
                     { 181, 0, 2, 0, 11 },
@@ -485,9 +497,10 @@ namespace BattleShips.Migrations
                     { 187, 4, 3, 2, 11 },
                     { 1880, 0, 3, 3, 11 },
                     { 188, 0, 0, 0, 12 },
-                    { 177, 4, 1, 0, 11 },
+                    { 189, 0, 0, 1, 12 },
+                    { 178, 1, 1, 1, 11 },
+                    { 1, 1, 1, 1, 1 },
                     { 114, 0, 0, 1, 8 },
-                    { 113, 0, 0, 0, 8 },
                     { 112, 0, 5, 3, 7 },
                     { 31, 4, 3, 0, 3 },
                     { 32, 1, 3, 1, 3 },
@@ -515,10 +528,9 @@ namespace BattleShips.Migrations
                     { 51, 0, 5, 2, 4 },
                     { 52, 0, 0, 0, 5 },
                     { 30, 4, 2, 2, 3 },
+                    { 53, 4, 0, 1, 5 },
                     { 29, 1, 2, 1, 3 },
-                    { 28, 4, 2, 0, 3 },
                     { 27, 4, 1, 2, 3 },
-                    { 1, 1, 1, 1, 1 },
                     { 2, 4, 0, 1, 1 },
                     { 3, 4, 1, 0, 1 },
                     { 4, 4, 2, 1, 1 },
@@ -530,8 +542,8 @@ namespace BattleShips.Migrations
                     { 10, 0, 0, 0, 2 },
                     { 11, 4, 0, 1, 2 },
                     { 12, 0, 0, 2, 2 },
-                    { 53, 4, 0, 1, 5 },
                     { 13, 4, 1, 0, 2 },
+                    { 14, 1, 1, 1, 2 },
                     { 15, 4, 1, 2, 2 },
                     { 16, 4, 2, 0, 2 },
                     { 17, 1, 2, 1, 2 },
@@ -544,9 +556,9 @@ namespace BattleShips.Migrations
                     { 24, 0, 0, 2, 3 },
                     { 25, 4, 1, 0, 3 },
                     { 26, 1, 1, 1, 3 },
-                    { 14, 1, 1, 1, 2 },
-                    { 218, 4, 6, 2, 12 },
+                    { 28, 4, 2, 0, 3 },
                     { 54, 0, 0, 2, 5 },
+                    { 55, 4, 1, 0, 5 },
                     { 56, 1, 1, 1, 5 },
                     { 87, 1, 3, 2, 6 },
                     { 88, 4, 3, 3, 6 },
@@ -589,7 +601,7 @@ namespace BattleShips.Migrations
                     { 66, 4, 4, 2, 5 },
                     { 67, 4, 5, 0, 5 },
                     { 68, 1, 5, 1, 5 },
-                    { 55, 4, 1, 0, 5 },
+                    { 219, 0, 6, 3, 12 },
                     { 69, 4, 5, 2, 5 },
                     { 71, 4, 6, 1, 5 },
                     { 72, 0, 6, 2, 5 },
@@ -604,18 +616,18 @@ namespace BattleShips.Migrations
                     { 81, 4, 2, 0, 6 },
                     { 82, 1, 2, 1, 6 },
                     { 70, 0, 6, 0, 5 },
-                    { 219, 0, 6, 3, 12 }
+                    { 113, 0, 0, 0, 8 }
                 });
 
             migrationBuilder.InsertData(
                 table: "UserGames",
                 columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
-                values: new object[] { 1, "b71cf7ca-c377-49f6-9248-d8d429de0bc5", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+                values: new object[] { 1, new Guid("21111111-1111-1111-1111-111111111111"), new Guid("11111111-1111-1111-1111-111111111113"), 1 });
 
             migrationBuilder.InsertData(
                 table: "UserGames",
                 columns: new[] { "Id", "ApplicationUserId", "GameId", "PlayerState" },
-                values: new object[] { 2, "121525be-385a-48c7-b5a7-2194757075fd", new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"), 1 });
+                values: new object[] { 2, new Guid("31111111-1111-1111-1111-111111111111"), new Guid("11111111-1111-1111-1111-111111111113"), 1 });
 
             migrationBuilder.InsertData(
                 table: "NavyBattlePieces",

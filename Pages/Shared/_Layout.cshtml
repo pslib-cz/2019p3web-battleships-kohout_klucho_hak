@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/board.css" />
     <link rel="stylesheet" href="~/css/gameSetup.css" />
 </head>
-<body class="site-background">
+<body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
@@ -24,6 +24,12 @@
                         <li class="nav-item">
                             <a class="nav-link " asp-area="" asp-page="/GameList/GameList">Game List</a>
                         </li>
+                        @if (@User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-page="/Administration/Index">Administration</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

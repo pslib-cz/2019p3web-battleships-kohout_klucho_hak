@@ -1,0 +1,11 @@
+﻿@page
+@model BattleShips.Pages.Administration.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Administration Index</h1>
+<a asp-page="./Users/List" class="btn btn-primary">Users</a>
+<a asp-page="./Games/GameSettings" class="btn btn-primary">Game Settings</a>
+

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BattleShips.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -28,23 +28,50 @@ namespace BattleShips.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "Submarine" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 2, Name = "Destroyer" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 3, Name = "Cruiser" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 4, Name = "Battleship" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 5, Name = "Aircraft carrier" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 6, Name = "Landing base" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 7, Name = "Hydro plane" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 8, Name = "Cruiser II" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 9, Name = "Heavy Cruiser" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 10, Name = "Catamaran" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 11, Name = "Light battleship" });
-            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 12, Name = "Aircraft carrier II" });
 
-           
+            #region Ship Seed
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 1, Name = "Submarine", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 2, Name = "Destroyer", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 3, Name = "Cruiser", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 4, Name = "Battleship", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 5, Name = "Aircraft carrier", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 6, Name = "Landing base", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 7, Name = "Hydro plane", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 8, Name = "Cruiser II", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 9, Name = "Heavy Cruiser", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 10, Name = "Catamaran", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 11, Name = "Light battleship", IsAllowed = true });
+            modelBuilder.Entity<Ship>().HasData(new Ship { Id = 12, Name = "Aircraft carrier II", IsAllowed = true });
+            #endregion
 
-            ApplicationUser playerOne = new ApplicationUser
+
+
+            #region Users, Roles, UserRoles Seed
+            modelBuilder.Entity<IdentityRole<Guid>>().HasData(new IdentityRole<Guid> { Id = Guid.Parse("11111111-1111-1111-1111-111111111111"), Name = "Admin", NormalizedName = "ADMIN" });
+            var hasher = new PasswordHasher<ApplicationUser>();
+            modelBuilder.Entity<ApplicationUser>().HasData(new ApplicationUser
             {
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                UserName = "admin@pslib.cz",
+                PlayerName = "Admin",
+                Email = "admin@pslib.cz",
+                NormalizedEmail = "admin@pslib.cz".ToUpper(),
+                NormalizedUserName = "admin@pslib.cz".ToUpper(),
+                TwoFactorEnabled = false,
+                EmailConfirmed = false,
+                LockoutEnabled = true,
+                TotalPlayedGames = 0,
+                Wins = 0,
+                PhoneNumberConfirmed = false,
+                PasswordHash = hasher.HashPassword(null, "Admin123."),
+                SecurityStamp = string.Empty
+            });
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid> { RoleId = Guid.Parse("11111111-1111-1111-1111-111111111111"), UserId = Guid.Parse("11111111-1111-1111-1111-111111111111") });
+
+            modelBuilder.Entity<ApplicationUser>().HasData(new ApplicationUser
+            {
+                Id = Guid.Parse("21111111-1111-1111-1111-111111111111"),
                 UserName = "player1@pslib.cz",
                 PlayerName = "Player1",
                 Email = "player1@pslib.cz",
@@ -56,11 +83,13 @@ namespace BattleShips.Data
                 TotalPlayedGames = 10,
                 Wins = 3,
                 PhoneNumberConfirmed = false,
-                 PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
-            };
+                PasswordHash = hasher.HashPassword(null, "Lode123."),
+                SecurityStamp = string.Empty
+            });
 
-            ApplicationUser playerTwo = new ApplicationUser
+            modelBuilder.Entity<ApplicationUser>().HasData(new ApplicationUser
             {
+                Id = Guid.Parse("31111111-1111-1111-1111-111111111111"),
                 UserName = "player2@pslib.cz",
                 PlayerName = "Player2",
                 Email = "player2@pslib.cz",
@@ -72,11 +101,13 @@ namespace BattleShips.Data
                 TotalPlayedGames = 10,
                 Wins = 6,
                 PhoneNumberConfirmed = false,
-                PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
-            };
+                PasswordHash = hasher.HashPassword(null, "Lode123."),
+                SecurityStamp = string.Empty
+            });
 
-            ApplicationUser playerThree = new ApplicationUser
+            modelBuilder.Entity<ApplicationUser>().HasData(new ApplicationUser
             {
+                Id = Guid.Parse("41111111-1111-1111-1111-111111111111"),
                 UserName = "player3@pslib.cz",
                 PlayerName = "Player3",
                 Email = "player3@pslib.cz",
@@ -88,76 +119,65 @@ namespace BattleShips.Data
                 TotalPlayedGames = 12,
                 Wins = 3,
                 PhoneNumberConfirmed = false,
-                PasswordHash = "AQAAAAEAACcQAAAAEP6fMWCJXnEht0lxMRHtkrtDphMQdQHesFZ7F7CQz/AKx8HHipQO7Ojxmj+Fphf3qw==" //Lode123.
-            };
+                PasswordHash = hasher.HashPassword(null, "Lode123."),
+                SecurityStamp = string.Empty
+            });
 
-            //PasswordHasher<ApplicationUser> ph = new PasswordHasher<ApplicationUser>();
-            //playerOne.PasswordHash = ph.HashPassword(playerOne, "Lode123.");
-            //playerTwo.PasswordHash = ph.HashPassword(playerTwo, "Lode123.");
-            //playerThree.PasswordHash = ph.HashPassword(playerThree, "Lode123.");
+            #endregion
 
-            modelBuilder.Entity<ApplicationUser>().HasData(
-               playerOne
-            ) ;
-            modelBuilder.Entity<ApplicationUser>().HasData(
-               playerTwo
-            );
-            modelBuilder.Entity<ApplicationUser>().HasData(
-               playerThree
-            );
-
-            Game gameOne = new Game
+            #region Games Seed
+            modelBuilder.Entity<Game>().HasData(new Game
             {
-                Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c"),
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111112"),
                 MaxPlayers = 2,
                 GameSize = 2,
                 GameRound = 0,
-                OwnerId = playerOne.Id,
-                CurrentPlayerId = playerOne.Id,
+                OwnerId = Guid.Parse("21111111-1111-1111-1111-111111111111"),
+                CurrentPlayerId = Guid.Parse("21111111-1111-1111-1111-111111111111"),
                 GameState = GameState.Setup
-            } ;
+            });
 
-            Game gameTwo = new Game
+            modelBuilder.Entity<Game>().HasData(new Game
             {
-                Id = new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413e"),
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111113"),
                 MaxPlayers = 2,
                 GameSize = 2,
                 GameRound = 0,
-                OwnerId = playerOne.Id,
-                CurrentPlayerId = playerOne.Id,
+                OwnerId = Guid.Parse("21111111-1111-1111-1111-111111111111"),
+                CurrentPlayerId = Guid.Parse("21111111-1111-1111-1111-111111111111"),
                 GameState = GameState.Battle
-            };
+            });
 
-            modelBuilder.Entity<Game>().HasData(gameOne);
-            modelBuilder.Entity<Game>().HasData(gameTwo);
+            #endregion
 
-            UserGame userGameOne = new UserGame           
+            #region UserGames Seed
+            modelBuilder.Entity<UserGame>().HasData(new UserGame
             {
                 Id = 1,
-                ApplicationUserId = playerOne.Id,
-                GameId = gameTwo.Id,
+                ApplicationUserId = Guid.Parse("21111111-1111-1111-1111-111111111111"),
+                GameId = Guid.Parse("11111111-1111-1111-1111-111111111113"),
                 PlayerState = PlayerState.Playing
 
-            } ;
-            UserGame userGameTwo = new UserGame
+            });
+            modelBuilder.Entity<UserGame>().HasData(new UserGame
             {
                 Id = 2,
-                ApplicationUserId = playerTwo.Id,
-                GameId = gameTwo.Id,
+                ApplicationUserId = Guid.Parse("31111111-1111-1111-1111-111111111111"),
+                GameId = Guid.Parse("11111111-1111-1111-1111-111111111113"),
                 PlayerState = PlayerState.Playing
 
-            };
+            });
+            #endregion
 
-            modelBuilder.Entity<UserGame>().HasData(userGameOne);
-            modelBuilder.Entity<UserGame>().HasData(userGameTwo);
-
-            modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece { 
-                Id = 1, 
+            #region NavyBattlePieces Seed for one game
+            modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
+            {
+                Id = 1,
                 PosX = 0,
                 PosY = 0,
                 TypeId = 1,
                 PieceState = PieceState.Ship,
-                UserGameId = userGameOne.Id,
+                UserGameId = 1,
                 Hidden = true
             });
 
@@ -168,7 +188,7 @@ namespace BattleShips.Data
                 PosY = 0,
                 TypeId = 1,
                 PieceState = PieceState.Ship,
-                UserGameId = userGameOne.Id,
+                UserGameId = 1,
                 Hidden = true
             });
             modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
@@ -178,7 +198,7 @@ namespace BattleShips.Data
                 PosY = 1,
                 TypeId = 1,
                 PieceState = PieceState.Water,
-                UserGameId = userGameOne.Id,
+                UserGameId = 1,
                 Hidden = true
             });
             modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
@@ -188,7 +208,7 @@ namespace BattleShips.Data
                 PosY = 1,
                 TypeId = 1,
                 PieceState = PieceState.Water,
-                UserGameId = userGameOne.Id,
+                UserGameId = 1,
                 Hidden = true
             });
             modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
@@ -198,7 +218,7 @@ namespace BattleShips.Data
                 PosY = 0,
                 TypeId = 1,
                 PieceState = PieceState.Water,
-                UserGameId = userGameTwo.Id,
+                UserGameId = 2,
                 Hidden = true
             });
             modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
@@ -208,7 +228,7 @@ namespace BattleShips.Data
                 PosY = 0,
                 TypeId = 1,
                 PieceState = PieceState.Water,
-                UserGameId = userGameTwo.Id,
+                UserGameId = 2,
                 Hidden = true
             });
             modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
@@ -218,7 +238,7 @@ namespace BattleShips.Data
                 PosY = 1,
                 TypeId = 1,
                 PieceState = PieceState.Ship,
-                UserGameId = userGameTwo.Id,
+                UserGameId = 2,
                 Hidden = true
             });
             modelBuilder.Entity<NavyBattlePiece>().HasData(new NavyBattlePiece
@@ -228,13 +248,14 @@ namespace BattleShips.Data
                 PosY = 1,
                 TypeId = 1,
                 PieceState = PieceState.Ship,
-                UserGameId = userGameTwo.Id,
+                UserGameId = 2,
                 Hidden = true
             });
+            #endregion
 
             //Ships battleSipPieces
             //Each BattleShip is divided into x-columns for better navigation
-
+            #region ShipPieces Seed
             #region Submarine
             modelBuilder.Entity<ShipPiece>().HasData(new ShipPiece
             {
@@ -2254,7 +2275,7 @@ namespace BattleShips.Data
                 PieceState = PieceState.Water
             });
             #endregion
-
+            #endregion
         }
     }
 }

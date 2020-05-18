@@ -12,10 +12,7 @@ namespace BattleShips
 {
     public class GameSetupModel : PageModel
     {
-  
-
-        private readonly IGameSetup _igamesetup;
-        private readonly ISiteFunctionality _siteFunctionality;
+        private readonly IGameSetup _gameSetup;
 
         public ShipViewModel Ship { get; set; }
 
@@ -23,52 +20,65 @@ namespace BattleShips
         public int GameSize { get; set; }
         [BindProperty]
         public int MaxPlayers { get; set; }
-        public List<Ship> SetupShips { get; set; } = new List<Ship>();
+        public List<Ship> AvailableShips { get; set; } = new List<Ship>();
         IList<List<NavyBattlePiece>> ChosenShips { get; set; }
 
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
 
+        public IList<ShipsShipGamesViewModel> SetupShips { get; set; } = new List<ShipsShipGamesViewModel>();
 
-
-        public GameSetupModel(IGameSetup igamesetup, ISiteFunctionality siteFunctionality)
+        public GameSetupModel(IGameSetup gameSetup)
         {
-            _igamesetup = igamesetup;
-            _siteFunctionality = siteFunctionality;
+            _gameSetup = gameSetup;
         }
 
-      
+
         //při načtení stránky
-        public void OnGet(int? id)
+        public void OnGet()
         {
-            _siteFunctionality.SetupGame();
-            SetupShips = new List<Ship>();
-            SetupShips = _igamesetup.GetShips();
-            if (id!= null)
+
+            AvailableShips = _gameSetup.GetShips();
+            foreach (var ship in AvailableShips)
             {
-                _igamesetup.CreateShipGame(id);
+                var shipgame = _gameSetup.GetShipGame(ship.Id);
+                var listOfPieces = _gameSetup.GetDataForGameboard(ship);
+                ShipsShipGamesViewModel shipsShipGames = new ShipsShipGamesViewModel
+                {
+                    ShipGame = shipgame,
+                    Ship = ship,
+                    GameBoard = new GameBoardData(listOfPieces, null, null, "GameSetup")
+                };
+
+                SetupShips.Add(shipsShipGames);
+
             }
 
-            ChosenShips = _igamesetup.GetChosenShips();
-
+            ChosenShips = _gameSetup.GetChosenShips();
 
             //inicialization of All gameboards for every choosen ship
             foreach (var listOfPieces in ChosenShips)
             {
-                GameBoardData newBoard = new GameBoardData(listOfPieces, null, "GameSetup");
+                GameBoardData newBoard = new GameBoardData(listOfPieces, null, null, "GameSetup");
                 GameBoards.Add(newBoard);
             }
         }
 
+
         //ukládání dat
         public IActionResult OnPostSetGame(int maxPlayers, int gameSize)
         {
-            _igamesetup.Setgame(maxPlayers, gameSize);
+            _gameSetup.Setgame(maxPlayers, gameSize);
             return RedirectToPage("./ShipPlacement");
         }
 
+        public IActionResult OnPostAddShip(int id)
+        {
+            _gameSetup.CreateShipGame(id);
+            return RedirectToPage("./GameSetup");
+        }
         public IActionResult OnPostDelete(int id)
         {
-            _igamesetup.DeleteShipGame(id);
+            _gameSetup.DeleteShipGame(id);
             return RedirectToPage("./GameSetup");
         }
     }

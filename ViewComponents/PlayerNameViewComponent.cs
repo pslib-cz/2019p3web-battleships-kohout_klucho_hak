@@ -22,7 +22,7 @@ namespace BattleShips.ViewComponents
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var userFromDb = await _db.ApplicationUsers.FirstOrDefaultAsync(a => a.Id == claims.Value);
+            var userFromDb = await _db.ApplicationUsers.FirstOrDefaultAsync(a => a.Id == Guid.Parse(claims.Value));
             return View(userFromDb);
         }
     }

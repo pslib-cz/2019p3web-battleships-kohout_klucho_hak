@@ -35,7 +35,7 @@ namespace BattleShips.Services
         /// gets logged in users id
         /// </summary>
         /// <returns></returns>
-        string GetUserId();
+        Guid GetUserId();
 
         /// <summary>
         /// guid = game id

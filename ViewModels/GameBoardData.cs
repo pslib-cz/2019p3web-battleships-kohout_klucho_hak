@@ -17,16 +17,17 @@ namespace BattleShips.ViewModels
         public UserGame UserGame { get; set; }
         public string PageHandler { get; set; }
         public Ship Ship { get; set; }
+        public Guid? LoggedInUserId { get; set; }
 
-
-        public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, string pageHandler = "InGame")
+        public GameBoardData(IList<NavyBattlePiece> navyBattlePieces, UserGame userGame = null, Guid? loggedInUserId = null, string pageHandler = "InGame")
         {
-            if(userGame!=null)
+            if (userGame != null)
             {
                 UserGame = userGame;
                 Game = userGame.Game;
+                LoggedInUserId = loggedInUserId;
             }
-           
+
             NavyBattlePieces = navyBattlePieces;
             PageHandler = pageHandler;
         }
@@ -41,56 +42,46 @@ namespace BattleShips.ViewModels
             IList<List<NavyBattlePiece>> result = new List<List<NavyBattlePiece>>();
             IList<NavyBattlePiece> sortednavyBattlePieces = navyBattlePieces.OrderBy(m => m.PosY).ThenBy(m => m.PosX).ToList();
 
+            if (UserGame != null)
+            {
+                if (UserGame.ApplicationUserId == LoggedInUserId)
+                {
+                    foreach (var piece in sortednavyBattlePieces)
+                    {
+                        piece.Hidden = false;
+                    }
+                }
+            }
+
             int index = 0;
-           
-            if (Game == null)
-            {
-                int rowsNumber = 0;
-                int columsNumber = 0;
-                int itemCount = sortednavyBattlePieces.Count;
-                NavyBattlePiece lastNavyBattlePiece = sortednavyBattlePieces[itemCount - 1];
-                rowsNumber = lastNavyBattlePiece.PosY;
-                Ship = lastNavyBattlePiece.Ship;
-                //rowsNumber = Convert.ToInt32(Math.Sqrt(sortednavyBattlePieces.Count())); //In the case of GameSetup.
-                foreach (var item in sortednavyBattlePieces)
-                {
-                    if (item.PosY == 0)
-                    {
-                        columsNumber++;
-                    }
-                }
-                
-               
-                for (int row = 0; row <= rowsNumber; row++)
-                {
-                    List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
+            int rowsNumber = 0;
+            int columsNumber = 0;
+            int itemCount = sortednavyBattlePieces.Count;
+            NavyBattlePiece lastNavyBattlePiece = sortednavyBattlePieces[itemCount - 1];
+            rowsNumber = lastNavyBattlePiece.PosY;
+            Ship = lastNavyBattlePiece.Ship;
 
-                    for (int piece = 0; piece < columsNumber; piece++)
-                    {
-                        NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
-                        resultRow.Add(currentPiece);
-                        index++;
-                    }
-                    result.Add(resultRow);
-                }
-            }
-            else
-            {
-                for (int row = 0; row < Game.GameSize; row++)
-                {
-                    List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
 
-                    for (int piece = 0; piece < Game.GameSize; piece++)
-                    {
-                        NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
-                        resultRow.Add(currentPiece);
-                        index++;
-                    }
-                    result.Add(resultRow);
+            foreach (var item in sortednavyBattlePieces)
+            {
+                if (item.PosY == 0)
+                {
+                    columsNumber++;
                 }
             }
 
-            
+            for (int row = 0; row <= rowsNumber; row++)
+            {
+                List<NavyBattlePiece> resultRow = new List<NavyBattlePiece>();
+
+                for (int piece = 0; piece < columsNumber; piece++)
+                {
+                    NavyBattlePiece currentPiece = sortednavyBattlePieces.ElementAt(index);
+                    resultRow.Add(currentPiece);
+                    index++;
+                }
+                result.Add(resultRow);
+            }
             return result;
         }
     }

@@ -16,29 +16,54 @@
                     <tr style="">
                         @foreach (NavyBattlePiece navyBattlePiece in row)
                         {
-                            if (navyBattlePiece.PieceState == PieceState.HitShip)
+                            if (navyBattlePiece.Hidden)
                             {
-                                <td class="bg-dark">
-                                    <div class="media position-relative">
-                                        <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
-                                    </div>
-                                </td>
-                            }
-                            else if (navyBattlePiece.PieceState == PieceState.HitWater)
-                            {
-                                <td class="bg-primary ">
-                                    <div class="media position-relative">
-                                        <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
-                                    </div>
-                                </td>
+                                if (navyBattlePiece.PieceState == PieceState.HitShip)
+                                {
+                                    <td class="bg-dark">
+                                        <div class="media position-relative">
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                        </div>
+                                    </td>
+                                }
+                                else if (navyBattlePiece.PieceState == PieceState.HitWater)
+                                {
+                                    <td class="bg-primary">
+                                        <div class="media position-relative">
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                        </div>
+                                    </td>
+                                }
+
+
+                                else
+                                {
+                                    <td class="table-light">
+                                        <div class="media position-relative">
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                        </div>
+                                    </td>
+                                }
                             }
                             else
                             {
-                                <td class="table-light">
-                                    <div class="media position-relative">
-                                        <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
-                                    </div>
-                                </td>
+                                if (navyBattlePiece.PieceState == PieceState.HitShip || navyBattlePiece.PieceState == PieceState.Ship)
+                                {
+                                    <td class="bg-dark">
+                                        <div class="media position-relative">
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                        </div>
+                                    </td>
+                                }
+                                else if (navyBattlePiece.PieceState == PieceState.HitWater || navyBattlePiece.PieceState == PieceState.Water)
+                                {
+                                    <td class="bg-primary ">
+                                        <div class="media position-relative">
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                        </div>
+                                    </td>
+                                }
+
                             }
                         }
                     </tr>
@@ -50,44 +75,85 @@
 }
 else
 {
-<div>
-    <table class="table table-bordered">
-        <tbody>
-            @foreach (IEnumerable<NavyBattlePiece> row in board)
-            {
-                <tr style="">
-                    @foreach (NavyBattlePiece navyBattlePiece in row)
-                    {
-                        if (navyBattlePiece.PieceState == PieceState.Ship)
+    <div>
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (IEnumerable<NavyBattlePiece> row in board)
+                {
+                    <tr style="">
+                        @foreach (NavyBattlePiece navyBattlePiece in row)
                         {
+                            if (navyBattlePiece.PieceState == PieceState.Ship)
+                            {
 
-                            <td class="bg-dark">
-                                @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
-                            </td>
-                        }
-                        else if (navyBattlePiece.PieceState == PieceState.Margin)
-                        {
+                                <td class="bg-dark">
+                                    @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
+                                </td>
+                            }
+                            else if (navyBattlePiece.PieceState == PieceState.Margin)
+                            {
 
-                            <td class="table-secondary ">
-                                @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
-                            </td>
-                        }
-                        else
-                        {
+                                <td class="table-secondary ">
+                                    @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
+                                </td>
+                            }
+                            else
+                            {
 
-                            <td class="bg-primary ">
-                                @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
-                            </td>
+                                <td class="bg-primary ">
+                                    @*<p>y: @navyBattlePiece.PosY x: @navyBattlePiece.PosX</p>*@
+                                </td>
+                            }
                         }
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-    <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.Ship.Name</p>
-</div>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.Ship.Name</p>
+    </div>
 }
 
+@*Ready for better solution*@
 
+@*<div>
+        <table class="table table-bordered">
+            <tbody>
+                @foreach (IEnumerable<NavyBattlePiece> row in board)
+                {
+                    <tr>
+                        @foreach (NavyBattlePiece navyBattlePiece in row)
+                        {
+
+                            @if (navyBattlePiece.Hidden)
+                            {
+                                <td>
+                                    <div class="media position-relative">
+                                        <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                    </div>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <div class="media position-relative">
+                                        <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                    </div>
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @if (Model.PageHandler != "GameSetup")
+        {
+            <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.UserGame.ApplicationUser.PlayerName</p>
+        }
+        else
+        {
+
+            <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.Ship.Name</p>
+        }
+    </div>*@
 
 

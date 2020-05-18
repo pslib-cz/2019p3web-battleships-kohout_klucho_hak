@@ -14,7 +14,7 @@ namespace BattleShips.Data
         [Required]
         [MaxLength(20)]
         public string Name { get; set; }
-
+        public bool IsAllowed { get; set; }
         public ICollection<ShipPiece> ShipPieces { get; set; }
     }
 }
