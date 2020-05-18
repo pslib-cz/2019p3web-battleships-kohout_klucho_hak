@@ -1,5 +1,6 @@
 ﻿using BattleShips.Data;
 using BattleShips.Helpers;
+using BattleShips.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -483,13 +484,50 @@ namespace BattleShips.Services
             _db.SaveChanges();
         }
 
+        public IList<NavyBattlePiece> GetChosenShip(int shipId)
+        {
+            IList<NavyBattlePiece> result = new List<NavyBattlePiece>();
+            ShipGame shipGame = _db.ShipGames.Where(x => x.ShipId == shipId && x.GameId == CurrentGameId)
+                .Include(x => x.Ship)
+                .ThenInclude(y => y.ShipPieces)
+                .SingleOrDefault();
 
-        // upraví prázdné hrací pole podle rozmístění lodí a uloží ho do databáze
+            result = ConvertToNavyBattlePiece(shipGame.Ship.ShipPieces);
+            
+            return result;
+        }
+        // upraví prázdné hrací pole a přidá lod
         public void PlaceAShip(int pieceId)
         {
             throw new NotImplementedException();
         }
+        public IList<GameBoardData> PopulateGameBoards(IList<List<NavyBattlePiece>> chosenShips, int? shipId)
+        {
 
+            IList<GameBoardData> output = new List<GameBoardData>();
+
+            if (shipId is null)
+            {
+                // inicialization of All gameboards for every choosen ship
+                foreach (var listOfPieces in chosenShips)
+                {
+                    GameBoardData newBoard = new GameBoardData(listOfPieces, null, null, "GameSetup");
+                    output.Add(newBoard);
+                }
+            }
+            else //Pokud je vybraná lod tak se již nezobrazuje v nabídce
+            {
+                foreach (var listOfPieces in chosenShips)
+                {
+                    if (listOfPieces[0].Ship.Id != shipId)
+                    {
+                        GameBoardData newBoard = new GameBoardData(listOfPieces, null, null, "GameSetup");
+                        output.Add(newBoard);
+                    }
+                }
+            }
+            return output;
+        }
         // podle velikosti hry vytvoří prázdné hrací pole při načtení stránky
         public void CreateBlankGameBoard(UserGame userGame)
         {
@@ -503,7 +541,7 @@ namespace BattleShips.Services
                         PosX = piece,
                         UserGameId = userGame.Id,
                         PieceState = PieceState.Water,
-                        TypeId = 1, 
+                        TypeId = 1,
                         Hidden = false
                     };
                     _db.NavyBattlePieces.Add(navyBattlePiece);
@@ -512,11 +550,7 @@ namespace BattleShips.Services
             }
         }
 
-        // vrátí lodě, které jsou dostupné v dané hře, pomocí listu mezitabulek shipGame
-        public IList<Ship> GetGameShips()
-        {
-            throw new NotImplementedException();
-        }
+
         public UserGame GetUserGame()
         {
             var userId = GetUserId();
@@ -530,6 +564,7 @@ namespace BattleShips.Services
             var output = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).AsNoTracking().ToList();
             return output;
         }
+
         #endregion
 
 
@@ -602,7 +637,7 @@ namespace BattleShips.Services
         public void JoinShipPlacement()
         {
             var userGame = GetUserGame();
-            if(userGame is null)
+            if (userGame is null)
             {
                 CreateUserGame();
                 var newUserGame = GetUserGame();

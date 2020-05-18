@@ -1,4 +1,5 @@
 ﻿using BattleShips.Data;
+using BattleShips.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace BattleShips.Services
 
         IList<NavyBattlePiece> GetGameBoard();
         void JoinShipPlacement();
-
+        IList<GameBoardData> PopulateGameBoards(IList<List<NavyBattlePiece>> chosenShips, int? shipId);
+        IList<NavyBattlePiece> GetChosenShip(int shipId);
     }
 }

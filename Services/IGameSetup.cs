@@ -41,6 +41,7 @@ namespace BattleShips.Services
         /// <returns></returns>
         IList<List<NavyBattlePiece>> GetChosenShips();
 
+        
         /// <summary>
         /// nastaví hru
         /// </summary>

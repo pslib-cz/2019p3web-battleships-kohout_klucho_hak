@@ -5,18 +5,33 @@
 }
 
 <h1>ShipPlacement</h1>
+<div>
+    <h2>Your Fleet:</h2>
 
-<form method="post" asp-page-handler="chooseaship">
-    @foreach (var board in Model.GameBoards)
+    <form method="get">
+        @foreach (var board in Model.GameBoards)
+        {
+            <div class="form-group">
+                <input type="hidden" name="shipId" value="@board.NavyBattlePieces[0].Ship.Id" />
+                <partial name="_GameBoard" model="board" />
+                <input type="submit" class="btn btn-primary" value="Place" />
+            </div>
+        }
+
+    </form>
+</div>
+
+<div>
+    @if (Model.ChoosenShip != null)
     {
-    <div class="form-group">
-        <input type="hidden" name="shipId" value="@board.NavyBattlePieces[0].Ship.Id" />
-        <partial name="_GameBoard" model="board" />
-        <input type="submit" class="btn btn-primary" value="Place" />
-    </div>
+        <h2>You are Placing @Model.ChoosenShip.NavyBattlePieces[0].Ship.Name:</h2>
+        <partial name="_GameBoard" model="Model.ChoosenShip" />
+
     }
-   
-</form>
-
-<partial name="_GameBoard" model="Model.Board" />
-
+</div>
+<br />
+<hr />
+<br />
+<div>
+    <partial name="_GameBoard" model="Model.Board" />
+</div>
