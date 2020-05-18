@@ -10,8 +10,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Allow/Dissallow ship</th>
-            <th>Ship</th>
+            <th class="text-center">Allow/Dissallow ship</th>
+            <th class="text-center">Ship</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@
             <tr>
                 @if (item.Ship.IsAllowed == false)
                 {
-                    <th>
+                    <th style="text-align:center;" class="align-middle">
                         <form method="post" asp-page-handler="allowship">
                             <input type="hidden" name="shipId" value="@item.Ship.Id" />
                             <button class="btn btn-primary pt-3 pb-3 pl-4 pr-4" >Allow Ship</button>
@@ -29,7 +29,7 @@
                 }
                 else
                 {
-                    <th>
+                    <th style="text-align:center;" class="align-middle">
                         <form method="post" asp-page-handler="disallowship">
                             <input type="hidden" name="shipId" value="@item.Ship.Id" />
                             <button class="btn btn-danger p-3">Disallow Ship</button>

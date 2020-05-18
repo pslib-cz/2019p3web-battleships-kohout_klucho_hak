@@ -4,11 +4,11 @@
     ViewData["Title"] = "GameSetup";
 }
 
-<br />
-<br />
 
-<h3>Number of Players</h3>
+<h1>GameSetup</h1>
+
 <form id="gameform" method="post" asp-page-handler="setgame">
+    <h4>Number of Players</h4>
     <div class="form-group">
         <select name="maxPlayers" asp-for="@Model.MaxPlayers" class="form-control" id="exampleSelect">
             <option value="2">2</option>
@@ -20,7 +20,7 @@
     </div>
 
 
-    <h3>Board Size</h3>
+    <h4>Board Size</h4>
     <div class="form-group">
         <select name="gameSize" asp-for="@Model.GameSize" class="form-control" id="exampleSelect">
             <option value="2">2</option>
@@ -44,7 +44,7 @@
 </form>
 
 
-<h3>Types of Ships</h3>
+<h4>Types of Ships</h4>
 
 <table class="table">
     <thead>
@@ -60,38 +60,42 @@
             <tr>
                 @if (item.ShipGame is null)
                 {
-                    <th style="text-align:center;" class="align-middle">
+                    <td style="text-align:center;" class="align-middle">
                         <form method="post" asp-page-handler="addship">
                             <input type="hidden" name="id" value="@item.Ship.Id" />
-                            <button class="btn btn-primary pt-3 pb-3 pl-4 pr-4" >Add</button>
+                            <button class="btn btn-primary pt-3 pb-3 pl-4 pr-4">Add</button>
                         </form>
-                    </th>
+                    </td>
                 }
                 else
                 {
-                    <th style="text-align:center;" class="align-middle">
+                    <td style="text-align:center;" class="align-middle">
                         <form method="post" asp-page-handler="delete">
                             <input type="hidden" name="id" value="@item.ShipGame.Id" />
                             <button class="btn btn-danger p-3">Delete</button>
                         </form>
-                    </th>
+                    </td>
                 }
                 @*<th>
-                    @item.Ship.Name
-                </th>*@
-                <th>
+                        @item.Ship.Name
+                    </th>*@
+                <td>
                     <div>
                         <partial name="_GameBoard" model="item.GameBoard" />
                     </div>
-                </th>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
+<hr style="border: 3px solid gray;"/>
+
+<h3>Chosen Ships</h3>
 
 @foreach (var gameBoard in Model.GameBoards)
 {
+    <hr />
     <partial name="_GameBoard" model="gameBoard" />
 }
 

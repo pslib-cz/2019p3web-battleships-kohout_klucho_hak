@@ -5,7 +5,7 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1 class="text-primary">Users List</h1>
+<h1>Users List</h1>
 <h4>@TempData["FormResult"]</h4>
 
 <form method="get" class="float-sm-right">
@@ -20,21 +20,21 @@
 <hr />
 <table class="table table-striped">
     <thead class="thead-dark">
-        <tr>
-            <th>Email</th>
-            <th>Player Name</th>
-            <th>Total Played Games</th>
-            <th></th>
+        <tr class="row">
+            <th class="col-3">Email</th>
+            <th class="col-3">Player Name</th>
+            <th class="col-3">Total Played Games</th>
+            <th class="col-3"></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var user in Model.Users)
         {
-            <tr>
-                <td>@user.Email</td>
-                <td>@user.PlayerName</td>
-                <td>@user.TotalPlayedGames</td>
-                <td><a asp-page="./Detail" asp-route-Id="@user.Id" class="btn btn-primary">Detail</a></td>
+            <tr class="row">
+                <td class="col-3">@user.Email</td>
+                <td class="col-3">@user.PlayerName</td>
+                <td class="col-3">@user.TotalPlayedGames</td>
+                <td class="col-3"><a asp-page="./Detail" asp-route-Id="@user.Id" class="btn btn-primary">Detail</a></td>
             </tr>
         }
     </tbody>
