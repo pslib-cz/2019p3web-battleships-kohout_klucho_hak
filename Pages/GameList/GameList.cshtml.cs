@@ -19,9 +19,9 @@ namespace BattleShips
         [TempData]
         public string MessageError { get; set; }
 
-        public IList<Game> UsersGames { get; set; }
+        public IList<Game> UsersGames { get; set; } = new List<Game>();
 
-        public IList<Game> OtherGames { get; set; }
+        public IList<Game> OtherGames { get; set; } = new List<Game>();
 
         public Guid UserId { get; set; }
 
@@ -55,9 +55,10 @@ namespace BattleShips
             return RedirectToPage("./GameList");
         }
 
-        public IActionResult OnPostJoinShiplacement(Guid id)
+        public IActionResult OnPostJoinShipPlacement(Guid id)
         {
             _siteFunctionality.SaveGame("Game", id);
+            
             return RedirectToPage("../CreateGame/ShipPlacement");
         }
         public IActionResult OnPostPlayGame(Guid id)

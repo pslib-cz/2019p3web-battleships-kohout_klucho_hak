@@ -32,28 +32,11 @@ namespace BattleShips.Services
         /// <param name="game"></param>
         void CreateBlankGameBoard(UserGame userGame);
 
-        /// <summary>
-        /// upraví prázdné hrací pole podle rozmístění lodí a uloží ho do databáze
-        /// </summary>
-        /// <param name="userGameId"></param>
-        /// <returns></returns>
-        void ShipPlacement(int userGameId);
+        void PlaceAShip(int pieceId);
+        public UserGame GetUserGame();
 
-        /// <summary>
-        /// vrátí lodě, které jsou dostupné v dané hře, pomocí listu mezitabulek shipGame
-        /// </summary>
-        /// <param name="shipGame"></param>
-        /// <returns></returns>
-        IList<Ship> GetGameShips(IList<ShipGame> shipGame);
-
-
-        /// <summary>
-        /// vrátí mezitabulky shipGames
-        /// </summary>
-        /// <param name="game"></param>
-        /// <returns></returns>
-        IList<ShipGame> GetShipGames(Game game);
-
+        IList<NavyBattlePiece> GetGameBoard();
+        void JoinShipPlacement();
 
     }
 }

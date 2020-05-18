@@ -51,6 +51,6 @@ namespace BattleShips.Services
 
         IList<ApplicationUser> GetTopUsers();
         ApplicationUser GetLoggedInUser();
-
+       
     }
 }

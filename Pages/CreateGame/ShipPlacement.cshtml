@@ -6,28 +6,17 @@
 
 <h1>ShipPlacement</h1>
 
+<form method="post" asp-page-handler="chooseaship">
+    @foreach (var board in Model.GameBoards)
+    {
+    <div class="form-group">
+        <input type="hidden" name="shipId" value="@board.NavyBattlePieces[0].Ship.Id" />
+        <partial name="_GameBoard" model="board" />
+        <input type="submit" class="btn btn-primary" value="Place" />
+    </div>
+    }
+   
+</form>
 
+<partial name="_GameBoard" model="Model.Board" />
 
-<div class="board">
-    <table class="table">
-        <tbody>
-
- 
-            @* zavolat gameboard *@
-            @for (var i = 0; i < 10; i++)
-            {
-                <tr>
-                    @for (var j = 0; j < 10; j++)
-                    {
-                        <td class="board-piece-water">@i  @j</td>
-                    }
-                </tr>
-            }
-
-           
-        </tbody>
-    </table>
-</div>
-
-
-<a asp-page="../InGame/InGame" class="btn btn-primary">Finish placement</a>

@@ -440,6 +440,7 @@ namespace BattleShips.Services
             game.GameSize = gameSize;
             game.CurrentPlayerId = game.OwnerId;
             game.MaxPlayers = maxPlayers;
+            game.GameState = GameState.ShipPlacement;
             _db.Games.Update(game);
             _db.SaveChanges();
             CreateUserGame();
@@ -484,7 +485,7 @@ namespace BattleShips.Services
 
 
         // upraví prázdné hrací pole podle rozmístění lodí a uloží ho do databáze
-        public void ShipPlacement(int userGameId)
+        public void PlaceAShip(int pieceId)
         {
             throw new NotImplementedException();
         }
@@ -502,7 +503,8 @@ namespace BattleShips.Services
                         PosX = piece,
                         UserGameId = userGame.Id,
                         PieceState = PieceState.Water,
-                        TypeId = 1
+                        TypeId = 1, 
+                        Hidden = false
                     };
                     _db.NavyBattlePieces.Add(navyBattlePiece);
                     _db.SaveChanges();
@@ -510,17 +512,23 @@ namespace BattleShips.Services
             }
         }
 
-
         // vrátí lodě, které jsou dostupné v dané hře, pomocí listu mezitabulek shipGame
-        public IList<Ship> GetGameShips(IList<ShipGame> shipGame)
+        public IList<Ship> GetGameShips()
         {
             throw new NotImplementedException();
         }
-
-        // vrátí mezitabulky shipGames
-        public IList<ShipGame> GetShipGames(Game game)
+        public UserGame GetUserGame()
         {
-            throw new NotImplementedException();
+            var userId = GetUserId();
+            var output = _db.UserGames.Where(x => x.ApplicationUserId == userId && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
+            return output;
+        }
+
+        public IList<NavyBattlePiece> GetGameBoard()
+        {
+            var userGame = GetUserGame();
+            var output = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).AsNoTracking().ToList();
+            return output;
         }
         #endregion
 
@@ -591,7 +599,16 @@ namespace BattleShips.Services
                 SaveGame("Game", setupGame.Id);
             }
         }
-
+        public void JoinShipPlacement()
+        {
+            var userGame = GetUserGame();
+            if(userGame is null)
+            {
+                CreateUserGame();
+                var newUserGame = GetUserGame();
+                CreateBlankGameBoard(newUserGame);
+            }
+        }
 
         public IList<ApplicationUser> GetTopUsers()
         {
@@ -600,18 +617,15 @@ namespace BattleShips.Services
             return applicationUsers;
         }
 
-
-
         public ApplicationUser GetLoggedInUser()
         {
             Guid userId = GetUserId();
             return _db.ApplicationUsers.Where(o => o.Id == userId).AsNoTracking().SingleOrDefault();
             //throw new NotImplementedException();
         }
-
-
-
         #endregion
+
+
 
         #region IAdministration
         public IList<ApplicationUser> GetAllUsers()

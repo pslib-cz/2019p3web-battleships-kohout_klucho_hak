@@ -22,7 +22,7 @@
 <h2>My Games</h2>
 <div class="row">
     <div class="col">
-        @if (Model.UsersGames.Count() >= 1 || Model.UsersGames is null)
+        @if (Model.UsersGames.Count() >= 1)
         {
             <table class="table table-striped">
                 <thead class="thead-dark">
@@ -84,7 +84,7 @@
 <h2>Other Games</h2>
 <div class="row">
     <div class="col">
-        @if (Model.OtherGames.Count() >= 1 || Model.UsersGames is null)
+        @if (Model.OtherGames.Count() >= 1)
         {
             <table class="table table-striped">
                 <thead>

@@ -70,7 +70,11 @@
                 }
             </tbody>
         </table>
-        <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.UserGame.ApplicationUser.PlayerName</p>
+        @if (Model.UserGame.ApplicationUser != null)
+        {
+            <p class="text-primary" style="font-size:large; font-weight:500; ">@Model.UserGame.ApplicationUser.PlayerName</p>
+        }
+
     </div>
 }
 else
