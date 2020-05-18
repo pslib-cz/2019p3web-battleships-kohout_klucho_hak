@@ -9,7 +9,7 @@
 @if (Model.UserGame != null)
 {
     <div>
-        <table class="table table-bordered">
+        <table class="game-board-table">
             <tbody>
                 @foreach (IEnumerable<NavyBattlePiece> row in board)
                 {
@@ -20,17 +20,17 @@
                             {
                                 if (navyBattlePiece.PieceState == PieceState.HitShip)
                                 {
-                                    <td class="bg-dark">
+                                    <td class="bg-dark piece">
                                         <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                                         </div>
                                     </td>
                                 }
                                 else if (navyBattlePiece.PieceState == PieceState.HitWater)
                                 {
-                                    <td class="bg-primary">
+                                    <td class="bg-primary piece">
                                         <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                                         </div>
                                     </td>
                                 }
@@ -38,9 +38,9 @@
 
                                 else
                                 {
-                                    <td class="table-light">
+                                    <td class="table-light piece">
                                         <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a" name="pieceId"></a>
                                         </div>
                                     </td>
                                 }
@@ -49,17 +49,17 @@
                             {
                                 if (navyBattlePiece.PieceState == PieceState.HitShip || navyBattlePiece.PieceState == PieceState.Ship)
                                 {
-                                    <td class="bg-dark">
+                                    <td class="bg-dark piece">
                                         <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a"  name="pieceId"></a>
                                         </div>
                                     </td>
                                 }
                                 else if (navyBattlePiece.PieceState == PieceState.HitWater || navyBattlePiece.PieceState == PieceState.Water)
                                 {
-                                    <td class="bg-primary ">
+                                    <td class="bg-primary piece">
                                         <div class="media position-relative">
-                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="stretched-link " name="pieceId">.</a>
+                                            <a asp-page="@Model.PageHandler" asp-route-Id="@navyBattlePiece.Id" class="piece-a"  name="pieceId"></a>
                                         </div>
                                     </td>
                                 }
@@ -77,6 +77,8 @@
 
     </div>
 }
+
+
 else
 {
     <div>
