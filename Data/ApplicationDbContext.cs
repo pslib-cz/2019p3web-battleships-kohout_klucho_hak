@@ -254,6 +254,7 @@ namespace BattleShips.Data
             #endregion
 
             //Ships battleSipPieces
+            //
             //Each BattleShip is divided into x-columns for better navigation
             #region ShipPieces Seed
             #region Submarine
