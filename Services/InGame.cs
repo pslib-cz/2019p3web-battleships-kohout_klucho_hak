@@ -187,10 +187,10 @@ namespace BattleShips.Services
             UserGame hittedUserGame = firingUserGame.Game.UserGames.Where(x => x.Id == firedAtPiece.UserGameId).FirstOrDefault();
 
             // Gets piece of ship.
-            IList<NavyBattlePiece> UnhitedShipPiece = await _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToListAsync();
+           NavyBattlePiece UnhitedShipPiece = await _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship &&  p.Hidden == true).AsNoTracking().FirstOrDefaultAsync();
 
             // Checks if there more than one piece of ship, if not then this usergame has lost. The piece state has to be yet saved to database.
-            if (UnhitedShipPiece.Count() < 2)
+            if (UnhitedShipPiece is null)
             {
                 hittedUserGame.PlayerState = PlayerState.Loser;
                 _db.UserGames.Update(hittedUserGame);
@@ -208,20 +208,17 @@ namespace BattleShips.Services
         {
             bool output = false;
             //Fire :)
-            PieceState newState;
+            
             if (firedAtPiece.PieceState == PieceState.Water)
             {
-                newState = PieceState.HitWater;
                 firedAtPiece.Hidden = false;
-
             }
             else
             {
-                newState = PieceState.HitShip;
                 firedAtPiece.Hidden = false;
                 output = true;
             }
-            firedAtPiece.PieceState = newState;
+            
             _db.NavyBattlePieces.Update(firedAtPiece);
             return output;
         }

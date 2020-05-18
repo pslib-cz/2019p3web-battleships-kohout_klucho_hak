@@ -17,7 +17,7 @@ namespace BattleShips
         private readonly IGameBattle _gameBattle;
         private readonly ISiteFunctionality _siteFunctionality;
 
-        public Game Game { get; set; }
+        public Game Game { get; set; } = new Game();
         public string FireResult { get; set; }
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
         public IList<UserGame> UserGames { get; set; }

@@ -7,9 +7,10 @@
 }
 
 <h1 class="text-primary">InGame</h1>
+
 @if (Model.Game.GameState == GameState.ShipPlacement)
 {
-    <h3>Waiting for other players to join in.</h3>
+    <h3>Waiting for other players to finish ship placement.</h3>
 }
 @if (Model.Game.GameState == GameState.Ended)
 {
