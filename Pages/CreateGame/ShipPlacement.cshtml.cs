@@ -48,7 +48,7 @@ namespace BattleShips
             if (shipId != null)
             {
                 int shipIdx = shipId ?? default;
-                ChoosenShip = new GameBoardData(_shipPlacement.GetChosenShip(shipIdx), UserGame);
+                ChoosenShip = new GameBoardData(_shipPlacement.GetChosenShip(shipIdx));
             }
 
             // Get new board

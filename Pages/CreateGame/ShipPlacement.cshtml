@@ -7,7 +7,6 @@
 <h1>ShipPlacement</h1>
 <div>
     <h2>Your Fleet:</h2>
-
     <form method="get">
         @foreach (var board in Model.GameBoards)
         {
@@ -17,18 +16,20 @@
                 <input type="submit" class="btn btn-primary" value="Place" />
             </div>
         }
-
     </form>
 </div>
 
-<div>
-    @if (Model.ChoosenShip != null)
-    {
-        <h2>You are Placing @Model.ChoosenShip.NavyBattlePieces[0].Ship.Name:</h2>
-        <partial name="_GameBoard" model="Model.ChoosenShip" />
 
-    }
-</div>
+
+@if (Model.ChoosenShip != null)
+{
+    <div>
+        <hr />
+        <h2>You are Placing:</h2>
+        <partial name="_GameBoard" model="Model.ChoosenShip" />
+    </div>
+}
+
 <br />
 <hr />
 <br />

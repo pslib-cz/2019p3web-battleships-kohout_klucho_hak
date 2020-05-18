@@ -6,7 +6,7 @@
     //Načtu dvourozměrné pole
     IEnumerable<IEnumerable<NavyBattlePiece>> board = Model.MakeGameBoard(Model.NavyBattlePieces);
 }
-@if (Model.PageHandler != "GameSetup")
+@if (Model.UserGame != null)
 {
     <div>
         <table class="table table-bordered">
