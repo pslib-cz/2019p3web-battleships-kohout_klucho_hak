@@ -7,42 +7,6 @@
 
 <h1>GameSetup</h1>
 
-<form id="gameform" method="post" asp-page-handler="setgame">
-    <h4>Number of Players</h4>
-    <div class="form-group">
-        <select name="maxPlayers" asp-for="@Model.MaxPlayers" class="form-control" id="exampleSelect">
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-        </select>
-    </div>
-
-
-    <h4>Board Size</h4>
-    <div class="form-group">
-        <select name="gameSize" asp-for="@Model.GameSize" class="form-control" id="exampleSelect">
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-            <option value="15">15</option>
-        </select>
-    </div>
-</form>
-
 
 <h4>Types of Ships</h4>
 
@@ -89,7 +53,7 @@
     </tbody>
 </table>
 
-<hr style="border: 3px solid gray;"/>
+<hr style="border: 2px solid gray;" />
 
 <h3>Chosen Ships</h3>
 
@@ -99,6 +63,43 @@
     <partial name="_GameBoard" model="gameBoard" />
 }
 
+<hr style="border: 2px solid gray;" />
+
+<form id="gameform" method="post" asp-page-handler="setgame">
+    <h4>Number of Players</h4>
+    <div class="form-group">
+        <select name="maxPlayers" asp-for="@Model.MaxPlayers" class="form-control" id="exampleSelect">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+    </div>
+
+
+    <h4>Board Size</h4>
+    <div class="form-group">
+        <select name="gameSize" asp-for="@Model.GameSize" class="form-control" id="exampleSelect">
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+        </select>
+    </div>
+</form>
+
+<br />
+
 <button type="submit" form="gameform" class="btn btn-primary">
     Start Ship Placement
 </button>
+
+<br />

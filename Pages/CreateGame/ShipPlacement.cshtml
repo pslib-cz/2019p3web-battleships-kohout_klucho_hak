@@ -5,44 +5,58 @@
 }
 
 <h1>ShipPlacement</h1>
+
+<div>
+    <partial name="_GameBoard" model="Model.Board" />
+</div>
+
+<br />
+
+<div style="width:35%; margin:auto;">
+    <form method="post" asp-page-handler="refresh">
+        <button class="btn btn-danger" style="float:left;">Refresh</button>
+    </form>
+    <form method="post" asp-page-handler="Deploy">
+        <button class="btn btn-success" style="float:right;">Deploy</button>
+    </form>
+</div>
+
+
+
+<br />
+<br />
+<hr />
+<br />
+
+@if (Model.ChoosenShip != null)
+{
+    <div>
+        <h2>You are Placing:</h2>
+        <partial name="_GameBoard" model="Model.ChoosenShip" />
+    </div>
+    <hr />
+}
+
 <div>
     <h2>Your Fleet:</h2>
-
     @foreach (var board in Model.GameBoards)
     {
-    <form method="get">
-        <div class="form-group">
-            <input type="hidden" name="shipId" value="@board.NavyBattlePieces[0].Ship.Id" />
-            <partial name="_GameBoard" model="board" />
-            <input type="submit" class="btn btn-primary" value="Place" />
-        </div>
-    </form>
+        <form method="get">
+            <div class="form-group">
+                <input type="hidden" name="shipId" value="@board.NavyBattlePieces[0].Ship.Id" />
+                <partial name="_GameBoard" model="board" />
+                <div style=" text-align:center" class="mt-2">
+                    <input type="submit" class="btn btn-primary" value="Place Ship" />
+                </div>
+            </div>
+        </form>
+        <hr />
+        <br />
     }
 </div>
 
 
 
-@if (Model.ChoosenShip != null)
-{
-    <div>
-        <hr />
-        <h2>You are Placing:</h2>
-        <partial name="_GameBoard" model="Model.ChoosenShip" />
-    </div>
-}
 
-<br />
-<hr />
-<br />
-<div>
-    <partial name="_GameBoard" model="Model.Board" />
-</div>
 
-<div>
-    <form method="post" asp-page-handler="refresh">
-        <button class="btn btn-danger">Refresh</button>
-    </form>
-    <form method="post" asp-page-handler="Deploy">
-        <button class="btn btn-success">Deploy</button>
-    </form>
-</div>
+
