@@ -31,6 +31,7 @@ namespace BattleShips.Data
         public Guid CurrentPlayerId { get; set; }
         [ForeignKey("CurrentPlayerId")]
         public ApplicationUser CurrentPlayer { get; set; }
+        public bool IsFull { get; set; }
 
         [Required]
         public GameState GameState { get; set; }

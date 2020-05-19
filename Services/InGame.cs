@@ -488,8 +488,23 @@ namespace BattleShips.Services
                 GameId = CurrentGameId,
                 ApplicationUserId = GetUserId()
             };
+            var game = _db.Games.Where(x => x.Id == userGame.GameId).Include(x => x.UserGames).FirstOrDefault();
+            if (IsGameFull(game))
+            {
+                game.IsFull = true;
+                _db.Games.Update(game);
+            }
             _db.UserGames.Add(userGame);
             _db.SaveChanges();
+        }
+
+        private bool IsGameFull(Game game)
+        {
+            if(game.UserGames.Count >= (game.MaxPlayers - 1))
+            {
+                return true;
+            }
+            return false;
         }
 
         public IList<NavyBattlePiece> GetChosenShip(int shipId)
@@ -622,7 +637,7 @@ namespace BattleShips.Services
 
         public IList<Game> GetOtherGames()
         {
-            return _db.Games.Where(o => o.GameState == GameState.ShipPlacement)
+            return _db.Games.Where(o => o.GameState == GameState.ShipPlacement && o.IsFull == false)
                 .Include(o => o.Owner)
                 .Include(o => o.CurrentPlayer)
                 .AsNoTracking().ToList();
