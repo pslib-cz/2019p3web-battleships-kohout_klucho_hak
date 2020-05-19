@@ -540,7 +540,105 @@ namespace BattleShips.Services
         // upraví prázdné hrací pole a přidá lod
         public void PlaceAShip(int pieceId)
         {
-            throw new NotImplementedException();
+            if (CurrentShipToPlaceId is null)
+            {
+                return;
+            }
+            else
+            {
+                // Get choosen ships shippieces and convert them to navybattlepieces
+                var ship = _db.Ships.Where(x => x.Id == CurrentShipToPlaceId)
+                    .Include(x => x.ShipPieces).AsNoTracking().FirstOrDefault();
+                var shipPieces = ConvertToNavyBattlePiece(ship.ShipPieces);
+
+                // Get navybattlepieces of gameboard
+                var userGame = _db.UserGames.Where(x => x.ApplicationUserId == GetUserId() && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
+                var gameboardPieces = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).ToList();
+
+                // Update navybattlepieces based on pieceId and Ship type to display ship
+                if (UpdateGameboard(gameboardPieces, shipPieces, pieceId))
+                {
+                    _db.SaveChanges();
+                }
+
+            }
+        }
+
+        private bool UpdateGameboard(IList<NavyBattlePiece> gameboardPieces, IList<NavyBattlePiece> shipPieces, int pieceId)
+        {
+            NavyBattlePiece choosenPiece = _db.NavyBattlePieces.Where(x => x.Id == pieceId).AsNoTracking().FirstOrDefault();
+            // Find the smalest combination of x + y which is ship to find top left piece of ship and delete the water around ship and margin
+            // Calculate how coordinates should change based on choosen piece
+            IList<NavyBattlePiece> shipPiecesWithoutWater = new List<NavyBattlePiece>();
+            NavyBattlePiece topLeftPiece = shipPieces.Where(x => x.PieceState == PieceState.Ship).First();
+            int changeX = 0;
+            int changeY = 0;
+            foreach (var shipPiece in shipPieces)
+            {
+                if (shipPiece.PieceState == PieceState.Ship)
+                {
+                    int posActual = shipPiece.PosX + shipPiece.PosY;
+                    int posCurrentMin = topLeftPiece.PosX + topLeftPiece.PosY;
+                    if (posActual <= posCurrentMin)
+                    {
+                        topLeftPiece = shipPiece;
+                        if (shipPiece.PosX < choosenPiece.PosX)
+                        {
+                            changeX = (shipPiece.PosX - choosenPiece.PosX) * -1;
+                        }
+                        if (shipPiece.PosX > choosenPiece.PosX)
+                        {
+                            changeX = (shipPiece.PosX + choosenPiece.PosX) * -1;
+                        }
+                        if (shipPiece.PosY < choosenPiece.PosY)
+                        {
+                            changeY = (shipPiece.PosY - choosenPiece.PosY) * -1;
+                        }
+                        if (shipPiece.PosY > choosenPiece.PosY)
+                        {
+                            changeY = (shipPiece.PosY + choosenPiece.PosY) * -1;
+                        }
+
+                        shipPiecesWithoutWater.Add(shipPiece);
+                    }
+
+                    else
+                    {
+                        shipPiecesWithoutWater.Add(shipPiece);
+                    }
+                }
+                else if (shipPiece.PieceState == PieceState.Margin) // margin
+                {
+                    shipPiecesWithoutWater.Add(shipPiece);
+                }
+            }
+            // Change coordinates of ship pieces to match according coordinates on gameboard
+            foreach (var shipPiece in shipPiecesWithoutWater)
+            {
+                shipPiece.PosX += changeX;
+                shipPiece.PosY += changeY;
+            }
+            // Populate gameboard with the ship
+            //TODO make better use linq or something and refactor
+            foreach (var gameboardPiece in gameboardPieces)
+            {
+                foreach (var shipPiece in shipPiecesWithoutWater)
+                {
+                    if (gameboardPiece.PosX == shipPiece.PosX && gameboardPiece.PosY == shipPiece.PosY)
+                    {
+                        if (gameboardPiece.PieceState == PieceState.Margin && shipPiece.PieceState == PieceState.Ship
+                            || gameboardPiece.PieceState == shipPiece.PieceState && shipPiece.PieceState == PieceState.Ship
+                            /*|| gameboardPiece.PieceState == PieceState.Ship && shipPiece.PieceState == PieceState.Margin*/)
+                        {
+                            return false;
+                        }
+
+                        gameboardPiece.PieceState = shipPiece.PieceState;
+                        _db.NavyBattlePieces.Update(gameboardPiece);
+                    }
+                }
+            }
+            return true;
         }
         public IList<GameBoardData> PopulateGameBoards(IList<List<NavyBattlePiece>> chosenShips, int? shipId)
         {
@@ -569,6 +667,7 @@ namespace BattleShips.Services
             }
             return output;
         }
+
         // podle velikosti hry vytvoří prázdné hrací pole při načtení stránky
         public void CreateBlankGameBoard(UserGame userGame)
         {
@@ -659,6 +758,7 @@ namespace BattleShips.Services
 
             _db.SaveChanges();
         }
+
 
         #endregion
 
