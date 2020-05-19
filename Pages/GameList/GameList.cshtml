@@ -37,49 +37,52 @@
                 </thead>
 
                 <tbody>
-
-
                     @foreach (var item in Model.UsersGames)
                     {
-                        <tr>
-                            <td>@item.GameState</td>
-                            <td>@item.GameRound</td>
-                            <td>@item.Owner.PlayerName</td>
-                            <td>@item.CurrentPlayer.PlayerName</td>
+                    <tr>
+                        <td>@item.GameState</td>
+                        <td>@item.GameRound</td>
+                        <td>@item.Owner.PlayerName</td>
+                        <td>@item.CurrentPlayer.PlayerName</td>
+                        @if (item.GameState == GameState.ShipPlacement)
+                        {
                             <td>
-                                <form method="post" asp-page-handler="playgame">
-                                    <button class="btn btn-primary">Play</button>
+                                <form method="post" asp-page-handler="joinshipplacement">
+                                    <button class="btn btn-primary">Place Ships</button>
                                     <input type="hidden" name="id" value="@item.Id" />
                                 </form>
                             </td>
-                            @if (Model.UserId == item.OwnerId)
-                            {
-                                <td>
-                                    <form method="post" asp-page-handler="removegame">
-                                        <button class="btn btn-danger">Delete</button>
-                                        <input type="hidden" name="id" value="@item.Id" />
-                                    </form>
-                                </td>
-
-                            }
-                            else
-                            {
-                                <td></td>
-                            }
-
-                        </tr>
+                        }
+                        else
+                        {
+                        <td>
+                            <form method="post" asp-page-handler="playgame">
+                                <button class="btn btn-primary">Play</button>
+                                <input type="hidden" name="id" value="@item.Id" />
+                            </form>
+                        </td>
+                        }
+                        @if (Model.UserId == item.OwnerId)
+                        {
+                            <td>
+                                <form method="post" asp-page-handler="removegame">
+                                    <button class="btn btn-danger">Delete</button>
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                </form>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    </tr>
                     }
-
                 </tbody>
-
-
             </table>
         }
         else
         {
-
             <p> You are not playing any games at the moment!</p>
-
         }
     </div>
 </div>
@@ -118,16 +121,11 @@
                         </tr>
                     }
                 </tbody>
-
-
             </table>
         }
         else
         {
-
             <p> There are no games to join at the moment!</p>
-
-
         }
     </div>
 </div>
