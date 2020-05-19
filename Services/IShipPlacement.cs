@@ -18,7 +18,7 @@ namespace BattleShips.Services
         /// </summary>
         /// <param name="_currentGameId"></param>
         /// <returns></returns>
-        Task<Game> GetGameAsync();
+        Game GetGame();
 
         /// <summary>
         /// po rozmístění lodí vytvoří novou mezitabulku (UserGame)

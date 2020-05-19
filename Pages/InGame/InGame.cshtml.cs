@@ -30,22 +30,22 @@ namespace BattleShips
             _siteFunctionality = siteFunctionality;
         }
 
-        public async Task OnGet(int? id)
+        public void OnGet(int? id)
         {
-            Game = await _gameBattle.GetGameAsync();
-            UserGames = await _gameBattle.GetUserGamesWithUserAsync();
+            Game = _gameBattle.GetGame();
+            UserGames = _gameBattle.GetUserGamesWithUser();
             LoggedInUserId = _siteFunctionality.GetUserId();
 
             if (id != null)
             {
                 int pieceId = id ?? default;
-                await _gameBattle.FireAsync(pieceId);
+                _gameBattle.Fire(pieceId);
             }
 
             //inicialization of All gameboards for every player in the given game.
             for (int board = 0; board < UserGames.Count(); board++)
             {
-                IList<NavyBattlePiece> navyBattlePieces = await _gameBattle.GetNavyBattlePiecesAsync(UserGames[board].Id);
+                IList<NavyBattlePiece> navyBattlePieces = _gameBattle.GetNavyBattlePieces(UserGames[board].Id);
                 GameBoardData newBoard = new GameBoardData(navyBattlePieces, UserGames[board], LoggedInUserId);
                 GameBoards.Add(newBoard);
             }

@@ -74,51 +74,51 @@ namespace BattleShips.Services
 
         #region IGameBattle (Kohout)
         // Returns currently active Game.
-        public async Task<Game> GetGameAsync()
+        public Game GetGame()
         {
             Guid currentGameId = CurrentGameId;
-            return await _db.Games.Where(m => m.Id == currentGameId)
+            return _db.Games.Where(m => m.Id == currentGameId)
                 .Include(x => x.CurrentPlayer)
-                .Include(m => m.UserGames).ThenInclude(x => x.ApplicationUser).AsNoTracking().SingleOrDefaultAsync();
+                .Include(m => m.UserGames).ThenInclude(x => x.ApplicationUser).AsNoTracking().SingleOrDefault();
         }
         // Returns Ilist of UserGames in currently active Game.
-        public async Task<IList<UserGame>> GetUserGamesWithUserAsync()
+        public IList<UserGame> GetUserGamesWithUser()
         {
             Guid currentGameId = CurrentGameId;
-            return await _db.UserGames.Where(m => m.GameId == currentGameId)
+            return _db.UserGames.Where(m => m.GameId == currentGameId)
                 .Include(m => m.ApplicationUser)
                 .AsNoTracking()
-                .ToListAsync();
+                .ToList();
         }
 
         // Returns IList of NavyBattlePieces based on UserGame Id.
-        public async Task<IList<NavyBattlePiece>> GetNavyBattlePiecesAsync(int userGameId)
+        public IList<NavyBattlePiece> GetNavyBattlePieces(int userGameId)
         {
             IList<NavyBattlePiece> output;
-            output = await _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToListAsync();
+            output = _db.NavyBattlePieces.Where(m => m.UserGameId == userGameId).AsNoTracking().ToList();
 
             return output;
         }
 
-        public async Task FireAsync(int pieceId)
+        public void Fire(int pieceId)
         {
             // Gets active game.
-            var activeGame = await GetGameAsync();
+            var activeGame = GetGame();
 
-            if(activeGame.GameState != GameState.Battle)
+            if (activeGame.GameState != GameState.Battle)
             {
                 return;
             }
 
             // Gets piece that user is trying to fire at.
-            var firedAtPiece = await GetNavyBattlePiecesByIdAsync(pieceId);
+            var firedAtPiece = GetNavyBattlePiecesById(pieceId);
 
-            
+
             // Gets UserGame that is suposed to be firing in the Game.
-            var activeUserGame = await GetActiveUserGameAsync(activeGame);
+            var activeUserGame = GetActiveUserGame(activeGame);
 
             // Gets UserGame that is firing in the game
-            var firingUserGame = await GetFiringUserGameAsync();
+            var firingUserGame = GetFiringUserGame(activeGame);
 
             // If firing attempt is invalid, get out of method
             if (IsValid(pieceId, firedAtPiece, activeGame, activeUserGame, firingUserGame) == false)
@@ -130,49 +130,50 @@ namespace BattleShips.Services
             if (ChangeStateOfPiece(firedAtPiece))
             {
                 // Cheks if somebody has lost
-                if (await CheckForLoserAsync(firedAtPiece, firingUserGame))
+                if (CheckForLoser(firedAtPiece, firingUserGame))
                 {
                     // Checks if the game hase ended because there is another loser.
                     if (GameEnd(firingUserGame) == false)
                     {
-                        await ContinueGameAsync(firingUserGame);
+                        ContinueGame(firingUserGame);
                     }
                 }
                 else
                 {
-                    await ContinueGameAsync(firingUserGame);
+                    ContinueGame(firingUserGame);
                 }
             }
             else
             {
-                await ContinueGameAsync(firingUserGame);
+                ContinueGame(firingUserGame);
 
             }
-            await _db.SaveChangesAsync();
+            _db.SaveChanges();
         }
 
         #region Firing Helpers
-        private async Task<NavyBattlePiece> GetNavyBattlePiecesByIdAsync(int pieceId)
+        private NavyBattlePiece GetNavyBattlePiecesById(int pieceId)
         {
-            var output = await _db.NavyBattlePieces.Where(m => m.Id == pieceId)
+            var output = _db.NavyBattlePieces.Where(m => m.Id == pieceId)
                .Include(m => m.Ship)
-               .SingleOrDefaultAsync();
+               .SingleOrDefault();
 
             return output;
         }
-        private async Task<UserGame> GetActiveUserGameAsync(Game activeGame)
+        private UserGame GetActiveUserGame(Game activeGame)
         {
-            var output = await _db.UserGames.Where(m => m.ApplicationUserId == activeGame.CurrentPlayerId).AsNoTracking().SingleOrDefaultAsync();
+            
+            var output = _db.UserGames.Where(m => m.ApplicationUserId == activeGame.CurrentPlayerId && m.GameId == activeGame.Id).AsNoTracking().SingleOrDefault();
             return output;
         }
-        private async Task<UserGame> GetFiringUserGameAsync()
+        private UserGame GetFiringUserGame(Game activeGame)
         {
             var activeUserId = GetUserId();
-            var output = await _db.UserGames.Where(u => u.ApplicationUserId == activeUserId)
+            var output = _db.UserGames.Where(u => u.ApplicationUserId == activeUserId && u.GameId == activeGame.Id)
                 .Include(u => u.Game)
                 .ThenInclude(x => x.UserGames)
                 .ThenInclude(y => y.ApplicationUser)
-                .SingleOrDefaultAsync();
+                .SingleOrDefault();
             return output;
         }
 
@@ -182,20 +183,20 @@ namespace BattleShips.Services
         /// <param name="firedAtPiece"></param>
         /// <param name="firingUserGame"></param>
         /// <returns></returns>
-        private async Task<bool> CheckForLoserAsync(NavyBattlePiece firedAtPiece, UserGame firingUserGame)
+        private bool CheckForLoser(NavyBattlePiece firedAtPiece, UserGame firingUserGame)
         {
             bool result = false;
             // Gets UserGame whose ship has been hit.
             UserGame hittedUserGame = firingUserGame.Game.UserGames.Where(x => x.Id == firedAtPiece.UserGameId).FirstOrDefault();
 
             // Gets piece of ship.
-            IList<NavyBattlePiece> UnhitedShipPiece = await _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToListAsync();
+            IList<NavyBattlePiece> UnhitedShipPiece = _db.NavyBattlePieces.Where(p => p.UserGameId == firedAtPiece.UserGameId && p.PieceState == PieceState.Ship).Take(2).AsNoTracking().ToList();
             // Checks if there more than one piece of ship, if not then this usergame has lost. The piece state has to be yet saved to database.
             if (UnhitedShipPiece.Count() < 2)
             {
                 hittedUserGame.PlayerState = PlayerState.Loser;
                 _db.UserGames.Update(hittedUserGame);
-                await _db.SaveChangesAsync(); // Save to database so that in endgame the check counts even the last loser.
+                _db.SaveChanges(); // Save to database so that in endgame the check counts even the last loser.
                 result = true;
             }
             return result;
@@ -265,11 +266,11 @@ namespace BattleShips.Services
         /// Sets next player to play.
         /// </summary>
         /// <param name="game"></param>
-        private async Task ContinueGameAsync(UserGame firingUserGame)
+        private void ContinueGame(UserGame firingUserGame)
         {
             firingUserGame.Game.UserRound++;
             //new user game firing
-            List<UserGame> listUserGames = await _db.UserGames.Where(u => u.GameId == firingUserGame.Game.Id).OrderBy(u => u.Id).ToListAsync();
+            List<UserGame> listUserGames = _db.UserGames.Where(u => u.GameId == firingUserGame.Game.Id).OrderBy(u => u.Id).ToList();
             //Checks if user fired at every enemy (Needed for more than 2 players)
             if (firingUserGame.Game.UserRound >= listUserGames.Count() - 1)
             {
@@ -500,7 +501,7 @@ namespace BattleShips.Services
 
         private bool IsGameFull(Game game)
         {
-            if(game.UserGames.Count >= (game.MaxPlayers - 1))
+            if (game.UserGames.Count >= (game.MaxPlayers - 1))
             {
                 return true;
             }
@@ -516,7 +517,7 @@ namespace BattleShips.Services
                 .SingleOrDefault();
 
             result = ConvertToNavyBattlePiece(shipGame.Ship.ShipPieces);
-            
+
             return result;
         }
         // upraví prázdné hrací pole a přidá lod
