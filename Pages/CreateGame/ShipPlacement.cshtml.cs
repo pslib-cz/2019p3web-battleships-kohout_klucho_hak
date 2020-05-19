@@ -38,8 +38,8 @@ namespace BattleShips
                 int pieceId = id ?? default;
                 _shipPlacement.PlaceAShip(pieceId);
             }
-          
-           
+
+
             #region Load GameBoard and Ships
             ChosenShips = _gameSetup.GetChosenShips();
             UserGame = _shipPlacement.GetUserGame();
@@ -50,14 +50,27 @@ namespace BattleShips
 
             if (shipId != null)
             {
+                _shipPlacement.SaveShip("Ship", shipId);
                 int shipIdx = shipId ?? default;
                 ChoosenShip = new GameBoardData(_shipPlacement.GetChosenShip(shipIdx));
             }
 
             // Get new board
-            Board = new GameBoardData(BoardPieces, UserGame, LoggedInUserId);
+            Board = new GameBoardData(BoardPieces, UserGame, LoggedInUserId, "ShipPlacement");
             #endregion
 
         }
+
+        public IActionResult OnPostRefresh()
+        {
+            _shipPlacement.Refresh();
+            return RedirectToPage("./ShipPlacement");
+        }
+        public IActionResult OnPostDeploy()
+        {
+            _shipPlacement.Deploy();
+            return RedirectToPage("../InGame/InGame");
+        }
+
     }
 }

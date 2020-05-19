@@ -23,12 +23,16 @@ namespace BattleShips.Services
         private readonly ISession _session;
         private readonly IHttpContextAccessor _hca;
         public Guid CurrentGameId { get; private set; }
+        public int? CurrentShipToPlaceId { get; private set; }
+
         public InGame(ApplicationDbContext db, IHttpContextAccessor hca)
         {
             _db = db;
             _session = hca.HttpContext.Session;
             _hca = hca;
             CurrentGameId = LoadGame("Game");
+            CurrentShipToPlaceId = LoadShip("Ship");
+
 
         }
 
@@ -68,6 +72,19 @@ namespace BattleShips.Services
             }
             return output;
         }
+
+        private int? LoadShip(string key)
+        {
+            int? result = _session.Get<int?>(key);
+            if (typeof(int?).IsClass && result == null) result = (int?)Activator.CreateInstance(typeof(int?));
+            return result;
+        }
+
+        public void SaveShip(string key, int? shipId)
+        {
+            _session.Set(key, shipId);
+        }
+
         #endregion
 
 
@@ -587,6 +604,60 @@ namespace BattleShips.Services
             var userGame = GetUserGame();
             var output = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).AsNoTracking().ToList();
             return output;
+        }
+
+        public void Refresh()
+        {
+            var userGame = _db.UserGames.Where(x => x.ApplicationUserId == GetUserId() && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
+            var navyBattlePieces = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).ToList();
+            foreach (var piece in navyBattlePieces)
+            {
+                piece.PieceState = PieceState.Water;
+                _db.NavyBattlePieces.Update(piece);
+            }
+            _db.SaveChanges();
+        }
+        private void ClearMargin(int userGameId)
+        {
+            var gameboardPieces = _db.NavyBattlePieces.Where(x => x.UserGameId == userGameId).ToList();
+            foreach (var piece in gameboardPieces)
+            {
+                if (piece.PieceState == PieceState.Margin)
+                {
+                    piece.PieceState = PieceState.Water;
+                    _db.NavyBattlePieces.Update(piece);
+                }
+            }
+        }
+
+        private Game GetGameWithUserGames()
+        {
+            Guid currentGameId = CurrentGameId;
+            return _db.Games.Where(m => m.Id == currentGameId)
+                .Include(m => m.UserGames).SingleOrDefault();
+        }
+        private UserGame GetDeployingUserGame()
+        {
+            var output = _db.UserGames.Where(m => m.GameId == CurrentGameId && m.ApplicationUserId == GetUserId()).SingleOrDefault();
+            return output;
+        }
+
+        public void Deploy()
+        {
+            var game = GetGameWithUserGames();
+            int playingUsers = game.UserGames.Where(x => x.PlayerState == PlayerState.Playing).Count();
+            var userGame = GetDeployingUserGame();
+            ClearMargin(userGame.Id);
+            userGame.PlayerState = PlayerState.Playing;
+            _db.UserGames.Update(userGame);
+            // Checks if all of the other usergames have deployed their ships
+            if (playingUsers == (game.MaxPlayers - 1))
+            {
+                game.GameState = GameState.Battle;
+                _db.Games.Update(game);
+            }
+
+            _db.SaveChanges();
         }
 
         #endregion

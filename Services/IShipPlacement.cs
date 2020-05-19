@@ -40,5 +40,16 @@ namespace BattleShips.Services
         void JoinShipPlacement();
         IList<GameBoardData> PopulateGameBoards(IList<List<NavyBattlePiece>> chosenShips, int? shipId);
         IList<NavyBattlePiece> GetChosenShip(int shipId);
+
+
+        /// <summary>
+        /// for ship placement
+        /// </summary>
+        void Refresh();
+        void Deploy();
+        void SaveShip(string key, int? shipId);
+
+
+
     }
 }
