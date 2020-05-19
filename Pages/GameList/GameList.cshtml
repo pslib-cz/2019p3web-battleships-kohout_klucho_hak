@@ -39,43 +39,54 @@
                 <tbody>
                     @foreach (var item in Model.UsersGames)
                     {
-                    <tr>
-                        <td>@item.GameState</td>
-                        <td>@item.GameRound</td>
-                        <td>@item.Owner.PlayerName</td>
-                        <td>@item.CurrentPlayer.PlayerName</td>
-                        @if (item.GameState == GameState.ShipPlacement)
-                        {
-                            <td>
-                                <form method="post" asp-page-handler="joinshipplacement">
-                                    <button class="btn btn-primary">Place Ships</button>
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                </form>
-                            </td>
-                        }
-                        else
-                        {
-                        <td>
-                            <form method="post" asp-page-handler="playgame">
-                                <button class="btn btn-primary">Play</button>
-                                <input type="hidden" name="id" value="@item.Id" />
-                            </form>
-                        </td>
-                        }
-                        @if (Model.UserId == item.OwnerId)
-                        {
-                            <td>
-                                <form method="post" asp-page-handler="removegame">
-                                    <button class="btn btn-danger">Delete</button>
-                                    <input type="hidden" name="id" value="@item.Id" />
-                                </form>
-                            </td>
-                        }
-                        else
-                        {
-                            <td></td>
-                        }
-                    </tr>
+                        <tr>
+                            <td>@item.GameState</td>
+                            <td>@item.GameRound</td>
+                            <td>@item.Owner.PlayerName</td>
+                            <td>@item.CurrentPlayer.PlayerName</td>
+
+                            @{ if (item.GameState == GameState.ShipPlacement)
+                                {
+                                    <td>
+                                        <form method="post" asp-page-handler="joinshipplacement">
+                                            <button class="btn btn-primary">Place Ships</button>
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                        </form>
+                                    </td>
+                                }
+                                else if (item.GameState == GameState.Battle)
+                                {
+                                    <td>
+                                        <form method="post" asp-page-handler="playgame">
+                                            <button class="btn btn-success">Play</button>
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                        </form>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <form method="post" asp-page-handler="playgame">
+                                            <button class="btn btn-secondary">See the Results</button>
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                        </form>
+                                    </td>
+                                }
+                            }
+                            @if (Model.UserId == item.OwnerId)
+                            {
+                                <td>
+                                    <form method="post" asp-page-handler="removegame">
+                                        <button class="btn btn-danger">Delete</button>
+                                        <input type="hidden" name="id" value="@item.Id" />
+                                    </form>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        </tr>
                     }
                 </tbody>
             </table>
