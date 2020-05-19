@@ -16,9 +16,12 @@
     <form method="post" asp-page-handler="refresh">
         <button class="btn btn-danger" style="float:left;">Refresh</button>
     </form>
-    <form method="post" asp-page-handler="Deploy">
-        <button class="btn btn-success" style="float:right;">Deploy</button>
-    </form>
+    @if (Model.GameBoards.Count < 1)
+    {
+        <form method="post" asp-page-handler="Deploy">
+            <button class="btn btn-success" style="float:right;">Deploy</button>
+        </form>
+    }
 </div>
 
 

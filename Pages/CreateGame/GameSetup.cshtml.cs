@@ -21,7 +21,7 @@ namespace BattleShips
         [BindProperty]
         public int MaxPlayers { get; set; }
         public List<Ship> AvailableShips { get; set; } = new List<Ship>();
-        IList<List<NavyBattlePiece>> ChosenShips { get; set; }
+        public IList<List<NavyBattlePiece>> ChosenShips { get; set; } = new List<List<NavyBattlePiece>>();
 
         public IList<GameBoardData> GameBoards { get; set; } = new List<GameBoardData>();
 

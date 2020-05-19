@@ -4,14 +4,16 @@ using BattleShips.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BattleShips.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200519143940_AddedIsPlacedPropToShip")]
+    partial class AddedIsPlacedPropToShip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,13 +101,13 @@ namespace BattleShips.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b64a9059-6ad2-4f4b-bf2a-eab2c4c7e352",
+                            ConcurrencyStamp = "6fb5e28b-65d5-4d90-9fed-798c019a0126",
                             Email = "admin@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "ADMIN@PSLIB.CZ",
                             NormalizedUserName = "ADMIN@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO8oamfXoUQYKOWd1A6YWeQAAsdur9nlzXS6oHzXjfk76Upj7kHSDEGU9rJMy8vTBw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBavwBSKTxlQGqeBB5e9XPUa7jEcqAm8SCp0C1wjx0+IcgoEXqZWxEm8/eAdjqnVlQ==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Admin",
                             SecurityStamp = "",
@@ -118,13 +120,13 @@ namespace BattleShips.Migrations
                         {
                             Id = new Guid("21111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "88ffada8-ef5c-40d0-ac09-2ef227c01dab",
+                            ConcurrencyStamp = "e57a11ba-0177-428d-95bc-ebffa2112f4b",
                             Email = "player1@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER1@PSLIB.CZ",
                             NormalizedUserName = "PLAYER1@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMUtEVCOzlbiSaJmOi1j+koC1F1apP7zozKOPFDeFQTOiw5bn6FJY9I+JVj4yYflYw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDrkybCxgHpmuhWHK0DkQJMDd+EhSx3dStuazb9Pln8ViBqDN4tRI/wxwX2pUohYng==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player1",
                             SecurityStamp = "",
@@ -137,13 +139,13 @@ namespace BattleShips.Migrations
                         {
                             Id = new Guid("31111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6f7746ca-3ef0-4903-855b-05c1e0141454",
+                            ConcurrencyStamp = "6a02c6bc-3313-4b68-b173-d88ee580dc87",
                             Email = "player2@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER2@PSLIB.CZ",
                             NormalizedUserName = "PLAYER2@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBGHiEamdPINxIWt9VzmOVkKNLl4sUlzmQqN8+QRFVtm4CxufLFiC6Eb84f6tF96nA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDGqAU0nVY/7zp/E4DKXe7xiznidhoOGea0zStFUcgOFOpm//Ys/uH19Jewa9UUGbw==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player2",
                             SecurityStamp = "",
@@ -156,13 +158,13 @@ namespace BattleShips.Migrations
                         {
                             Id = new Guid("41111111-1111-1111-1111-111111111111"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "badcc9d2-9457-4560-8554-291021c79fc1",
+                            ConcurrencyStamp = "cf1ad859-8142-472a-a664-d1bc1e2da9d8",
                             Email = "player3@pslib.cz",
                             EmailConfirmed = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER3@PSLIB.CZ",
                             NormalizedUserName = "PLAYER3@PSLIB.CZ",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF0B9R9oB5m6GEiE5/mXiQ4JieKKyYiLAQk0U+KzWyjeWRzLiehlp2m1EXJ7dZmiOw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEI4+3quIk7b6dYvfYVrHD6UV74m4wx4//FnoW12wi5BrwJt/ZhRCKEsXZV91Ol0iHA==",
                             PhoneNumberConfirmed = false,
                             PlayerName = "Player3",
                             SecurityStamp = "",
@@ -439,6 +441,12 @@ namespace BattleShips.Migrations
                             Id = 11,
                             IsAllowed = true,
                             Name = "Light battleship"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            IsAllowed = true,
+                            Name = "Aircraft carrier II"
                         });
                 });
 
@@ -2100,6 +2108,262 @@ namespace BattleShips.Migrations
                             PosX = 3,
                             PosY = 3,
                             ShipId = 11
+                        },
+                        new
+                        {
+                            Id = 188,
+                            PieceState = 0,
+                            PosX = 0,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 189,
+                            PieceState = 0,
+                            PosX = 0,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 190,
+                            PieceState = 4,
+                            PosX = 0,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 191,
+                            PieceState = 0,
+                            PosX = 0,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 192,
+                            PieceState = 0,
+                            PosX = 1,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 193,
+                            PieceState = 4,
+                            PosX = 1,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 194,
+                            PieceState = 1,
+                            PosX = 1,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 195,
+                            PieceState = 4,
+                            PosX = 1,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 196,
+                            PieceState = 0,
+                            PosX = 2,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 197,
+                            PieceState = 4,
+                            PosX = 2,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 198,
+                            PieceState = 1,
+                            PosX = 2,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 199,
+                            PieceState = 4,
+                            PosX = 2,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 200,
+                            PieceState = 0,
+                            PosX = 2,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 201,
+                            PieceState = 4,
+                            PosX = 2,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 202,
+                            PieceState = 1,
+                            PosX = 2,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 203,
+                            PieceState = 4,
+                            PosX = 2,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 204,
+                            PieceState = 0,
+                            PosX = 3,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 205,
+                            PieceState = 4,
+                            PosX = 3,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 206,
+                            PieceState = 1,
+                            PosX = 3,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 207,
+                            PieceState = 4,
+                            PosX = 3,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 208,
+                            PieceState = 4,
+                            PosX = 4,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 209,
+                            PieceState = 1,
+                            PosX = 4,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 210,
+                            PieceState = 1,
+                            PosX = 4,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 211,
+                            PieceState = 4,
+                            PosX = 4,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 212,
+                            PieceState = 4,
+                            PosX = 5,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 213,
+                            PieceState = 1,
+                            PosX = 5,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 214,
+                            PieceState = 1,
+                            PosX = 5,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 215,
+                            PieceState = 4,
+                            PosX = 5,
+                            PosY = 3,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 216,
+                            PieceState = 0,
+                            PosX = 6,
+                            PosY = 0,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 217,
+                            PieceState = 4,
+                            PosX = 6,
+                            PosY = 1,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 218,
+                            PieceState = 4,
+                            PosX = 6,
+                            PosY = 2,
+                            ShipId = 12
+                        },
+                        new
+                        {
+                            Id = 219,
+                            PieceState = 0,
+                            PosX = 6,
+                            PosY = 3,
+                            ShipId = 12
                         });
                 });
 
@@ -2197,7 +2461,7 @@ namespace BattleShips.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            ConcurrencyStamp = "1d62c139-82f0-402b-b618-b444dcd6d503",
+                            ConcurrencyStamp = "efec7949-80d5-4630-acaa-8038ec246e16",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

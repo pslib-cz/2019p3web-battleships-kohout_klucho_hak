@@ -97,9 +97,12 @@
 </form>
 
 <br />
+@if (Model.ChosenShips.Count() > 0)
+{
+    <button type="submit" form="gameform" class="btn btn-primary">
+        Start Ship Placement
+    </button>
+}
 
-<button type="submit" form="gameform" class="btn btn-primary">
-    Start Ship Placement
-</button>
 
 <br />

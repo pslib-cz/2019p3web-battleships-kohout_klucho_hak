@@ -21,5 +21,6 @@ namespace BattleShips.Data
 
         [ForeignKey("GameId")]
         public Game Game { get; set; }
+        public bool IsPlaced { get; set; }
     }
 }

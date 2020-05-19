@@ -394,7 +394,8 @@ namespace BattleShips.Services
             var shipGame = new ShipGame()
             {
                 GameId = CurrentGameId, //new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c") /*TODO - VOJTA - CurrentGameId*/,
-                ShipId = shipIdx
+                ShipId = shipIdx, 
+                IsPlaced = false
             };
             _db.ShipGames.Add(shipGame);
             _db.SaveChanges();
@@ -414,7 +415,7 @@ namespace BattleShips.Services
         private List<ShipGame> GetShipGamesWithRelatedData()
         {
             //string userId = GetUserId(); 
-            return _db.ShipGames.Where(m => m.GameId == CurrentGameId) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/
+            return _db.ShipGames.Where(m => m.GameId == CurrentGameId && m.IsPlaced == false) /*new Guid("80828d2b-e7e0-4316-aa6b-cea1d08f413c")*/
                 .Include(m => m.Ship) //model lodi (data)
                 .ThenInclude(n => n.ShipPieces) //v modelu lodi ICollection ShipPieces
                 .ThenInclude(s => s.Ship)
@@ -550,7 +551,7 @@ namespace BattleShips.Services
                 var ship = _db.Ships.Where(x => x.Id == CurrentShipToPlaceId)
                     .Include(x => x.ShipPieces).AsNoTracking().FirstOrDefault();
                 var shipPieces = ConvertToNavyBattlePiece(ship.ShipPieces);
-
+                var shipgame = _db.ShipGames.Where(x => x.ShipId == ship.Id && x.GameId == CurrentGameId).FirstOrDefault();
                 // Get navybattlepieces of gameboard
                 var userGame = _db.UserGames.Where(x => x.ApplicationUserId == GetUserId() && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
                 var gameboardPieces = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).ToList();
@@ -558,6 +559,8 @@ namespace BattleShips.Services
                 // Update navybattlepieces based on pieceId and Ship type to display ship
                 if (UpdateGameboard(gameboardPieces, shipPieces, pieceId))
                 {
+                    shipgame.IsPlaced = true;
+                    _db.Ships.Update(ship);
                     _db.SaveChanges();
                 }
 
@@ -573,10 +576,12 @@ namespace BattleShips.Services
             NavyBattlePiece topLeftPiece = shipPieces.Where(x => x.PieceState == PieceState.Ship).First();
             int changeX = 0;
             int changeY = 0;
+            int piecesOfShip = 0;
             foreach (var shipPiece in shipPieces)
             {
                 if (shipPiece.PieceState == PieceState.Ship)
                 {
+                    piecesOfShip++;
                     int posActual = shipPiece.PosX + shipPiece.PosY;
                     int posCurrentMin = topLeftPiece.PosX + topLeftPiece.PosY;
                     if (posActual <= posCurrentMin)
@@ -620,6 +625,7 @@ namespace BattleShips.Services
             }
             // Populate gameboard with the ship
             //TODO make better use linq or something and refactor
+            int addedPiecesOfShip = 0;
             foreach (var gameboardPiece in gameboardPieces)
             {
                 foreach (var shipPiece in shipPiecesWithoutWater)
@@ -632,11 +638,19 @@ namespace BattleShips.Services
                         {
                             return false;
                         }
-
+                       
                         gameboardPiece.PieceState = shipPiece.PieceState;
                         _db.NavyBattlePieces.Update(gameboardPiece);
+                        if(shipPiece.PieceState == PieceState.Ship)
+                        {
+                            addedPiecesOfShip++;
+                        }
                     }
                 }
+            }
+            if(piecesOfShip != addedPiecesOfShip)
+            {
+                return false;
             }
             return true;
         }
@@ -709,6 +723,12 @@ namespace BattleShips.Services
         {
             var userGame = _db.UserGames.Where(x => x.ApplicationUserId == GetUserId() && x.GameId == CurrentGameId).AsNoTracking().FirstOrDefault();
             var navyBattlePieces = _db.NavyBattlePieces.Where(x => x.UserGameId == userGame.Id).ToList();
+            var shipgames = _db.ShipGames.Where(x => x.GameId == CurrentGameId).ToList();
+            foreach (var shipgame in shipgames)
+            {
+                shipgame.IsPlaced = false;
+                _db.ShipGames.Update(shipgame);
+            }
             foreach (var piece in navyBattlePieces)
             {
                 piece.PieceState = PieceState.Water;
